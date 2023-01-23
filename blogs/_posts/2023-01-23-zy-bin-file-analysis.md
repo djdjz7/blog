@@ -23,7 +23,7 @@ q(≧▽≦q)
   - 一份含红色划线的笔记
   - 一份含图片的笔记
 - 获取五份笔记的 ID
-- 调用中育 API[^1] 分别获取五份笔记的两份 .bin 文件
+- 调用中育 API[^1] 分别获取五份笔记的两份 .bin 文件[^2]
 - 重命名以准备分析
 - 获取一份中育云笔记安装包
 
@@ -80,6 +80,7 @@ static {
 ### 合并
 可以看到：正向分析中的 1~5 分别对应 Version, Width, Height, CreateDate, UpdateDate
 编写如下 .proto 文件
+
 ~~~protobuf
 // file: "Header.proto"
 syntax = "proto3";
@@ -94,11 +95,15 @@ message Header{
     int32 type = 7;
 }
 ~~~
+
 生成编解码器
+
 ~~~bat
 protoc --proto_path=protobuf --java_out=gen Header.proto
 ~~~
+
 打开 Header.java，存在以下代码
+
 ~~~java
 // file: "Header.java"
 static {
@@ -120,13 +125,19 @@ static {
         new java.lang.String[] { "Version", "Width", "Height", "CreateTime", "UpdateTime", "Author", "Type", });
   }
 ~~~
+
 可认为两者基本一致
 
-### 生成 C# 编解码器
+### 解码测试
+
+生成 C# 编解码器
+
 ~~~bat
 protoc --proto_path=protobuf --csharp_out=gen Header.proto
 ~~~
+
 运行如下 C# 代码
+
 ~~~csharp
 // file: "DecodeHeader.cs"
 using Google.Protobuf.WellKnownTypes;
@@ -146,6 +157,7 @@ static void Main(string[] args)
             }
         }
 ~~~
+
 拖入 header.bin，成功解码
 ![alt Header Decode Success](/assets/img/blogs/bin-analysis/header-decode-success.jpg)
 
@@ -153,3 +165,4 @@ CreateDate 与 UpdateDate 被替换为 CreateTime 和 UpdateTime，此二项值�
 {:.note title="说明"}
 
 [^1]: GET http://note.func.zykj.org/api/Resources/GetByFileId? {AES加密内容，明文为 fileId={fileID}}
+[^2]: 可从[此处](/assets/files/bin-analysis/bin-files.zip)获取
