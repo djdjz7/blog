@@ -32,7 +32,7 @@ q(≧▽≦q)
 使用 Binary Viewer 打卡其中一份 actions.bin 文件，注意到其中 type.googleapis.com/* 字样，经过搜索，初步判断该格式为 [Protocol Buffers](https://protobuf.dev/)(下简称 protobuf) 编码的输出文件。  
 
 ## 反编译
-使用 [dex2jar](https://github.com/pxb1988/dex2jar) 和 [jg-gui](https://github.com/java-decompiler/jd-gui) 反编译中育云笔记 apk 文件
+使用 [dex2jar](https://github.com/pxb1988/dex2jar) 反编译 classes.dex, classes2.dex, classes3.dex, classes4.dex, classes5.dex
 
 此处使用中育云笔记 1.9.8 为例，不同版本结果可能有所不同
 {:.note}
@@ -40,27 +40,40 @@ q(≧▽≦q)
 注意到 apk 目录下 /google/protobuf 目录，进一步佐证上面的猜测
 
 ## 分析 header.bin
+### 正向分析
 准备 [protobuf 工具包](https://github.com/protocolbuffers/protobuf/releases)，执行如下命令
 ~~~bat
-// file: "CMD"
-protoc.exe --decode-raw header.bin
-~~~
-
-
-~~~js
-// file: "code-block.js"
-// Example can be run directly in your JavaScript console
-
-// Create a function that takes two arguments and returns the sum of those
-// arguments
-var adder = new Function("a", "b", "return a + b");
-
-// Call the function
-adder(2, 6);
-// > 8
+protoc.exe --decode_raw < header.bin
 ~~~
 
 观察输出
+~~~bat
+E:\BIN>protoc.exe --decode_raw < 黑线header.bin
+1: 5
+2: 1920
+3: 1200
+4: 1674368504261
+5: 1674368512315
+~~~
+
+### 逆向分析
+使用 [jg-gui](https://github.com/java-decompiler/jd-gui) 打开反编译出的五份 *.jar 文件，定位到 (classes4) com.zykj.sketch.SketchHeader，注意到如下的一段代码
+~~~java
+// file: "SketchHeader.class"
+static {
+    Descriptors.FileDescriptor.InternalDescriptorAssigner internalDescriptorAssigner = new Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+        public ExtensionRegistry assignDescriptors(Descriptors.FileDescriptor param1FileDescriptor) {
+          SketchHeader.access$1602(param1FileDescriptor);
+          return null;
+        }
+      };
+    Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[] { "\n\fHeader.proto\"~\n\006Header\022\017\n\007version\030\001 \001(\005\022\r\n\005width\030\002 \001(\005\022\016\n\006height\030\003 \001(\005\022\022\n\ncreateDate\030\004 \001(\003\022\022\n\nupdateDate\030\005 \001(\003\022\016\n\006author\030\006 \001(\t\022\f\n\004type\030\007 \001(\005B\037\n\017com.zykj.sketchB\fSketchHeaderb\006proto3" }, new Descriptors.FileDescriptor[0], internalDescriptorAssigner);
+    Descriptors.Descriptor descriptor = getDescriptor().getMessageTypes().get(0);
+    internal_static_Header_descriptor = descriptor;
+    internal_static_Header_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor, new String[] { "Version", "Width", "Height", "CreateDate", "UpdateDate", "Author", "Type" });
+  }
+~~~
+
 
 
 [^1]: GET http://note.func.zykj.org/api/Resources/GetByFileId? {AES加密内容，明文为 fileId={fileID}}
