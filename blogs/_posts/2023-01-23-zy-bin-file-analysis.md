@@ -23,7 +23,7 @@ q(≧▽≦q)
   - 一份含红色划线的笔记
   - 一份含图片的笔记
 - 获取五份笔记的 ID
-- 调用中育 API【】[^1] 分别获取五份笔记的两份 .bin 文件
+- 调用中育 API[^1] 分别获取五份笔记的两份 .bin 文件
 - 重命名以准备分析
 
-[^1] http://note.func.zykj.org/api/Resources/GetByFileId?{AES加密内容，明文为 fileId={fileID}}
+[^1]: http://note.func.zykj.org/api/Resources/GetByFileId?{AES加密内容，明文为 fileId={fileID}}
