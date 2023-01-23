@@ -74,6 +74,82 @@ static {
   }
 ~~~
 
+(classes2) com.friday.common.base.BaseConstant 存有 AES 密钥
+{:.note title="小贴士"}
 
+### 合并
+可以看到：正向分析中的 1~5 分别对应 Version, Width, Height, CreateDate, UpdateDate
+编写如下 .proto 文件
+~~~protobuf
+// file: "Header.proto"
+syntax = "proto3";
+
+message Header{
+    int32 version = 1;
+    int32 width = 2;
+    int32 height = 3;
+    int64 create_time = 4;
+    int64 update_time = 5;
+    string author = 6;
+    int32 type = 7;
+}
+~~~
+生成编解码器
+~~~bat
+protoc --proto_path=protobuf --java_out=gen Header.proto
+~~~
+打开 Header.java，存在以下代码
+~~~java
+// file: "Header.java"
+static {
+    java.lang.String[] descriptorData = {
+      "\n\014Header.proto\"\200\001\n\006Header\022\017\n\007version\030\001 \001" +
+      "(\005\022\r\n\005width\030\002 \001(\005\022\016\n\006height\030\003 \001(\005\022\023\n\013cre" +
+      "ate_time\030\004 \001(\003\022\023\n\013update_time\030\005 \001(\003\022\016\n\006a" +
+      "uthor\030\006 \001(\t\022\014\n\004type\030\007 \001(\005b\006proto3"
+    };
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+      .internalBuildGeneratedFileFrom(descriptorData,
+        new com.google.protobuf.Descriptors.FileDescriptor[] {
+        });
+    internal_static_Header_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_Header_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Header_descriptor,
+        new java.lang.String[] { "Version", "Width", "Height", "CreateTime", "UpdateTime", "Author", "Type", });
+  }
+~~~
+可认为两者基本一致
+
+### 生成 C# 编解码器
+~~~bat
+protoc --proto_path=protobuf --csharp_out=gen Header.proto
+~~~
+运行如下 C# 代码
+~~~csharp
+// file: "DecodeHeader.cs"
+using Google.Protobuf.WellKnownTypes;
+static void Main(string[] args)
+        {
+            while (true)
+            {
+                string fn=Console.ReadLine();
+                using (FileStream fileStream = File.OpenRead(fn))
+                {
+                    Header header = Header.Parser.ParseFrom(fileStream);
+                    if (header != null)
+                    {
+                        Console.WriteLine(header);
+                    }
+                }
+            }
+        }
+~~~
+拖入 header.bin，成功解码
+![alt Header Decode Success](/assets/img/blogs/bin-analysis/header-decode-success.jpg)
+
+CreateDate 与 UpdateDate 被替换为 CreateTime 和 UpdateTime，此二项值为时间戳（毫秒），故使用 Time 更加贴切
+{:.note title="说明"}
 
 [^1]: GET http://note.func.zykj.org/api/Resources/GetByFileId? {AES加密内容，明文为 fileId={fileID}}
