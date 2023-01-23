@@ -164,5 +164,9 @@ static void Main(string[] args)
 CreateDate 与 UpdateDate 被替换为 CreateTime 和 UpdateTime，此二项值为时间戳（毫秒），故使用 Time 更加贴切
 {:.note title="说明"}
 
+
+## 分析 actions.bin
+未完待续
+
 [^1]: GET http://note.func.zykj.org/api/Resources/GetByFileId? {AES加密内容，明文为 fileId={fileID}}
 [^2]: 可从[此处](/assets/files/bin-analysis/bin-files.zip)获取
