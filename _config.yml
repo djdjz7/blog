@@ -25,8 +25,6 @@ title:                 ˋ( ° ▽、° )
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description:           >
-  Hydejack is a boutique Jekyll theme for hackers, nerds, and academics,
-  with a focus on personal sites that are meant to impress.
 
 # A shorter description for the sidebar.
 tagline:               (｡･∀･)ﾉﾞ嗨
@@ -60,7 +58,9 @@ menu:
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
 
 # This text will appear in a `<small>` tag in the footer of every page.
-copyright:             © 2023. 保留所有权利
+copyright:             >
+© 2023. 保留所有权利
+[背景图片](https://www.artstation.com/artwork/9eYa8L)
 
 # Format of the permalinks
 permalink:             /:categories/:year-:month-:day-:title/
@@ -82,12 +82,12 @@ remote_theme: hydecorp/hydejack@v9
  
 # Sidebar image and theme color of the site.
 accent_image:          /assets/img/sidebar-bg.jpg
-accent_color:          rgb(79,177,186)
+accent_color:          rgb(95, 152, 163)
 
 # This is used for the `theme-color` meta tag,
 # which changes the background color of the browser UI in certain browsers.
 # Defaults to `accent_color`.
-theme_color:           rgb(25,55,71)
+theme_color:           rgb(95, 152, 163)
 
 # The string encoding which fonts to fetch from Google Fonts.
 # See: <https://hydejack.com/docs/configuration/>
