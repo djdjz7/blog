@@ -17,7 +17,7 @@
 
 # Language of your content in 2-letter code, e.g.: en, de.
 # You may also provide a location, e.g.: en-us, de_AT.
-lang:                  en
+lang:                  zh
 
 # The title of your blog. Used in the sidebar and the browser tab.
 title:                 Starter Kit
@@ -29,7 +29,7 @@ description:           >
   with a focus on personal sites that are meant to impress.
 
 # A shorter description for the sidebar.
-tagline:               Change `tagline` in `_config.yml`
+tagline:               (｡･∀･)ﾉﾞ嗨
 
 # A list of keywords for your blog
 keywords:              []
