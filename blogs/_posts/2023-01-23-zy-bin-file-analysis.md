@@ -75,7 +75,7 @@ static {
 ~~~
 
 (classes2) com.friday.common.base.BaseConstant 存有 AES 密钥
-{:.note title="小贴士"}
+{:.note title="你知道吗"}
 
 ### 合并
 可以看到：正向分析中的 1~5 分别对应 Version, Width, Height, CreateDate, UpdateDate
