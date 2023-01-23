@@ -11,7 +11,7 @@ djdjz7:
 
   # This photo will be used in the about section
   picture:
-    picture: ../assets/img/avatar.jpg
+    picture: http://blog.djdjz7.ml/assets/img/avatar.jpg
     
   # Social media icons in sidebar
   # Comment/uncommet to show/hide
