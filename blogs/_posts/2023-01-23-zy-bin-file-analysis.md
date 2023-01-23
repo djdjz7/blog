@@ -10,6 +10,10 @@ q(≧▽≦q)
 * this unordered seed list will be replaced by the toc
 {:toc}
 
+以下内容基于中育云笔记 1.9.8  
+在中育云笔记 1.9.16 安装包中已经存在 *.proto 文件，故请忽略对 *.proto 文件的逆向分析
+{:.note}
+
 ## 前言
 众所周知，中育云笔记中的笔记格式以 .bin 格式存储  
 从平板 设置->WLAN->高级WLAN设置 中也可以看到每一份笔记中的每一页分别存储为 header.bin 和 actions.bin  
