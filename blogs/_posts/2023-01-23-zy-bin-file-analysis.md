@@ -28,24 +28,23 @@ q(≧▽≦q)
 - 获取一份中育云笔记安装包
 
 ## 初步分析
-![alt Binary Viewer](/assets/img/blogs/bin-analysis/binary-viewer.jpg)
+![alt Binary Viewer](/assets/img/blogs/bin-analysis/binary-viewer.jpg)  
 使用 Binary Viewer 打卡其中一份 actions.bin 文件，注意到其中 type.googleapis.com/* 字样，经过搜索，初步判断该格式为 [Protocol Buffers](https://protobuf.dev/)(下简称 protobuf) 编码的输出文件。  
 
 ## 反编译
 使用 [dex2jar](https://github.com/pxb1988/dex2jar) 和 [jg-gui](https://github.com/java-decompiler/jd-gui) 反编译中育云笔记 apk 文件
 
 此处使用中育云笔记 1.9.8 为例，不同版本结果可能有所不同
-{:note}
+{:.note}
 
 注意到 apk 目录下 /google/protobuf 目录，进一步佐证上面的猜测
 
 ## 分析 header.bin
 准备 [protobuf 工具包](https://github.com/protocolbuffers/protobuf/releases)，执行如下命令
 ~~~bat
+// file: "CMD"
 protoc.exe --decode-raw header.bin
 ~~~
-CMD
-{:.figcaption}
 
 观察输出
 
