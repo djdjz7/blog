@@ -31,8 +31,8 @@ permalink:             Permalink
 permalink_icon:        'content-hash'
 templates:             Templates (for web app)
 present:               present
-toc:                   Table of Contents
-note:                  Note
+toc:                   目录
+note:                  注意
 description:           描述
 search:                搜素
 search_placeholder:    Type something…
@@ -74,7 +74,7 @@ last_modified_at:      '最后修改于'
 last_modified_at_icon: 'icon-history'
 colon:                 ':'
 separator:             '|'
-category_start:        'in '
+category_start:        '位于 '
 category_spearator:    ' / '
 tag_start:             'on '
 tag_separator:         ', '
