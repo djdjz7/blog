@@ -78,7 +78,7 @@ static {
 {:.note title="你知道吗"}
 
 ### 合并
-可以看到：正向分析中的 1~5 分别对应 Version, Width, Height, CreateDate, UpdateDate
+可以看到：正向分析中的 1~5 分别对应 Version, Width, Height, CreateDate, UpdateDate  
 编写如下 .proto 文件
 
 ~~~protobuf
