@@ -10,38 +10,38 @@
 
 # Free version
 # ---------------------------------------------------------------------------------------
-home:                  Home
-pages:                 Pages
-posts:                 Posts
-about:                 About
-related_posts:         Related Posts
-other_projects:        Other Projects
-comments:              Comments
-jump_to:               Jump to
-navigation:            Navigation
-social:                Social
-links:                 Links
+home:                  主页
+pages:                 页面
+posts:                 主题帖
+about:                 关于
+related_posts:         相关主题帖
+other_projects:        其他项目
+comments:              评论
+jump_to:               跳转至
+navigation:            导航
+social:                社交媒体
+links:                 链接
 links_icon:            'icon-link'
-pagination:            Pagination
-newer:                 Newer
-older:                 Older
-forward:               Forward
-back:                  Back
+pagination:            分页
+newer:                 更新
+older:                 更旧
+forward:               向前
+back:                  向后
 permalink:             Permalink
 permalink_icon:        'content-hash'
 templates:             Templates (for web app)
 present:               present
 toc:                   Table of Contents
 note:                  Note
-description:           Description
-search:                Search
+description:           描述
+search:                搜素
 search_placeholder:    Type something…
 
-loading:               Loading…
-redirecting:           Redirecting…
+loading:               加载中…
+redirecting:           重定向中…
 
 continue_reading:      >
-  Continue reading <!--post_title-->
+  继续阅读 <!--post_title-->
 
 cookies_banner:
   text:                >
@@ -49,28 +49,28 @@ cookies_banner:
   okay:                Okay
 
 not_found:
-  title:               '404: Page Not Found'
+  title:               '404: 页面未找到'
   message:             |
-    Sorry, we've misplaced that URL or it's pointing to something that doesn't exist.
-    <!--home_link--> to try finding it again.
-  home_link:           Head back home
+    抱歉，未找到此页面
+    <!--home_link--> 
+  home_link:           返回主页
 
 offline:
-  title:               'You are Offline'
+  title:               '您已离线'
   message:             |
-    Sorry, but you appear to be offline and this page has not been prepared for offline viewing.
-    <!--home_link--> to try finding another page.
-  home_link:           Head back home
+    似乎您已离线，并且此页面并未为离线阅读做好准备
+    <!--home_link--> 
+  home_link:           返回主页
 
 error:
   title:               Error
   message:             |
-    Sorry, an error occurred while loading <!--link-->.
+    抱歉，尝试加载 <!--link--> 时出现了问题
 
 # Separators
 # ---------------------------------------------------------------------------------------
-posted:                'Posted'
-last_modified_at:      'Last modified at'
+posted:                '已发表'
+last_modified_at:      '最后修改于'
 last_modified_at_icon: 'icon-history'
 colon:                 ':'
 separator:             '|'
