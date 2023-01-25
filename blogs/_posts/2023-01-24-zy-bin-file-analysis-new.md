@@ -41,6 +41,37 @@ sitemap: true
 
 解压到与 protoc.exe 处在同一目录下的 protobuf 文件夹中，同时在该目录新建 gen 文件夹
 
+## 修正 *.proto 文件
+这些 protobuf 文件中存在一些重复定义的错误，在编译之前需要先进行修正
+~~~protobuf
+//file: "SketchHeader.proto"
+//原名 Header
+message SketchHeader {
+  //...
+}
+~~~
+~~~protobuf
+//file: "SketchGraphSnapshot.proto"
+//添加引用
+import "utils/PointF.proto";
+import "utils/RectF.proto";
+/*
+删除此二项
+message RectF {
+  ...
+}
+message PointF {
+  ...
+}
+*/
+~~~
+~~~protobuf
+//file: "DrawBoard.proto"
+//添加引用
+import "utils/PointF.proto";
+//...
+~~~
+
 ## 生成编解码器
 定位到 protoc.exe 所在目录，执行如下命令
 ~~~bat
@@ -61,6 +92,11 @@ protoc.exe --proto_path=protobuf --csharp_out=gen utils/Paint.proto
 protoc.exe --proto_path=protobuf --csharp_out=gen utils/PointF.proto
 protoc.exe --proto_path=protobuf --csharp_out=gen utils/RectF.proto
 protoc.exe --proto_path=protobuf --csharp_out=gen utils/TouchEvent.proto
+protoc.exe --proto_path=protobuf --csharp_out=gen enums/CommandEnum.proto
+protoc.exe --proto_path=protobuf --csharp_out=gen enums/GraphEnum.proto
+protoc.exe --proto_path=protobuf --csharp_out=gen enums/ModeEnum.proto
+protoc.exe --proto_path=protobuf --csharp_out=gen enums/PositionEnum.proto
+protoc.exe --proto_path=protobuf --csharp_out=gen enums/ScaleTypeEnum.proto
 
 ~~~
 
@@ -68,4 +104,44 @@ protoc.exe --proto_path=protobuf --csharp_out=gen utils/TouchEvent.proto
 {:.note}
 
 ## 开始解析
-新建 C# 命令行应用，将生成的 gen 文件夹拷贝至项目目录
+新建 C# 命令行应用，将生成的 gen 文件夹拷贝至项目目录，使用以下代码对 actions.bin 文件进行第一步的解析：
+~~~csharp
+static void Main(string[] args)
+{
+    while (true)
+    {
+        string fn = Console.ReadLine();
+        using (FileStream fileStream = System.IO.FileOpenRead(fn))
+        {
+            DrawBoard drawBoard = DrawBoard.ParserParseFrom(fileStream);
+            Console.WriteLine(FormatJson(drawBoardToString()));
+        }
+    }
+}
+
+//引自 https://www.cnblogs.com/unintersky/p/3884712.html
+private static string FormatJson(string str)
+{
+    //格式化json字符串
+    JsonSerializer serializer = new JsonSerializer();
+    TextReader tr = new StringReader(str);
+    JsonTextReader jtr = new JsonTextReader(tr);
+    object obj = serializer.Deserialize(jtr);
+    if (obj != null)
+    {
+        StringWriter textWriter = new StringWriter();
+        JsonTextWriter jsonWriter = new JsonTextWriter(textWriter)
+        {
+            Formatting = Formatting.Indented,
+            Indentation = 4,
+            IndentChar = ' '
+        };
+        serializer.Serialize(jsonWriter, obj);
+        return textWriter.ToString();
+    }
+    else
+    {
+        return str;
+    }
+}
+~~~
