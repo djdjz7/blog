@@ -14,6 +14,8 @@ q(≧▽≦q)
 在中育云笔记 1.9.16 安装包中已经存在 *.proto 文件，故请忽略对 *.proto 文件的逆向分析
 {:.note}
 
+更新的解析方式，移步[此处](/blogs/zy-bin-file-analysis-new/)
+
 ## 前言
 众所周知，中育云笔记中的笔记格式以 .bin 格式存储  
 从平板 设置->WLAN->高级WLAN设置 中也可以看到每一份笔记中的每一页分别存储为 header.bin 和 actions.bin  
