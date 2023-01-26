@@ -371,7 +371,7 @@ $$
 (1200-980)/2=110
 $$
 
-也就是说，这个矩阵的内容是这样的
+也就是说，这个矩阵的内容是这样的  
 $$
 \begin{bmatrix}
 1 & 0 & x \\
@@ -379,10 +379,12 @@ $$
 0 & 0 & 1
 \end{bmatrix}
 $$
+
 论理，x,y 应该是图像左上角相对父容器左上角的位置
 {:.figcaption}
 
 现在，将图片旋转，重新获取并解析 actions.bin 文件，这个矩阵变成了这个样子
+
 $$
 \begin{bmatrix}
 0.8182268 & 0.3730026 & 256.97064 \\
@@ -390,6 +392,7 @@ $$
 0 & 0 & 1
 \end{bmatrix}
 $$
+
 第三行没有变化，很好
 {:.figcaption}
 
@@ -397,6 +400,7 @@ $$
 那么另外几项呢？
 
 参考[此处](https://blog.csdn.net/csxiaoshui/article/details/65446125)，直接给出我的猜测
+
 $$
 \begin{bmatrix}
 k\cdot cos\vartheta & -k\cdot sin\vartheta & x \\
@@ -404,5 +408,43 @@ k\cdot sin\vartheta & k\cdot cos\vartheta & y \\
 0 & 0 & 1
 \end{bmatrix}
 $$
+
 k 为缩放比例，𝛳 为旋转角度
 {:.figcaption}
+
+无论如何，x,y 都应当是图像原本的左上角在父容器中的坐标
+{:.note}
+
+利用如下代码，我们便可以获知其旋转角度与缩放比例
+~~~csharp
+private static void SearchForExtras(GraphData graphData)
+{
+    //...
+    if(graphData.Extra!=null)
+    {
+        switch (graphData.GraphType)
+        {   //...
+            case GraphType.ImageGraph:
+                File file = File.Parser.ParseFrom(graphData.Extra.Value);
+                float[] fileMatrix = graphData.Matrix.ToArray();
+                float scale = (float)Sqrt((Math.Pow(fileMatrix[0],2) + Pow(fileMatrix[1],2)));
+                float angle = CalcAngle(-fileMatrix[1] / scale, fileMatrix[0] / scale);
+                //...
+        }
+    }
+    //...
+}
+private static float CalcAngle(float sin, float cos)
+{
+    if (sin > 0 && cos > 0)
+        return (float)(Asin(sin) / PI) * 180;
+    if (sin > 0 && cos < 0)
+        return (float)(Acos(cos) / PI) * 180;
+    if (sin < 0 && cos > 0)
+        return (float)(Asin(sin) / PI) * 180;
+    return 180 - (float)(Asin(cos) / PI) * 180;
+}
+~~~
+
+实际生成预览图像时遇到了一些问题，这里的代码以后再说
+{:.note title="o((⊙﹏⊙))o."}
