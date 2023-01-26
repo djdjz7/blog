@@ -145,7 +145,7 @@ private static string FormatJson(string str)
 }
 ~~~
 
-先从简单的一张图片开始解析
+## 解析图片
 ~~~json
 {
   "boardHead": {
@@ -324,7 +324,7 @@ private static void SearchForExtras(GraphData graphData)
                 break;
             case GraphType.StrokeGraph:
                 Touch touch = Touch.Parser.ParseFrom(graphData.Extra.Value);
-                Console.WriteLine(touch.PointF);
+                Console.WriteLine(FormatJson(touch.ToString()));
                 break;
             case GraphType.ShapeGraph:
                 break;
@@ -451,3 +451,185 @@ private static float CalcAngle(float sin, float cos)
 
 实际生成预览图像时遇到了一些问题，这里的代码以后再说
 {:.note title="o((⊙﹏⊙))o."}
+
+## 解析画笔
+### 分析
+利用上方代码，解析画笔
+~~~json
+{
+    "pointF": [
+        {
+            "x": 810.5778,
+            "y": 692.423
+        },
+        {
+            "x": 855.1178,
+            "y": 661.12164
+        },
+        {
+            "x": 927.85095,
+            "y": 613.9249
+        },
+        {
+            "x": 1014.9286,
+            "y": 565.3644
+        },
+        {
+            "x": 1099.9272,
+            "y": 517.06915
+        },
+        {
+            "x": 1127.4127,
+            "y": 507.57703
+        }
+    ]
+}
+~~~
+在 STROKE_GRAPH 中，还定义了画笔颜色与粗细
+~~~json
+"childGraph": [
+{
+    "graphType": "STROKE_GRAPH",
+    "matrix": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+    ],
+    "childExtendMatrix": [
+        1,
+        0,
+        1621.1556,
+        0,
+        1,
+        1200,
+        0,
+        0,
+        1
+    ],
+    "width": 3,
+    "color": -16777216,
+    "extra": {
+        "@type": "type.googleapis.com/Touch",
+        "@value": "CgoN+6RKRBUSGy1ECgoNisdVRBXJRyVECgoNdvZnRBUyexlECgoNbrt9RBVSVw1ECgoNrH2JRBVtRAFECgoNNe2MRBXcyf1D"
+    },
+    "name": "StrokeGraph-240780797",
+    "outRect": {
+        "left": 810.5778,
+        "top": 507.57703,
+        "right": 1127.4127,
+        "bottom": 693.423
+    }
+}
+]
+
+~~~
+
+### 颜色
+将 color 值转换为十六进制为 FFFFFFFF，是 ARGB 表示
+
+使用 GDI+ 将各点连线，并将十六进制数值打印在每条线的第一个点旁
+
+~~~csharp
+static Bitmap mainBitmap = null;
+static void Main(string[] args)
+{
+    while (true)
+    {
+        string fn = Console.ReadLine();
+        using (FileStream fileStream = System.IO.File.OpenRead(fn))
+        {
+            DrawBoard drawBoard = DrawBoard.Parser.ParseFrom(fileStream);
+            mainBitmap=new Bitmap(drawBoard.BoardHead.Width, drawBoard.BoardHead.Height);
+            Graphics graphics = Graphics.FromImage(mainBitmap);
+            graphics.Clear(Color.White);
+            graphics.Save();
+            graphics.Dispose();
+            foreach (var i in drawBoard.BoardBody.ActionContent)
+            {
+                SearchForExtras(i.GraphSnapshot);
+            }
+            mainBitmap.Save("1.png", ImageFormat.Png);
+            Process.Start("explorer.exe","1.png");
+        }
+    }
+}
+
+private static void SearchForExtras(GraphData graphData)
+{
+    //...
+    if(graphData.Extra!=null)
+    {
+        switch (graphData.GraphType)
+        {
+            //...
+            case GraphType.StrokeGraph:
+                Touch touch = Touch.Parser.ParseFrom(graphData.Extra.Value);
+                List<PointF> pointFs = new List<PointF>(touch.PointF);
+                List<System.Drawing.PointF> pointFs1= new List<System.Drawing.PointF>();
+                foreach (var pointf in pointFs)
+                {
+                    pointFs1.Add(new System.Drawing.PointF(pointf.X, pointf.Y));
+                }
+                Graphics graphics = Graphics.FromImage(mainBitmap);
+                graphics.DrawString(graphData.Color.ToString("X"), new Font("微软雅黑", 30), Brushes.Black, pointFs1[0]);
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                if (pointFs.Count > 1)
+                    graphics.DrawCurve(new Pen(Color.Black, graphData.Width), pointFs1.ToArray());
+                // 条件判断是必须的，若仅有一个点，DrawCurve 将抛出异常
+                graphics.Save();
+                graphics.Dispose();
+                break;
+                //...
+        }
+    }
+    //...
+}
+~~~
+
+![alt 颜色分析 1](/assets/img/blogs/bin-analysis/color-analysis-1.png)
+
+可以看出，的确是 ARGB 格式
+
+### 上色
+利用如下代码，转换颜色并上色
+~~~csharp
+static Color AndroidColorToDrawingColor(int androidColor)
+{
+    string HexColorString=androidColor.ToString("X");
+    int a = Convert.ToInt32(HexColorString.Substring(0, 2), 16);
+    int r = Convert.ToInt32(HexColorString.Substring(2, 2), 16);
+    int g = Convert.ToInt32(HexColorString.Substring(4, 2), 16);
+    int b = Convert.ToInt32(HexColorString.Substring(6, 2), 16);
+    return Color.FromArgb(a, r, g, b);
+}
+
+private static void SearchForExtras(GraphData graphData)
+{
+    //...
+    if(graphData.Extra!=null)
+    {
+        switch (graphData.GraphType)
+        {
+            //...
+            case GraphType.StrokeGraph:
+                /...
+                if (pointFs.Count > 1)
+                    //graphics.DrawCurve(new Pen(Color.Black, graphData.Width), pointFs1.ToArray());
+                    graphics.DrawCurve(new Pen(AndroidColorToDrawingColor(graphData.Color), graphData.Width), pointFs1.ToArray());
+                //...
+        }
+    }
+    //...
+}
+~~~
+![alt 颜色分析 2](/assets/img/blogs/bin-analysis/color-analysis-2.png)
+成功
+
+对于 STROKE_GRAPH， 也存在 matrix 的旋转与缩放，此处仍未处理
+{:.note}
