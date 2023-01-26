@@ -14,7 +14,7 @@ q(≧▽≦q)
 在中育云笔记 1.9.16 安装包中已经存在 *.proto 文件，故请忽略对 *.proto 文件的逆向分析
 {:.note}
 
-更新的解析方式，移步[此处](/blogs/2023-01-24-zy-bin-file-analysis-new/)
+更新的解析方式，移步[此处](/blogs/2023-01-26-zy-bin-file-analysis-new/)
 
 ## 前言
 众所周知，中育云笔记中的笔记格式以 .bin 格式存储  
