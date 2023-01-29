@@ -531,7 +531,7 @@ private static float CalcAngle(float sin, float cos)
 ~~~
 
 ### 颜色
-将 color 值转换为十六进制为 FFFFFFFF，是 ARGB 表示
+将 color 值转换为十六进制为 FF000000，是 ARGB 表示
 
 使用 GDI+ 将各点连线，并将十六进制数值打印在每条线的第一个点旁
 
