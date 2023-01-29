@@ -145,7 +145,7 @@ private static string FormatJson(string str)
 }
 ~~~
 
-## 解析图片
+
 ~~~json
 {
   "boardHead": {
@@ -210,6 +210,14 @@ private static string FormatJson(string str)
     }
 }
 ~~~
+
+## 画板背景
+注意到 resetData 中的 "backgroundColor": -1  
+下方会解释 -1 的由来，在此先上结论：-1 代表的颜色是白色  
+以上的代码中，颜色值为 -1 的仅有这一项，大胆猜测这一项控制画板背景色
+
+
+## 解析图片
 
 在此，我们只关注结果而非过程，所以，忽略所有 ACTION 项，仅保留 GRAPH 项。
 
