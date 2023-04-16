@@ -87,11 +87,14 @@ string s = "{\"type\":20007,\"data\":{\"topic\":\"Ec1xkK+uFtV/QO/8rduJ2A==\"}}";
 
 ###  验证
 可以使用 CloudRoom.Emulator 对其进行验证
+
 ![alt Emulator](/assets/img/blogs/what-changed-2.0.8/emulator.png)
+
 第一行为 Payload，第二行为 Topic
+Topic 为 ClientID
 {:.figcaption}
 
-Topic 为 ClientID
+
 
 ### 解决
 ~~~csharp
