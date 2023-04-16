@@ -88,3 +88,26 @@ string s = "{\"type\":20007,\"data\":{\"topic\":\"Ec1xkK+uFtV/QO/8rduJ2A==\"}}";
 ###  验证
 可以使用 CloudRoom.Emulator 对其进行验证
 ![alt Emulator](/assets/img/blogs/what-changed-2.0.8/emulator.png)
+第一行为 Payload，第二行为 Topic
+{:.figcaption}
+
+Topic 为 ClientID
+
+### 解决
+~~~csharp
+// file: "MqttService.cs"
+case (MessageType)6L:
+{
+	string s5 = "{\"type\":20007,\"data\":{\"topic\":\"Ec1xkK+uFtV/QO/8rduJ2A==\"}}";
+	IMqttServer mqttServer = _mqttServer;
+	MqttApplicationMessage val = new MqttApplicationMessage();
+	val.set_Topic(arg.get_ClientId());
+	val.set_Payload(Encoding.Default.GetBytes(s5));
+	val.set_QualityOfServiceLevel((MqttQualityOfServiceLevel)2);
+	await MqttServerExtensions.PublishAsync(mqttServer, val);
+	break;
+}
+~~~
+
+## CloudRoom.ScreenModule 和 CloudRoom.ControlsModule
+不关心
