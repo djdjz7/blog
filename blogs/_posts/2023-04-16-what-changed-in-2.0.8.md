@@ -90,7 +90,7 @@ string s = "{\"type\":20007,\"data\":{\"topic\":\"Ec1xkK+uFtV/QO/8rduJ2A==\"}}";
 
 ![alt Emulator](/assets/img/blogs/what-changed-2.0.8/emulator.png)
 
-第一行为 Payload，第二行为 Topic
+第一行为 Payload，第二行为 Topic  
 Topic 为 ClientID
 {:.figcaption}
 
