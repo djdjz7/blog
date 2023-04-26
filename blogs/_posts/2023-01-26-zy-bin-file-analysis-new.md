@@ -11,7 +11,7 @@ sitemap: true
 * 
 {:toc}
 
-下面内容已基于中育云笔记 1.9.16 安装包，对于 .bin 文件结构的初步分析，请移步 [此处](/blogs/_posts/2023-01-23-zy-bin-file-analysis)
+下面内容已基于中育云笔记 1.9.16 安装包，对于 .bin 文件结构的初步分析，请移步 [此处](/blogs/2023-01-23-zy-bin-file-analysis)
 {:.note}
 
 ## 获取 *.proto 文件
