@@ -5,6 +5,7 @@ image:
   path: /assets/img/docs/devblog01.png
 sitemap: true
 ---
+# OpenFlier Devblog 01
 ## Progress
 We have now implemented Stage 1 (Basic functionalities) and part of Stage 4 (MqttServicePlugin)
 
