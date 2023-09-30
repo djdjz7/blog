@@ -20,10 +20,44 @@ adb shell settings put global http_proxy 127.0.0.1:8080
 java -jar apktool.jar d a.app
 ~~~
 ### 改包
-### 重新打包并签名
-### 异常处理
+
+### 重新打包
+重新定位至 apk 目录，执行
+~~~shell
+java -jar apktool.jar b a
+~~~
+#### 异常处理
+**Invalid resource directory name .../res navigation 等**  
+更改打包命令为
+~~~shell
+java -jar apktool.jar b --use-aapt2 a
+~~~
+
+### 签名
+#### 生成证书
+定位至 a/dist/ 执行
+~~~shell
+keytool -genkeypair -alias key.keystore -keyalg RSA -validity 500000 -keystore key.keystore
+~~~
+#### 签名
+~~~shell
+jarsigner -keystore key.keystore -signedjar signed.apk a.apk key.keystore  
+~~~
+
 
 ## 安装
+~~~shell
+adb install a/dist/signed.apk
+~~~
+### 异常处理
+**INSTALL_FAILED_INVALID_APK: INSTALL_FAILED_INVALID_APK: Failed to extract native libraries, res=-2**  
+~~~xml
+// file: AndroidManifest.xml
+...
+<application ... android:extractNativeLibs="true" ...>
+</application>
+...
+~~~
 
 ## 参考
 [Configuring Burp Suite With Android Nougat - ropnop blog](https://blog.ropnop.com/configuring-burp-suite-with-android-nougat)
