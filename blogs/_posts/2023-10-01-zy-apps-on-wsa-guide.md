@@ -11,9 +11,23 @@ sitemap: true
 启动 Burp Suite，在 Proxy settings 中设置 Match and replace rules，替换 head 和 body 中 WSA 设备序列号为平板序列号。  
 
 ## 测试结果
-| 应用 | 问题 |
+|    应用    |     问题  |
 |:----------:|:----------:|
 | 用户中心 | 未见异常 |
 | 中育云笔记 | 闪退 |
 | 新测评 | 疑似不能提交作业 |
 | 随身答 | 拍照搜题异常 |
+
+|                               | Free                | PRO                 |
+|:------------------------------|:-------------------:|:-------------------:|
+| [Blog]                        | &#x2714;            | &#x2714;            |
+| [Features]                    | &#x2714;            | &#x2714;            |
+| [Documentation][docs]         | &#x2714;            | &#x2714;            |
+| [Portfolio]                   |                     | &#x2714;            |
+| Printable [Resume]            |                     | &#x2714;            |
+| [Dark Mode][dark]             |                     | &#x2714;            |
+| [Built-In Search][search]     |                     | &#x2714;            |
+| [Custom Forms][forms]         |                     | &#x2714;            |
+| [Newsletter Box][news]        |                     | &#x2714;            |
+| [Grid layout][grid]           |                     | &#x2714;            |
+| [Offline Support][ofln]       |                     | &#x2714;            |
