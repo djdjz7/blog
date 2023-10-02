@@ -41,7 +41,7 @@ const props = defineProps({
         shadow-md
         flex="~ justify-center col"
       >
-        <span m-t-auto text-2xl font-semibold>{{ title }}</span>
+        <span m-t-auto md:text-2xl text-lg font-semibold>{{ title }}</span>
         <div
           style="
             display: -webkit-box;
