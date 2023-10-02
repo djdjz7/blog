@@ -15,7 +15,7 @@ const props = defineProps({
       text-dark
       dark:text-light
       class="group"
-      h-52
+      h-56
       w-full
       dark:bg-dark
       bg-light
@@ -29,19 +29,21 @@ const props = defineProps({
       rounded-4
     >
       <div
+        h-full
         absolute
-        h-100
+        overflow-hidden
         backdrop-blur-2xl
         transition-all
         duration-200
-        class="w-50% bg-light/70 dark:bg-dark/70 group-hover:w-full"
+        class="w-50% w-max-50% bg-light/70 dark:bg-dark/70 group-hover:w-full"
         top-0
         left-0
         p-4
         shadow-md
+        flex="~ justify-center col"
       >
-        <span text-2xl font-semibold>{{ title }}</span>
-        <div v-html="excerpt"></div>
+        <span m-t-auto text-2xl font-semibold>{{ title }}</span>
+        <div style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow:hidden" m-b-auto v-html="excerpt" text-gray></div>
       </div>
       <img
         :src="
