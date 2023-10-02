@@ -2,12 +2,10 @@
 title: 课堂助手 2.0.8 中，中育更改了什么？
 ---
 
-# {{ $frontmatter.title }}
-
-
-中育在课堂助手 2.0.8/2.0.9，中育云笔记 1.9.18/1.9.20 中做出的更改，导致中育飞车助手不再可用。
-
+中育在课堂助手 2.0.8/2.0.9，中育云笔记 1.9.18/1.9.20 中做出的更改，导致中育飞车助手不再可用。  
 那么，中育做出了怎样的更改呢？
+---
+# {{ $frontmatter.title }}
 
 *飞车助手消失的一个月*
 
@@ -35,34 +33,34 @@ title: 课堂助手 2.0.8 中，中育更改了什么？
 // file: "MessageType.cs"
 public enum MessageType : long
 {
-++	TestReq = 30000L,
-++	TestResp = 30001L,
+	TestReq = 30000L, // [!code ++]
+	TestResp = 30001L, // [!code ++]
 	TeacherScreenCast = 10000L,
 	StopScreenCast = 10001L,
 	StudentScreenCast = 10002L,
 	StudentTopic = 10003L,
 	StudentListReq = 10004L,
 	ScreenCaptureReq = 10005L,
-++	DeviceVerificationReq = 10006L,
-++	ScreenCastUserListReq = 10008L,
-++	FullScreenCastReq = 10009L,
-++	StopSomeoneScreenCastReq = 10010L,
-++	DeviceVerificationResp = 20007L,
+	DeviceVerificationReq = 10006L, // [!code ++]
+	ScreenCastUserListReq = 10008L, // [!code ++]
+	FullScreenCastReq = 10009L, // [!code ++]
+	StopSomeoneScreenCastReq = 10010L, // [!code ++]
+	DeviceVerificationResp = 20007L, // [!code ++]
 	TeacherScreenCastResp = 20000L,
 	AutoStopScreenCast = 20001L,
 	StudentTopicResp = 20003L,
 	StudentListResp = 20004L,
 	ScreenCaptureResp = 20005L,
 	TeacherScreenCastError = 20010L,
-++	ScreenCastPortNotice = 20011L,
-++	StartScreenCastResp = 20012L,
-++	StopScreenCastResp = 20013L
+	ScreenCastPortNotice = 20011L, // [!code ++]
+	StartScreenCastResp = 20012L, // [!code ++]
+	StopScreenCastResp = 20013L // [!code ++]
 }
 ```
 注意这两行
 ```csharp
-DeviceVerificationReq = 10006L,
-DeviceVerificationResp = 20007L,
+DeviceVerificationReq = 10006L, // [!code ++]
+DeviceVerificationResp = 20007L, // [!code ++]
 ```
 与此同时：
 ```csharp

@@ -1,6 +1,11 @@
 ---
 title: 为 Burp Suite 抓包准备 Android 设备
+splash: /assets/img/blog/prep-android-for-burp/splash.png
 ---
+
+妙哉。
+---
+<img v-if="$frontmatter.splash!=undefined" :src="$frontmatter.splash">
 
 # {{ $frontmatter.title }}
 

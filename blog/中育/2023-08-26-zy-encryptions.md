@@ -2,6 +2,9 @@
 title: 中育混淆方式
 ---
 
+看着玩玩罢，不要介意。
+---
+
 # {{ $frontmatter.title }}
 
 

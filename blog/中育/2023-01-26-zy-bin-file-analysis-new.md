@@ -3,11 +3,12 @@ title: 中育云笔记 .bin 文件解析 [新]
 splash: /assets/img/blog/bin-analysis/splash.png
 ---
 
+我是沙币！
+---
+
 <img v-if="$frontmatter.splash!=undefined" :src="$frontmatter.splash">
 
 # {{ $frontmatter.title }}
-
-我是沙币！
 
 :::tip
 下面内容已基于中育云笔记 1.9.16 安装包，对于 .bin 文件结构的初步分析，请移步 [此处](/blog/中育/2023-01-23-zy-bin-file-analysis)

@@ -10,6 +10,7 @@ export default defineConfig({
   },
   title: "彩笔的部落阁",
   description: "A VitePress Site",
+  lang: "zh-CN",
   markdown: {
     config: (md) => {
       md.use(mathjax3);
@@ -17,6 +18,7 @@ export default defineConfig({
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    logo: "/assets/img/avatar.png",
     nav: [
       { text: "博客", link: "/blog/" },
       { text: "文档", link: "/docs/" },
@@ -58,6 +60,16 @@ export default defineConfig({
       },
     ]),
     socialLinks: [{ icon: "github", link: "https://github.com/djdjz7" }],
-    outline: "deep",
+    outline: {
+      level: "deep",
+      label: "本页内容",
+    },
+    darkModeSwitchLabel: "外观",
+    sidebarMenuLabel: "菜单",
+    returnToTopLabel: "返回顶端",
+    docFooter: {
+      prev: "上一篇",
+      next: "下一篇"
+    }
   },
 });

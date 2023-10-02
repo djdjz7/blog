@@ -6,6 +6,9 @@ hero:
   name: "彩笔的部落阁"
   text: "ヾ(≧▽≦*)o"
   tagline: "☆*: .｡. o(≧▽≦)o .｡.:*☆"
+  image:
+    src: /assets/img/avatar.png
+    alt: 彩笔的部落阁
   actions:
     - theme: brand
       text: 博客

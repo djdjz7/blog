@@ -42,12 +42,22 @@ const props = defineProps({
         flex="~ justify-center col"
       >
         <span m-t-auto text-2xl font-semibold>{{ title }}</span>
-        <div style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow:hidden" m-b-auto v-html="excerpt" text-gray></div>
+        <div
+          style="
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            overflow: hidden;
+          "
+          m-b-auto
+          v-html="excerpt"
+          text-gray
+        ></div>
       </div>
       <img
-      h-full
-      w-full
-      object-cover
+        h-full
+        w-full
+        object-cover
         :src="
           splashImageSource == undefined
             ? '/assets/img/placeholder.webp'

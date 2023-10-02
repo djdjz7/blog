@@ -75,6 +75,10 @@
  * -------------------------------------------------------------------------- */
 
 :root {
+  --vp-c-brand-1:rgb(224, 146, 30);
+  --vp-c-brand-2:rgb(231, 166, 76);
+  --vp-c-brand-3:rgb(224, 156, 30);
+  --vp-c-brand-soft: rgb(250, 227, 213);
   --vp-button-brand-border: transparent;
   --vp-button-brand-text: var(--vp-c-white);
   --vp-button-brand-bg: var(--vp-c-brand-3);
@@ -94,14 +98,14 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    #bd34fe 30%,
-    #41d1ff
+    #eedc3d 30%,
+    #f5a447
   );
 
   --vp-home-hero-image-background-image: linear-gradient(
     -45deg,
-    #bd34fe 50%,
-    #47caff 50%
+    #eedc3d 50%,
+    #f5a447 50%
   );
   --vp-home-hero-image-filter: blur(40px);
 }
