@@ -20,6 +20,7 @@ export default defineConfig({
     nav: [
       { text: "博客", link: "/blog/" },
       { text: "文档", link: "/docs/" },
+      { text: "文章", link: "/articles/" },
     ],
     lastUpdated: {
       text: "最后更新于",
