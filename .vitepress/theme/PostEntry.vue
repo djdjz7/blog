@@ -25,7 +25,6 @@ const props = defineProps({
       duration-200
       overflow-clip
       relative
-      flex="~ items-center justify-end"
       rounded-4
     >
       <div
@@ -46,6 +45,9 @@ const props = defineProps({
         <div style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow:hidden" m-b-auto v-html="excerpt" text-gray></div>
       </div>
       <img
+      h-full
+      w-full
+      object-cover
         :src="
           splashImageSource == undefined
             ? '/assets/img/placeholder.webp'
