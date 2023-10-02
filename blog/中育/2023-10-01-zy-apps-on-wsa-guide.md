@@ -3,7 +3,7 @@ title: WSA 使用中育系软件完全指北
 splash: /assets/img/blog/zy-apps-on-wsa/result.png
 ---
 
-早上好中育，现在我有 WSA！我很喜欢 WSA，但是...
+早上好中育，现在我有 HUAWEI MediaPad C5！我很喜欢 HUAWEI MediaPad C5，但是，Windows Subsystem for Android 我最~喜欢。所以，现在是 Burp Suite 时间~
 ---
 
 <img v-if="$frontmatter.splash!=undefined" :src="$frontmatter.splash">
