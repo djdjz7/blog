@@ -10,13 +10,12 @@ const props = defineProps({
 });
 </script>
 <template>
-  <a :href="url">
+  <a :href="url" w-full>
     <div
       text-dark
       dark:text-light
       class="group"
       h-56
-      w-full
       dark:bg-dark
       bg-light
       shadow-lg
@@ -28,14 +27,13 @@ const props = defineProps({
       rounded-4
     >
       <div
-        h-full
         absolute
         overflow-hidden
         backdrop-blur-2xl
         transition-all
         duration-200
-        class="w-50% w-max-50% bg-light/70 dark:bg-dark/70 group-hover:w-full"
-        top-0
+        class="w-full h-50% w-max-50% bg-light/70 dark:bg-dark/70 group-hover:h-full"
+        bottom-0
         left-0
         p-4
         shadow-md
@@ -51,7 +49,7 @@ const props = defineProps({
           "
           m-b-auto
           v-html="excerpt"
-          text-gray
+          class="text-dark/70 dark:text-light/70"
         ></div>
       </div>
       <img

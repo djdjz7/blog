@@ -1,15 +1,14 @@
 ---
 title: 文档
+type: index
 ---
 
 <script setup>
 import { data as posts } from './docs.data.js'
 </script>
-<ClientOnly>
   <h1>文档</h1>
-  <ul style="padding-left:0">
-    <li v-for="post of posts" list-none>
-      <PostEntry v-if="post.frontmatter.title != $frontmatter.title" :excerpt="post.excerpt" :title="post.frontmatter.title" :splash-image-source="post.frontmatter.splash" :url="post.url"/>
-    </li>
-  </ul>
-</ClientOnly>
+  <div style="padding-left:0" grid="~ md:cols-2 gap-4">
+    <div v-for="post of posts">
+      <PostEntry :excerpt="post.excerpt" :title="post.frontmatter.title" :splash-image-source="post.frontmatter.splash" :url="post.url"/>
+    </div>
+  </div>
