@@ -14,6 +14,10 @@ splash: /assets/img/blog/bin-analysis/splash.png
 下面内容已基于中育云笔记 1.9.16 安装包，对于 .bin 文件结构的初步分析，请移步 [此处](/blog/中育/2023-01-23-zy-bin-file-analysis)
 :::
 
+:::warning
+仅适用于老版笔记文件（蓝色）。
+:::
+
 ## 获取 *.proto 文件
 解压 中育云笔记1.9.16.apk，找到下列文件
 ```
