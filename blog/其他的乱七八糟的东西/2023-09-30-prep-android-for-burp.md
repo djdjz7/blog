@@ -5,9 +5,7 @@ splash: /assets/img/blog/prep-android-for-burp/splash.png
 
 妙哉。
 ---
-<img v-if="$frontmatter.splash!=undefined" :src="$frontmatter.splash">
 
-# {{ $frontmatter.title }}
 
 适用于 Android 7 (Nougat) 及以上。  
 Android 7 以下可通过 root 设备安装系统级 CA 证书。

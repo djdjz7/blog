@@ -3,9 +3,7 @@ title: 中育云笔记 .bin 文件解析
 splash: /assets/img/blog/bin-analysis/splash.png
 ---
 
-<img v-if="$frontmatter.splash!=undefined" :src="$frontmatter.splash">
 
-# {{ $frontmatter.title }}
 
 :::tip
 以下内容基于中育云笔记 1.9.8  

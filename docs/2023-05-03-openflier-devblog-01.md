@@ -3,7 +3,6 @@ title: OpenFlier Devblog 01
 splash: /assets/img/docs/devblog01.png
 ---
 
-<img v-if="$frontmatter.splash!=undefined" :src="$frontmatter.splash">
 
 # OpenFlier Devblog 01
 

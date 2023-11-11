@@ -6,9 +6,7 @@ splash: /assets/img/blog/zy-apps-on-wsa/result.png
 早上好中育，现在我有 HUAWEI MediaPad C5！我很喜欢 HUAWEI MediaPad C5，但是，Windows Subsystem for Android 我最~喜欢。所以，现在是 Burp Suite 时间~
 ---
 
-<img v-if="$frontmatter.splash!=undefined" :src="$frontmatter.splash">
 
-# {{ $frontmatter.title }}
 
 众所周知，中育对其他设备使用用户中心这些软件限制非常严格，那么有没有办法可以绕过这些限制呢
 ## 步骤

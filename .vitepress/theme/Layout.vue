@@ -50,6 +50,12 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
         theme="preferred-color-scheme"
       ></VueUtterances>
     </template>
+    <template #doc-before>
+      <img v-if="$frontmatter.splash != undefined" :src="$frontmatter.splash" />
+      <div class="vp-doc" m-t-4>
+        <h1>{{ $frontmatter.title }}</h1>
+      </div>
+    </template>
   </DefaultTheme.Layout>
 </template>
 
