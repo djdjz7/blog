@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 import { generateSidebar } from "vitepress-sidebar";
 import mathjax3 from "markdown-it-mathjax3";
 import UnoCSS from "unocss/vite";
-
+import markdownItFootnote from "markdown-it-footnote"
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   vite: {
@@ -14,6 +14,7 @@ export default defineConfig({
   markdown: {
     config: (md) => {
       md.use(mathjax3);
+      md.use(markdownItFootnote);
     },
     container: {
       tipLabel: "提示",
