@@ -24,7 +24,7 @@ adb shell settings put global http_proxy 127.0.0.1:8080
 ### 解包
 下载 [Apktool](https://apktool.org)，以 a.apk 为例，执行：
 ```shell
-java -jar apktool.jar d a.app
+java -jar apktool.jar d a.apk
 ```
 ### 改包
 检查 AndroidManifest.xml 中是否已存在以下属性：
