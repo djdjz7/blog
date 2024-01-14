@@ -33,7 +33,7 @@ jobs:
       - name: Set up pnpm
         uses: pnpm/action-setup@v2
         with:
-          node-version: 8
+          version: 8
       - name: Install dependencies
         run: pnpm install
       - name: Build
