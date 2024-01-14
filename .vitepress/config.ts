@@ -80,4 +80,7 @@ export default defineConfig({
       next: "下一篇"
     }
   },
+  sitemap: {
+    hostname: "https://blog.djdjz7.top"
+  }
 });
