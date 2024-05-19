@@ -1,12 +1,14 @@
 ---
 title: 文章
 type: index
+layout: false
 ---
 
 <script setup>
 import { data as posts } from './articles.data.js'
 </script>
-  <div style="padding-left:0" grid="~ md:cols-2 gap-4">
+<RecentPost category="文章" :frontmatter="posts[0].frontmatter" :url="posts[0].url" :excerpt="posts[0].excerpt"/>
+  <div grid="~ md:cols-2 gap-4" m-x-auto max-w-1000px m-y-8 p-x-4 md:p-x-0>
     <div v-for="post of posts">
       <PostEntry :excerpt="post.excerpt" :title="post.frontmatter.title" :splash-image-source="post.frontmatter.splash" :url="post.url"/>
     </div>

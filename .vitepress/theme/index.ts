@@ -5,6 +5,7 @@ import PostEntry from './PostEntry.vue'
 import Layout from './Layout.vue'
 import './style.css'
 import 'virtual:uno.css'
+import RecentPost from './RecentPost.vue'
 
 export default {
   extends: Theme,
@@ -14,6 +15,7 @@ export default {
     })
   },*/ Layout,
   enhanceApp({ app, router, siteData }) {
-    app.component('PostEntry', PostEntry)
+    app.component('PostEntry', PostEntry);
+    app.component('RecentPost', RecentPost)
   }
 }
