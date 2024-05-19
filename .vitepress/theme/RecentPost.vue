@@ -53,7 +53,7 @@ const toggleAppearance = inject("toggle-appearance", () => {
       <div absolute left-0 top-0>
         <h1 class="text-white/90" drop-shadow-lg>{{ props.category }}</h1>
       </div>
-      <div absolute top-0 right-0 flex gap-2>
+      <div absolute top-0 right-0 flex gap-4>
         <button
           hover:brightness-120
           transition-all
