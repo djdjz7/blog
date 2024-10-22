@@ -3,11 +3,15 @@ title: GeekGame 2024 Write-Down
 splash: /assets/img/blog/geekgame-2024/banner.webp
 time: 2024-10-21
 ---
+
 > 我 Misc 不精！Web 无力！Binary 松散！Algorithm 迟顿！凭什么与大佬同台较量！
-> 第一次打 CTF 的萌新捏，不会 algo 直接破防了捏。  
-> Score: 1630, PKU rank #50, total rank #112.  
-> 喜报：不好好写 write-up 不會受到任何處分！
+
+第一次打 CTF 的萌新捏，不会 algo 直接破防了捏。  
+Score: 1630, PKU rank #50, total rank #112.  
+喜报：不好好写 write-up 不會受到任何處分！
 ---
+
+
 
 ## Tutorial
 ### 签到（囯内）
