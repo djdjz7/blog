@@ -20,7 +20,7 @@ Score: 1630, PKU rank #50, total rank #112.
 你觉得这有什么好写的？不写了。
 
 ## Misc
-<h3><span class="rotate-group">清<span class="reversed">北</span></span>问答</h3>
+### <span class="rotate-group">清<span class="reversed">北</span></span>问答
 
 #### Q1：在清华大学百年校庆之际，北京大学向清华大学赠送了一块石刻。石刻最上面一行文字是什么？
 
@@ -188,7 +188,7 @@ with open('output.h264', 'wb') as f:
 
 ### TAS概论大作业
 #### Flag 1 & 2
-直接去 [tasvideos.org][https://tasvideos.org/] 找就可以了。[Flag 1](https://tasvideos.org/1715M) 和 [Flag 2](https://tasvideos.org/5523S) 都有。
+直接去 [tasvideos.org](https://tasvideos.org/) 找就可以了。[Flag 1](https://tasvideos.org/1715M) 和 [Flag 2](https://tasvideos.org/5523S) 都有。
 
 嘿嘿这个转换脚本我也还留着：
 ~~~python
@@ -318,6 +318,12 @@ console.log(encodeUriComponent(str));
 
 #### Flag 3
 想都没想，Flag 2 都没搞出来搞什么 Flag 3。
+
+#### 花絮
+搞不出来的时候甚至尝试干了这种事情：
+![Returned email](/assets/img/blog/geekgame-2024/returned-email.png)
+
+
 
 ### 好评返红包
 ```
@@ -512,9 +518,7 @@ $$
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-    @media(prefers-color-scheme: dark) {
-        .rotate-group, .reversed {
-            color: unset;
-        }
+    .dark .rotate-group, .dark .reversed {
+        color: unset;
     }
 </style>
