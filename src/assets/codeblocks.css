@@ -18,6 +18,8 @@ pre.shiki {
 
 .shiki code {
   --at-apply: flex flex-col items-stretch min-w-max w-full;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.875rem;
 }
 
 .shiki .line {

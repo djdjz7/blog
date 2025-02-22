@@ -22,7 +22,7 @@ if (import.meta.env.SSR) ssrContext = useSSRContext()
 
 const pageModules = inject('pageModules') as Record<string, () => Promise<unknown>>
 const route = useRoute(() => scrollViewRef.value?.scrollTop)
-const pathname = getPathname(route.path)
+const pathname = decodeURI(getPathname(route.path))
 const pageCategory = ref(getPageCategory(pathname))
 const { page, isIndexPage } = getCurrentPage(pathname)
 const currentPage = shallowRef(page)
@@ -52,7 +52,7 @@ let headerElementsOutdated = true
 watch(
   () => route.path,
   async (newVal, oldVal) => {
-    const pathname = getPathname(newVal)
+    const pathname = decodeURI(getPathname(newVal))
     const oldPathname = getPathname(oldVal)
     if (pathname === oldPathname) {
       const anchor = document.getElementById(getHash(newVal).substring(1))

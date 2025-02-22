@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import AutoDarkImage from '@/components/AutoDarkImage.vue'
-
-import LcpuDark from '../assets/404-dark.svg'
-import LcpuLight from '../assets/404-light.svg'
 import { useTitle } from '@vueuse/core'
 import { useSSRContext } from 'vue'
 import { SiteConfiguration } from '@/site'
@@ -22,7 +18,7 @@ if (import.meta.env.SSR) {
 
 <template>
   <div flex="~ col items-center" m-t-24>
-    <AutoDarkImage h-36 :src="LcpuDark" :src-dark="LcpuLight" alt="LCPU 标识" />
+    <!-- <AutoDarkImage h-36 :src="LcpuDark" :src-dark="LcpuLight" alt="LCPU 标识" /> -->
     <h1>404 NOT FOUND!</h1>
     <p m-0 text-lg>Country roads, take me home.</p>
     <p m-0 text-lg>To the place, I belong.</p>

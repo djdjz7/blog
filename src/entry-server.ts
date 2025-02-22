@@ -3,7 +3,6 @@
 import { basename } from 'path'
 import { renderToString, type SSRContext } from 'vue/server-renderer'
 import { createApp } from './main'
-import { SiteConfiguration, RouteTitleRecord } from './site'
 
 export async function render(url: string, manifest: { [key: string]: string[] }) {
   const { app, router } = createApp()
@@ -22,7 +21,7 @@ export async function render(url: string, manifest: { [key: string]: string[] })
   // which we can then use to determine what files need to be preloaded for this
   // request.
   const preloadLinks = renderPreloadLinks(ctx.modules, manifest)
-  const meta = renderMeta(ctx, url)
+  const meta = renderMeta(ctx)
   return [html, preloadLinks, ctx.titlePrefix ?? '', meta]
 }
 
@@ -60,22 +59,19 @@ function renderPreloadLink(file: string) {
   } else if (file.endsWith('.woff2')) {
     return ` <link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`
   } else if (file.endsWith('.gif')) {
-    return ` <link rel="preload" href="https://img.lcpu.dev${file}" as="image" type="image/gif">`
+    return ` <link rel="preload" href="${file}" as="image" type="image/gif">`
   } else if (file.endsWith('.jpg') || file.endsWith('.jpeg')) {
-    return ` <link rel="preload" href="https://img.lcpu.dev${file}" as="image" type="image/jpeg">`
+    return ` <link rel="preload" href="${file}" as="image" type="image/jpeg">`
   } else if (file.endsWith('.png')) {
-    return ` <link rel="preload" href="https://img.lcpu.dev${file}" as="image" type="image/png">`
+    return ` <link rel="preload" href="${file}" as="image" type="image/png">`
   } else {
     return ''
   }
 }
 
-function renderMeta(ctx: SSRContext, url: string): string {
+function renderMeta(ctx: SSRContext): string {
   const meta = ctx.meta
-  const title = ctx.titlePrefix || '北京大学学生 Linux 俱乐部'
-  const author = ctx.author
-  const time = ctx.time
-  const sourceUrl = ctx.sourceUrl
+  const title = ctx.titlePrefix || '彩笔的部落阁'
 
   const results: string[] = []
 
@@ -83,17 +79,6 @@ function renderMeta(ctx: SSRContext, url: string): string {
     `<meta name="title" content="${title}">`,
     `<meta property="og:title" content="${title}">`,
     `<meta name="twitter:title" content="${title}">`,
-  )
-
-  if (author) {
-    results.push(`<meta name="author" content="${author}">`)
-  } else {
-    results.push(`<meta name="author" content="北京大学学生 Linux 俱乐部">`)
-  }
-
-  results.push(
-    `<link rel="canonical" href="https://lcpu.dev${url}">`,
-    `<meta property="og:url" content="https://lcpu.dev${url}">`,
   )
 
   if (meta['description']) {
@@ -106,124 +91,9 @@ function renderMeta(ctx: SSRContext, url: string): string {
   if (meta['keywords']) {
     results.push(`<meta name="keywords" content="${(meta['keywords'] as string[]).join(',')}">`)
   }
-  if (meta['image']) {
-    results.push(
-      `<meta name="twitter:image" content="${meta['image']}">`,
-      `<meta property="og:image" content="${meta['image']}">`,
-    )
-  } else {
-    results.push(
-      `<meta name="twitter:image" content="https://lcpu.dev/favicon.svg">`,
-      `<meta property="og:image" content="https://lcpu.dev/favicon.svg">`,
-    )
-  }
   if (meta['video']) {
     results.push(`<meta property="og:video" content="${meta['video']}">`)
   }
 
-  const slugs = url.substring(1).split('/')
-  const BreadcrumbList = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        item: 'https://lcpu.dev/',
-        name: '北京大学学生 Linux 俱乐部',
-        position: 1,
-      },
-    ],
-  }
-  let count = 1
-  slugs.forEach((slug) => {
-    if (slug === '') {
-      return
-    }
-    count++
-    const category = SiteConfiguration.getRouteCategoryTitle(slug)
-    BreadcrumbList['itemListElement'].push({
-      '@type': 'ListItem',
-      item: `${BreadcrumbList['itemListElement'][count - 2]['item']}${slug}/`,
-      name: category === undefined || category === slug ? title : category,
-      position: count,
-    })
-  })
-  if (url === '/404.html') {
-    BreadcrumbList['itemListElement'][1].item = 'https://lcpu.dev/404.html'
-    results.push(`<meta name="robots" content="noindex">`)
-  }
-
-  results.push(`<script type="application/ld+json">${JSON.stringify(BreadcrumbList)}</script>`)
-
-  if (url === '/') {
-    const jsonLd = {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      '@id': 'https://lcpu.dev/',
-      name: '北京大学学生 Linux 俱乐部',
-      description: `${meta['description']}`,
-      inLanguage: 'zh-Hans',
-      url: 'https://lcpu.dev/',
-      keywords: meta['keywords'],
-      publisher: {
-        '@type': 'Organization',
-        name: '北京大学学生 Linux 俱乐部',
-        url: 'https://lcpu.dev/',
-      },
-      image: 'https://lcpu.dev/favicon.svg',
-    }
-    results.push(
-      `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`,
-      `<meta property="og:type" content="website">`,
-      `<meta name="twitter:card" content="summary">`,
-      `<link rel="alternate" type="application/atom+xml" href="/posts.atom" title="北京大学学生 Linux 俱乐部" />`,
-      ...Object.keys(RouteTitleRecord).map(
-        (routeBase) =>
-          `<link rel="alternate" type="application/atom+xml" href="/${routeBase}/posts.atom" title="${RouteTitleRecord[routeBase]} | 北京大学学生 Linux 俱乐部" />`,
-      ),
-    )
-  } else if (sourceUrl && url != '/404.html') {
-    const jsonLd: Record<string, string | object | number | undefined> = {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      name: title,
-      inLanguage: 'zh-Hans',
-      url: `https://lcpu.dev${url}`,
-      author: author
-        ? { '@type': 'Person', name: author }
-        : { '@type': 'Organization', name: '北京大学学生 Linux 俱乐部', url: 'https://lcpu.dev/' },
-      description: meta['description'] || undefined,
-      headline: meta['headline'] || undefined,
-      abstract: meta['abstract'] || undefined,
-      keywords: meta['keywords'] || undefined,
-      image: meta['image'] || 'https://lcpu.dev/favicon.svg',
-    }
-    if (time) {
-      const dateObj = new Date(time)
-      const dateIsoString = dateObj.toISOString()
-      jsonLd['copyrightYear'] = dateObj.getFullYear()
-      jsonLd['dateCreated'] = dateIsoString
-      jsonLd['datePublished'] = dateIsoString
-      results.push(
-        `<meta property="article:published_time" content="${dateIsoString}">`,
-        `<meta property="article:modified_time" content="${dateIsoString}">`,
-      )
-    }
-
-    if (url.substring(1).split('/')[0] !== '') {
-      jsonLd['articleSection'] =
-        SiteConfiguration.getRouteCategoryTitle(url.substring(1).split('/')[0]) || undefined
-    }
-
-    results.push(
-      '<meta property="og:type" content="article">',
-      '<meta name="twitter:card" content="summary_large_image">',
-      `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`,
-    )
-  } else if (slugs[0] in RouteTitleRecord) {
-    results.push(
-      `<link rel="alternate" type="application/atom+xml" href="/${slugs[0]}/posts.atom" title="${RouteTitleRecord[slugs[0]]} | 北京大学学生 Linux 俱乐部" />`,
-    )
-  }
   return results.join('\n')
 }

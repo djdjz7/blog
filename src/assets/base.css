@@ -34,7 +34,7 @@ body {
 }
 
 a {
-  --at-apply: text-primary underline-offset-4 'dark:text-primary-dark';
+  --at-apply: text-primary underline-offset-4;
 }
 
 p {

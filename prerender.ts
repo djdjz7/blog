@@ -47,7 +47,7 @@ for (const url of routesToPrerender) {
   if (url === '/') {
     html = template.replace(
       `<!--title-prefix--> | <!--title-suffix-->`,
-      `北京大学学生 Linux 俱乐部`,
+      `彩笔的部落阁`,
     )
   }
   html = html

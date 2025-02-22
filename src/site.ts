@@ -14,8 +14,9 @@ interface SiteConfiguration {
 }
 
 export const RouteTitleRecord: Record<string, string> = {
-  news: '新闻',
-  announcements: '公告',
+  blog: '博客',
+  articles: '文章',
+  docs: '文档',
 }
 
 export const SiteConfiguration: SiteConfiguration = {
@@ -28,7 +29,7 @@ export const SiteConfiguration: SiteConfiguration = {
     },
   },
   getRouteCategoryTitle: (routeSegment) => RouteTitleRecord[routeSegment],
-  titleSuffix: 'LCPU',
+  titleSuffix: '彩笔的部落阁',
   theme: 'normal',
   pureStatic: true,
 }

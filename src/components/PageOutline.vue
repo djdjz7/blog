@@ -52,7 +52,8 @@ watch(
         class="-left-1px"
         h-8
         w-1px
-        bg-blue-500
+        bg-primary
+        dark:bg-primary-dark
         transition-all
         duration-150
       ></div>

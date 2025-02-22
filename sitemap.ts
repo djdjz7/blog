@@ -45,7 +45,7 @@ links.push(...pages, ...pagesVue)
 const categories: { [key: string]: Date } = {}
 for (const category of Object.keys(RouteTitleRecord)) {
   categories[category] = fg
-    .sync(`./content/${category}/*/index.md`)
+    .sync(`./content/${category}/**/index.md`)
     .map((entry) => {
       return matter.read(entry).data.time || new Date()
     })
@@ -64,7 +64,7 @@ for (const category of Object.keys(RouteTitleRecord)) {
 
 console.log(chalk.bgYellow.greenBright('Sitemap:'))
 console.log(links.map((x) => x.url).join('\n'))
-const stream = new SitemapStream({ hostname: 'https://lcpu.dev/' })
+const stream = new SitemapStream({ hostname: 'https://blog.djdjz7.top/' })
 const buffer = await streamToPromise(Readable.from(links).pipe(stream))
 const sitemap = buffer.toString()
 
