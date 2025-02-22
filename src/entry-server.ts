@@ -70,7 +70,7 @@ function renderPreloadLink(file: string) {
 }
 
 function renderMeta(ctx: SSRContext): string {
-  const meta = ctx.meta
+  const meta = ctx.meta ?? {}
   const title = ctx.titlePrefix || '彩笔的部落阁'
 
   const results: string[] = []
