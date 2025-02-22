@@ -1,0 +1,40 @@
+.container {
+  --at-apply: p-4 rounded-md m-y-2 w-auto;
+}
+
+.expander {
+  --at-apply: p-x-4 rounded-md m-y-2;
+}
+
+.container > .container-title {
+  --at-apply: text-sm font-bold m-0;
+}
+
+.container > p:last-of-type,
+/* no '>' here as it is two levels deep */
+.expander p:last-of-type {
+  margin-bottom: 0;
+}
+
+.expander *:first-child {
+  margin-top: 0;
+}
+.expander *:last-child {
+  margin-bottom: 0;
+}
+
+.warning {
+  --at-apply: 'text-yellow-800 bg-yellow-200/20 dark:bg-yellow-500/20 dark:text-yellow-100';
+}
+
+.error {
+  --at-apply: 'text-red-800 bg-red-300/20 dark:bg-red-500/20 dark:text-red-100';
+}
+
+.info {
+  --at-apply: 'text-blue-800 bg-blue-300/20 dark:bg-blue-500/20 dark:text-primary-dark';
+}
+
+.expander {
+  --at-apply: 'text-gray-800 bg-gray-200/30 dark:bg-truegray-500/20 dark:text-truegray-100 ';
+}
