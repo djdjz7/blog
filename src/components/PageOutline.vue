@@ -43,7 +43,7 @@ watch(
 </script>
 
 <template>
-  <nav flex-shrink-1 w-64 text-sm text-gray-500 dark:text-truegray-400>
+  <nav w-64 text-sm text-gray-500 dark:text-truegray-400>
     <div fixed top-12 p-r-4 box-border border-l="1 gray-200 solid dark:dark-200" w-56>
       <div
         ref="marker"

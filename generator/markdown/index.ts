@@ -13,12 +13,14 @@ import MarkdownItContainer from 'markdown-it-container'
 import { componentPlugin } from '@mdit-vue/plugin-component'
 import { MarkdownSfcBlocks, sfcPlugin } from '@mdit-vue/plugin-sfc'
 import { headersPlugin, MarkdownItHeader } from '@mdit-vue/plugin-headers'
+import MarkdownItFootnote from 'markdown-it-footnote'
 import ImageProcessor from './image-processor'
 import anchor from 'markdown-it-anchor'
 import { imgLazyload } from '@mdit/plugin-img-lazyload'
 
 export async function registerMarkdownPlugins(mdit: MarkdownIt) {
   mdit
+    .use(MarkdownItFootnote)
     .use(ImageProcessor)
     .use(MathJax3)
     .use(anchor, {

@@ -7,15 +7,14 @@ time: 2023-01-24
 内容已严重过时
 :::
 
-
 浅浅整理一下已知的中育 API
 
 以下请求内容均以 C# 形式书写，实际请求时需要序列化为 JSON，有些还需要加密
 
-
 ## 云笔记
+
 :::info
-云笔记的大部分 API 都对请求内容和返回值中的 data 做了 AES 加密，但是 AES 的密钥可以在某个地方找到，详见[此处](https://blog.djdjz7.top/blogs/2023-01-23-zy-bin-file-analysis/#%E9%80%86%E5%90%91%E5%88%86%E6%9E%90)
+云笔记的大部分 API 都对请求内容和返回值中的 data 做了 AES 加密，但是 AES 的密钥可以在某个地方找到，详见[此处](/blog/zy/bin-file-analysis/part1/#%E9%80%86%E5%90%91%E5%88%86%E6%9E%90)
 :::
 
 :::warning
@@ -23,13 +22,19 @@ AES 密钥已更改。
 :::
 
 ### 登录 <Badge type="danger" text="已过时" />
+
 #### 请求地址
+
 POST http://note.func.zykj.org/api/Account/GuestLogin
+
 #### 请求头
+
 ```
 Content-Type: application/json
 ```
+
 #### 请求内容
+
 ```csharp
 //请求时序列化并加密
 public class LoginData
@@ -41,7 +46,9 @@ public class LoginData
     public string userName { get; set; }
 }
 ```
+
 #### 返回值
+
 ```csharp
 public class CommonResponseData
 {
@@ -67,15 +74,23 @@ public class UserInfo
 ```
 
 ### 获取所有笔记 <Badge type="danger" text="请求地址已过时" />
+
 #### 请求地址
+
 GET http://note.func.zykj.org/api/Notes/GetAll
+
 #### 请求头
+
 ```
 Authorization: bearer {UserInfo.Token}
 ```
+
 #### 请求内容
+
 空
+
 #### 返回值
+
 ```csharp
 public class CommonResponseData
 {
@@ -108,15 +123,23 @@ public class NoteInfo
 ```
 
 ### 获取 OSS 密钥 <Badge type="danger" text="已过时" />
+
 #### 请求地址
+
 GET http://note.func.zykj.org/api/Account/GetOssToken
+
 #### 请求头
+
 ```
 Authorization: bearer {UserInfo.Token}
 ```
+
 #### 请求内容
+
 空
+
 #### 返回值
+
 ```csharp
 public class CommonResponseData
 {
@@ -136,14 +159,20 @@ public class OssAccessResponseData
 ```
 
 ### 添加或更新文件 <Badge type="danger" text="请求地址已过时（未验证）" />
+
 #### 请求地址
+
 POST http://note.func.zykj.org/api/Notes/AddOrUpdate
+
 #### 请求头
+
 ```
 Authorization: bearer {UserInfo.Token}
 Content-Type: application/json
 ```
+
 #### 请求内容
+
 ```csharp
 //请求时序列化并加密
 public class AddFileData
@@ -155,7 +184,9 @@ public class AddFileData
     public int type { get; set; }
 }
 ```
+
 #### 返回值
+
 ```csharp
 public class MinimumResponseData
 {
@@ -165,18 +196,26 @@ public class MinimumResponseData
 ```
 
 ### 删除笔记 <Badge type="danger" text="请求地址已过时（未验证）" />
+
 #### 请求地址
+
 POST http://note.func.zykj.org/api/Notes/Delete
+
 #### 请求头
+
 ```
 Authorization: bearer {UserInfo.Token}
 Content-Type: application/json
 ```
+
 #### 请求内容
+
 ```
 ["{NoteInfo.fileId}"]
 ```
+
 #### 返回值
+
 ```csharp
 public class MinimumResponseData
 {
@@ -186,5 +225,6 @@ public class MinimumResponseData
 ```
 
 ## 在线专栏
+
 这些 API 暂时没有加密
 {:.note}

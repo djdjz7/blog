@@ -4,14 +4,12 @@ splash: /assets/img/blog/bin-analysis/splash.png
 time: 2023-01-23
 ---
 
-
-
 :::info
 以下内容基于中育云笔记 1.9.8  
 在中育云笔记 1.9.16 安装包中已经存在 _.proto 文件，故请忽略对 _.proto 文件的逆向分析
 :::
 
-更新的解析方式，移步[此处](/blog/中育/2023-01-26-zy-bin-file-analysis-new)
+更新的解析方式，移步[此处](/blog/zy/bin-file-analysis/part2/)
 
 ## 前言
 
@@ -186,4 +184,5 @@ CreateDate 与 UpdateDate 被替换为 CreateTime 和 UpdateTime，此二项值�
 未完待续
 
 [^1]: GET http://note.func.zykj.org/api/Resources/GetByFileId? {AES 加密内容，明文为 fileId={fileID}}
+
 [^2]: 可从[此处](/assets/files/bin-analysis/bin-files.zip)获取
