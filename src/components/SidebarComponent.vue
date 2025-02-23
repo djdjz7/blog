@@ -48,7 +48,6 @@ defineExpose({ toggleSidebar })
       fixed
       h-full
       z-999
-      transition-all
       duration-300
       @click="toggleSidebar(true)"
       pointer-events-none
@@ -65,7 +64,6 @@ defineExpose({ toggleSidebar })
         md:p-x-12
         bg-gray-100
         dark:bg-dark-800
-        transition-all
         duration-300
         overflow-auto
         class="w-80% max-w-400px lg:w-unset lg:max-w-unset -translate-x-100% lg:translate-x-0"
