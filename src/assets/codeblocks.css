@@ -17,12 +17,12 @@ pre.shiki {
 }
 
 .shiki code {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.875rem;
+  display: block;
+  width: max(100%, max-content);
 }
 
 .shiki .line {
-  --at-apply: p-x-4 line-height-relaxed box-border;
+  --at-apply: p-x-4 line-height-relaxed box-border inline-block w-full;
 }
 
 .shiki .line > * {
@@ -31,12 +31,22 @@ pre.shiki {
 
 .shiki.has-focused code .line:not(.focused) {
   filter: blur(0.2em);
-  opacity: 0.5;
   transition: all 0.2s;
+}
+
+.shiki.has-focused code .line:not(.focused):not(.remove) {
+  opacity: 0.5;
+}
+
+.shiki.has-focused code .line:not(.focused).remove {
+  opacity: 0.35;
 }
 
 .shiki.has-focused:hover code .line:not(.focused) {
   filter: blur(0);
+}
+
+.shiki.has-focused:hover code .line:not(.focused):not(.remove) {
   opacity: 1;
 }
 
@@ -67,4 +77,8 @@ pre.shiki {
 
 .shiki .line.highlighted {
   --at-apply: 'bg-gray-200 dark:bg-truegray-700';
+}
+
+code {
+  font-family: 'Fira Code', monospace;
 }
