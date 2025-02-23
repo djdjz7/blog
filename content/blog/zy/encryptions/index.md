@@ -4,14 +4,14 @@ time: 2023-08-26
 ---
 
 看着玩玩罢，不要介意。
+
 ---
-
-
 
 中育用过的一些混淆与加密方法。  
 个人学习使用，不代表原始代码，只确保效果一致。
 
 ## 用户中心网站白名单
+
 ```csharp
 // 解密
 string str = Console.ReadLine();
@@ -21,7 +21,9 @@ Console.WriteLine(Encoding.UTF8.GetString(b));
 ```
 
 ## 中育云笔记（已过时）
+
 已经确认在 2023 年 7 月更新中，AES 密钥发生了更换，此方法已不再可用。
+
 ```csharp
 using System.Diagnostics;
 using System.Security.Cryptography;

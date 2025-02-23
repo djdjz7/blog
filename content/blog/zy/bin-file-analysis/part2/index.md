@@ -4,7 +4,9 @@ splash: /assets/img/blog/bin-analysis/splash.png
 time: 2023-01-26
 ---
 
-## 我是沙币！
+我是沙币！
+
+---
 
 :::info
 下面内容已基于中育云笔记 1.9.16 安装包，对于 .bin 文件结构的初步分析，请移步 [此处](/blog/zy/bin-file-analysis/part1/)
