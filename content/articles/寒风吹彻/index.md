@@ -1,6 +1,5 @@
 ---
 title: 寒风吹彻
-splash: /assets/img/articles/hfcc.webp
 time: 2024-01-01
 ---
 

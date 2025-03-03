@@ -35,6 +35,7 @@ let ssrContext: SSRContext | undefined
 if (import.meta.env.SSR) ssrContext = useSSRContext()
 
 const pageModules = inject('pageModules') as Record<string, () => Promise<unknown>>
+const pageSplashes = inject('pageSplashes') as Record<string, () => Promise<unknown>>
 const route = useRoute(() => document.scrollingElement?.scrollTop)
 const pathname = decodeURI(getPathname(route.path))
 const pageCategory = ref(getPageCategory(pathname))
@@ -57,6 +58,10 @@ const showTitle = ref(false)
 const documentWrapper = useTemplateRef('document-wrapper')
 const sidebarRef = useTemplateRef('sidebar-ref')
 const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
+const pageSplash = ref<string>(
+  ((await getSplash(currentPage.value?.sourceUrl || pathname)?.call(null)) as Module)?.default ??
+    '',
+)
 const Content = shallowRef(module.default ?? module)
 const pageOutlineData = ref<MarkdownItHeader[]>(module.__headers ?? [])
 const highlightedSlug = ref('')
@@ -79,6 +84,9 @@ watch(
     Content.value = LoadingView as never
     pageOutlineData.value = []
     const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
+    pageSplash.value =
+      ((await getSplash(currentPage.value?.sourceUrl || pathname)?.call(null)) as Module)
+        ?.default ?? ''
     pageOutlineData.value = module.__headers ?? []
     Content.value = module.default ?? module
     if (!isIndexPage) {
@@ -209,31 +217,75 @@ function validateHeaderElements() {
   }
   return true
 }
+
+function getSplash(sourceOrPathname: string) {
+  const splashImage = sourceOrPathname.endsWith('index.md')
+    ? '../content' + sourceOrPathname.slice(0, -8) + 'splash.'
+    : sourceOrPathname.endsWith('.md')
+      ? '../content' + sourceOrPathname.slice(0, -3) + '/splash.'
+      : '../content' + sourceOrPathname + '/splash.'
+  for (const key in pageSplashes) {
+    if (key.startsWith(splashImage)) {
+      return pageSplashes[key]
+    }
+  }
+  return null
+}
 </script>
 
 <template>
   <div lg:grid class="lg:grid-cols-[auto_1fr_auto]" overflow-auto>
     <SidebarComponent ref="sidebar-ref" :current-title="currentPage?.title" />
     <div overflow-auto box-border ref="document-wrapper">
-      <div p-t-12 p-x-6 lg:p-x-12>
+      <div>
         <TopbarComponent
           :toggleSidebarFn="sidebarRef?.toggleSidebar"
           :title="currentPage?.title ?? pageCategory"
           :show-title="showTitle"
         />
-        <div v-if="currentPage" m-b-8 max-w-800px m-x-auto m-t-4 lg:m-t-0>
-          <h1 m-0>{{ currentPage.title }}</h1>
-          <div m-t-2 text-gray-500 dark:text-truegray-400>
-            <span v-if="!isCurrentIndexPage">{{ dateString(currentPage.time) }}</span>
-            <span v-else>{{ currentPage.time }}</span>
-            <span v-for="key in Object.keys(currentPage.data)" :key="key">
-              <span m-x-1>·</span>
-              <span v-if="currentPage.data[key]">{{ currentPage.data[key] }}</span>
-            </span>
+        <div v-if="currentPage" m-b-8 m-x-auto relative min-h-64>
+          <img w-full h-84 object-cover relative v-if="pageSplash" :src="pageSplash" />
+          <div
+            absolute
+            top-0
+            left-0
+            right-0
+            bottom-0
+            backdrop-blur-3xl
+            style="mask: linear-gradient(transparent, black 70%)"
+            v-if="pageSplash"
+          ></div>
+          <div
+            max-w-800px
+            w-full
+            m-auto
+            p-x-6
+            lg:p-x-12
+            relative
+            :class="[pageSplash ? 'h-0' : 'h-64']"
+          >
+            <div absolute bottom-6 :class="[pageSplash ? 'text-white/85 text-shadow-sm' : '']">
+              <h1 m-0>{{ currentPage.title }}</h1>
+              <div m-t-2>
+                <span v-if="!isCurrentIndexPage">{{ dateString(currentPage.time) }}</span>
+                <span v-else>{{ currentPage.time }}</span>
+                <span v-for="key in Object.keys(currentPage.data)" :key="key">
+                  <span m-x-1>·</span>
+                  <span v-if="currentPage.data[key]">{{ currentPage.data[key] }}</span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
         <Transition mode="out-in">
-          <component v-on:mounted="console.log(1)" :is="Content" max-w-800px m-x-auto />
+          <component
+            v-on:mounted="console.log(1)"
+            :is="Content"
+            max-w-800px
+            m-x-auto
+            p-x-6
+            lg:p-x-12
+          />
         </Transition>
         <FooterComponent p-y-12 max-w-800px m-x-auto />
       </div>

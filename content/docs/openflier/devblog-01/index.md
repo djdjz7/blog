@@ -1,9 +1,7 @@
 ---
 title: OpenFlier Devblog 01
 time: 2023-05-03
-splash: /assets/img/docs/devblog01.png
 ---
-
 
 # OpenFlier Devblog 01
 

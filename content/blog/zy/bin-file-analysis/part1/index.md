@@ -1,6 +1,5 @@
 ---
 title: 中育云笔记 .bin 文件解析
-splash: /assets/img/blog/bin-analysis/splash.png
 time: 2023-01-23
 ---
 

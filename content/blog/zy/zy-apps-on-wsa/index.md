@@ -1,6 +1,5 @@
 ---
 title: WSA 使用中育系软件完全指北
-splash: /assets/img/blog/zy-apps-on-wsa/result.png
 time: 2023-10-01
 ---
 

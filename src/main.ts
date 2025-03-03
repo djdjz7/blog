@@ -14,12 +14,18 @@ const pageModules = {
   ...import.meta.glob('../content/**/index.vue'),
 }
 
+const pageSplashes = {
+  ...import.meta.glob('../content/**/splash.*'),
+  ...import.meta.glob('../content/**/splash-dark.*'),
+}
+
 export function createApp() {
   const app = createSSRApp(App)
   const router = createRouter()
 
   app.provide(RouterSymbol, router)
   app.provide('pageModules', pageModules)
+  app.provide('pageSplashes', pageSplashes)
   app.component('ExpanderComponent', ExpanderComponent)
   // eslint-disable-next-line vue/multi-word-component-names
   app.component('Badge', BadgeComp)

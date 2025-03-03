@@ -52,7 +52,7 @@ defineExpose({ toggleSidebar })
       @click="toggleSidebar(true)"
       pointer-events-none
       lg:pointer-events-unset
-      class="h-100dvh!"
+      class="h-100dvh! lg:backdrop-brightness-100!"
       :class="{ 'backdrop-brightness-40 pointer-events-unset': !sidebarCollapsed }"
     >
       <div
@@ -64,6 +64,7 @@ defineExpose({ toggleSidebar })
         md:p-x-12
         bg-gray-100
         dark:bg-dark-800
+        lg:bg-transparent
         duration-300
         overflow-auto
         class="w-80% max-w-400px lg:w-unset lg:max-w-unset -translate-x-100% lg:translate-x-0"
@@ -82,7 +83,7 @@ defineExpose({ toggleSidebar })
                 :href="category.route"
                 class="text-unset!"
                 decoration-none
-                @click="toggleSidebar()"
+                @click="toggleSidebar(true)"
                 >{{ category.title }}</a
               >
             </h3>
@@ -104,7 +105,7 @@ defineExpose({ toggleSidebar })
               </span>
               <a
                 v-for="page in pageGroup.items"
-                @click="toggleSidebar()"
+                @click="toggleSidebar(true)"
                 :href="page.contentUrl"
                 text-wrap
                 :key="page.title"

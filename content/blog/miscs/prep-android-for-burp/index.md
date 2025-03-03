@@ -1,6 +1,5 @@
 ---
 title: 为 Burp Suite 抓包准备 Android 设备
-splash: /assets/img/blog/prep-android-for-burp/splash.png
 time: 2023-09-30
 ---
 

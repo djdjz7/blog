@@ -15,8 +15,7 @@ defineProps<{
     top-0
     left-0
     right-0
-    backdrop-blur-xl
-    class="bg-white/80 dark:bg-[#121212]/80"
+    :class="[showTitle ? 'bg-white/80 dark:bg-[#121212]/80 backdrop-blur-xl' : 'bg-transparent']"
     h-14
     flex="~ items-center"
     z-500

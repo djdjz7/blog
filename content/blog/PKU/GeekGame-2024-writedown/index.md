@@ -1,6 +1,5 @@
 ---
 title: GeekGame 2024 Write-Down
-splash: /assets/img/blog/geekgame-2024/banner.webp
 time: 2024-10-21
 ---
 
