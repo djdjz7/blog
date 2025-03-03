@@ -263,6 +263,7 @@ function getSplash(sourceOrPathname: string) {
             p-x-6
             lg:p-x-12
             relative
+            box-border
             :class="[pageSplash ? 'h-0' : 'h-64']"
           >
             <div absolute bottom-6 :class="[pageSplash ? 'text-white/85 text-shadow-sm' : '']">
