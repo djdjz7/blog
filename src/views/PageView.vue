@@ -257,7 +257,7 @@ function getSplash(sourceOrPathname: string) {
             v-if="pageSplash"
           ></div>
           <div
-            max-w-800px
+            max-w-840px
             w-full
             m-auto
             p-x-6
@@ -283,13 +283,14 @@ function getSplash(sourceOrPathname: string) {
           <component
             v-on:mounted="console.log(1)"
             :is="Content"
-            max-w-800px
+            max-w-840px
             m-x-auto
+            box-border
             p-x-6
             lg:p-x-12
           />
         </Transition>
-        <FooterComponent p-y-12 max-w-800px m-x-auto />
+        <FooterComponent p-y-12 max-w-840px m-x-auto box-border />
       </div>
     </div>
     <PageOutline
