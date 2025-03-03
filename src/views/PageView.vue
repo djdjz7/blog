@@ -252,6 +252,7 @@ function getSplash(sourceOrPathname: string) {
             right-0
             bottom-0
             backdrop-blur-3xl
+            class="bg-black/40"
             style="mask: linear-gradient(transparent, black 70%)"
             v-if="pageSplash"
           ></div>
