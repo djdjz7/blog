@@ -1,7 +1,12 @@
+html {
+  background-image: radial-gradient(circle at top left, rgb(255, 246, 218), #fff 30%);
+  background-color: #fff;
+  background-attachment: fixed;
+}
+
 body {
   padding: 0;
   margin: 0 auto;
-  background: var(--bg-color, #fff);
 }
 
 :root {
@@ -20,7 +25,6 @@ body {
   font-feature-settings:
     'liga' 1,
     'calt' 1; /* fix for Chrome */
-  --bg-color: radial-gradient(circle at top left, rgb(255, 246, 218), #fff 30%) fixed;
 }
 
 @supports (font-variation-settings: normal) {
@@ -79,8 +83,11 @@ img {
 @media (prefers-color-scheme: dark) {
   :root {
     color: var(--text-color);
-    --bg-color: radial-gradient(circle at top left, rgb(52, 39, 1), #121212 30%) fixed;
     --text-color: #fff;
+  }
+  html {
+    background-image: radial-gradient(circle at top left, rgb(52, 39, 1), #121212 30%);
+    background-color: #121212;
   }
 }
 
