@@ -61,3 +61,23 @@ export function throttleAndDebounce(
     } else timeoutId = setTimeout(fn, delay)
   }
 }
+
+export async function waitForAppearance(
+  selector: string,
+  ms: number = 100,
+  timeoutMs: number = 1000,
+): Promise<Element | null> {
+  return new Promise((resolve) => {
+    const interval = setInterval(() => {
+      const selectorResult = document.querySelector(selector)
+      if (selectorResult) {
+        clearInterval(interval)
+        resolve(selectorResult)
+      }
+    }, ms)
+    setTimeout(() => {
+      clearInterval(interval)
+      resolve(null)
+    }, timeoutMs)
+  })
+}

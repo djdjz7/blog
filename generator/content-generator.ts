@@ -30,7 +30,8 @@ export default function markdownContentGenerator(): PluginOption {
     },
     transform(code, id) {
       if (id.endsWith('.md')) {
-        const content = matter(code, { excerpt: true }).content
+        const frontmatter = matter(code, { excerpt: true })
+        const content = frontmatter.content
         const env: {
           mdRootPath: string
           sfcBlocks?: MarkdownSfcBlocks
@@ -42,7 +43,7 @@ export default function markdownContentGenerator(): PluginOption {
         templateContent = rendered.replace(preReplaceRe, '$1 v-pre>')
         const headers = env.headers || []
         injectHeaderData(headers, sfcBlocks)
-        return `<template><div class="md-content">${templateContent}</div></template>${sfcBlocks.scriptSetup?.content}${sfcBlocks.script?.content || ''}${sfcBlocks.styles.map((x) => x.content) || ''}${sfcBlocks.customBlocks.map((x) => x.content).join('')}`
+        return `<template><div class="md-content ${encodeURIComponent(frontmatter.data.title)}">${templateContent}</div></template>${sfcBlocks.scriptSetup?.content}${sfcBlocks.script?.content || ''}${sfcBlocks.styles.map((x) => x.content) || ''}${sfcBlocks.customBlocks.map((x) => x.content).join('')}`
       }
     },
   }

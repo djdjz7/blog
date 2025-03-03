@@ -15,7 +15,12 @@ import allPages from 'virtual:pages.json'
 import NotFoundView from '@/views/NotFoundView.vue'
 import type { Module } from '@/module'
 import { useTitle } from '@vueuse/core'
-import { dateString, isIndexPage as testIndexPage, throttleAndDebounce } from '@/utils'
+import {
+  dateString,
+  isIndexPage as testIndexPage,
+  throttleAndDebounce,
+  waitForAppearance,
+} from '@/utils'
 import PageListView from './PageListView.vue'
 import SidebarComponent from '@/components/SidebarComponent.vue'
 import TopbarComponent from '@/components/TopbarComponent.vue'
@@ -76,6 +81,9 @@ watch(
     const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
     pageOutlineData.value = module.__headers ?? []
     Content.value = module.default ?? module
+    if (!isIndexPage) {
+      await waitForAppearance(`.${CSS.escape(page?.title ?? '')}`)
+    }
     const anchor = document.getElementById(getHash(newVal).substring(1))
     if (anchor) window.scrollTo({ top: anchor.offsetTop - 40, behavior: 'smooth' })
     else window.scrollTo({ top: route.scrollTop, behavior: 'instant' })
