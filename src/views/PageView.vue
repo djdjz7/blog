@@ -243,8 +243,8 @@ function getSplash(sourceOrPathname: string) {
           :title="currentPage?.title ?? pageCategory"
           :show-title="showTitle"
         />
-        <div v-if="currentPage" m-b-8 m-x-auto relative min-h-64>
-          <img w-full h-84 object-cover relative v-if="pageSplash" :src="pageSplash" />
+        <div v-if="currentPage" m-b-8 m-x-auto relative min-h-48>
+          <img w-full h-104 object-cover relative v-if="pageSplash" :src="pageSplash" />
           <div
             absolute
             top-0
@@ -264,7 +264,7 @@ function getSplash(sourceOrPathname: string) {
             lg:p-x-12
             relative
             box-border
-            :class="[pageSplash ? 'h-0' : 'h-64']"
+            :class="[pageSplash ? 'h-0' : 'h-48']"
           >
             <div absolute bottom-6 :class="[pageSplash ? 'text-white/85 text-shadow-sm' : '']">
               <h1 m-0>{{ currentPage.title }}</h1>
