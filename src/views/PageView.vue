@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useRoute } from '@/router/router'
 import {
+  computed,
+  h,
   inject,
   onMounted,
   onUnmounted,
@@ -57,6 +59,7 @@ if (ssrContext) {
   ssrContext.sourceUrl = currentPage.value?.sourceUrl ?? ''
 }
 const showTitle = ref(false)
+const isLoading = ref(false)
 const documentWrapper = useTemplateRef('document-wrapper')
 const sidebarRef = useTemplateRef('sidebar-ref')
 const pageSplash = ref<string>(
@@ -64,7 +67,21 @@ const pageSplash = ref<string>(
     '',
 )
 const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
-const Content = shallowRef(module.default ?? module)
+const ContentRaw = shallowRef(module.default ?? module)
+const Content = computed(() =>
+  isLoading.value
+    ? h(LoadingView)
+    : isCurrentIndexPage.value
+      ? h(ContentRaw.value)
+      : h('div', {}, [
+          h(ContentRaw.value),
+          h(VueUtterances, {
+            theme: 'preferred-color-scheme',
+            repo: 'djdjz7/blog',
+            class: 'm-t-12',
+          }),
+        ]),
+)
 const pageOutlineData = ref<MarkdownItHeader[]>(module.__headers ?? [])
 const highlightedSlug = ref('')
 let headerElements: Element[] = []
@@ -83,14 +100,15 @@ watch(
     currentPage.value = page
     isCurrentIndexPage.value = isIndexPage
     title.value = currentPage.value?.title ? currentPage.value.title : pageCategory.value
-    Content.value = LoadingView as never
+    isLoading.value = true
     pageOutlineData.value = []
     pageSplash.value =
       ((await getSplash(currentPage.value?.sourceUrl || pathname)?.call(null)) as Module)
         ?.default ?? ''
     const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
     pageOutlineData.value = module.__headers ?? []
-    Content.value = module.default ?? module
+    ContentRaw.value = module.default ?? module
+    isLoading.value = false
     if (!isIndexPage) {
       await waitForAppearance(`.${CSS.escape(page?.title ?? '')}`)
     }
@@ -282,23 +300,15 @@ function getSplash(sourceOrPathname: string) {
           </div>
         </div>
         <Transition mode="out-in">
-          <div :key="Content">
-            <component
-              v-on:mounted="console.log(1)"
-              :is="Content"
-              max-w-840px
-              m-x-auto
-              box-border
-              p-x-6
-              lg:p-x-12
-            />
-            <VueUtterances
-              v-if="!isCurrentIndexPage"
-              m-t-12
-              theme="preferred-color-scheme"
-              repo="djdjz7/blog"
-            />
-          </div>
+          <component
+            v-on:mounted="console.log(1)"
+            :is="Content"
+            max-w-840px
+            m-x-auto
+            box-border
+            p-x-6
+            lg:p-x-12
+          />
         </Transition>
         <FooterComponent p-y-12 max-w-840px m-x-auto box-border />
       </div>
