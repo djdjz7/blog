@@ -57,11 +57,11 @@ if (ssrContext) {
 const showTitle = ref(false)
 const documentWrapper = useTemplateRef('document-wrapper')
 const sidebarRef = useTemplateRef('sidebar-ref')
-const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
 const pageSplash = ref<string>(
   ((await getSplash(currentPage.value?.sourceUrl || pathname)?.call(null)) as Module)?.default ??
     '',
 )
+const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
 const Content = shallowRef(module.default ?? module)
 const pageOutlineData = ref<MarkdownItHeader[]>(module.__headers ?? [])
 const highlightedSlug = ref('')
@@ -83,10 +83,10 @@ watch(
     title.value = currentPage.value?.title ? currentPage.value.title : pageCategory.value
     Content.value = LoadingView as never
     pageOutlineData.value = []
-    const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
     pageSplash.value =
       ((await getSplash(currentPage.value?.sourceUrl || pathname)?.call(null)) as Module)
         ?.default ?? ''
+    const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
     pageOutlineData.value = module.__headers ?? []
     Content.value = module.default ?? module
     if (!isIndexPage) {
