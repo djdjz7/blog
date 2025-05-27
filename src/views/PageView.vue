@@ -10,6 +10,8 @@ import {
   useTemplateRef,
   watch,
 } from 'vue'
+// @ts-expect-error javascript import
+import VueUtterances from 'vue-utterances'
 import type { PageData } from '@/data/pagedata'
 import allPages from 'virtual:pages.json'
 import NotFoundView from '@/views/NotFoundView.vue'
@@ -280,15 +282,23 @@ function getSplash(sourceOrPathname: string) {
           </div>
         </div>
         <Transition mode="out-in">
-          <component
-            v-on:mounted="console.log(1)"
-            :is="Content"
-            max-w-840px
-            m-x-auto
-            box-border
-            p-x-6
-            lg:p-x-12
-          />
+          <div :key="Content">
+            <component
+              v-on:mounted="console.log(1)"
+              :is="Content"
+              max-w-840px
+              m-x-auto
+              box-border
+              p-x-6
+              lg:p-x-12
+            />
+            <VueUtterances
+              v-if="!isCurrentIndexPage"
+              m-t-12
+              theme="preferred-color-scheme"
+              repo="djdjz7/blog"
+            />
+          </div>
         </Transition>
         <FooterComponent p-y-12 max-w-840px m-x-auto box-border />
       </div>
