@@ -44,14 +44,14 @@ watch(
 
 <template>
   <nav w-64 text-sm text-gray-500 dark:text-truegray-400>
-    <div fixed top-12 p-r-4 box-border border-l="1 gray-200 solid dark:dark-200" w-56>
+    <div fixed p-y-12 p-r-4 box-border w-64 h-full overflow-y-scroll overflow-x-clip>
       <div
         ref="marker"
         opacity-0
         absolute
-        class="-left-1px"
+        class="left-0"
         h-8
-        w-1px
+        w-2px
         bg-primary
         dark:bg-primary-dark
         transition-all

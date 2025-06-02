@@ -48,7 +48,7 @@ p {
 
 table {
   border-collapse: collapse;
-  --at-apply: border-y-solid border-y-1 border-gray-200 'dark:border-dark-100';
+  --at-apply: border-y-solid border-y-1 border-gray-200 'dark:border-dark-100' w-full;
 }
 
 tr,
