@@ -1,9 +1,3 @@
-html {
-  background-image: radial-gradient(circle at top left, rgb(255, 246, 218), #fff 30%);
-  background-color: #fff;
-  background-attachment: fixed;
-}
-
 body {
   padding: 0;
   margin: 0 auto;
@@ -84,10 +78,6 @@ img {
   :root {
     color: var(--text-color);
     --text-color: #fff;
-  }
-  html {
-    background-image: radial-gradient(circle at top left, rgb(52, 39, 1), #121212 30%);
-    background-color: #121212;
   }
 }
 
