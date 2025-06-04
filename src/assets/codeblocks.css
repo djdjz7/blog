@@ -1,3 +1,7 @@
+.shiki {
+  --at-apply: 'bg-truegray-100/50!';
+}
+
 @media (prefers-color-scheme: dark) {
   .shiki,
   .shiki span {
@@ -8,7 +12,7 @@
   }
 
   .shiki {
-    background-color: var(--shiki-dark-bg) !important;
+    --at-apply: 'bg-truegray-800/50!';
   }
 }
 

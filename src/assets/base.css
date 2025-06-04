@@ -78,6 +78,7 @@ img {
   :root {
     color: var(--text-color);
     --text-color: #fff;
+    background-color: #121212;
   }
 }
 

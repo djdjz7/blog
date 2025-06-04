@@ -93,10 +93,8 @@ defineExpose({ toggleSidebar })
               v-for="pageGroup in category.pageGroups"
               :key="pageGroup.year + '-' + pageGroup.month"
               flex="~ col gap-2"
-              class="group"
+              class="group border-truegray-200/40 dark:border-dark-100/60"
               border-t-1
-              border-gray-200
-              dark:border-dark-200
               border-t-solid
               p-y-3
             >

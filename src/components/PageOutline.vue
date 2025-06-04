@@ -53,7 +53,6 @@ watch(
         h-8
         w-2px
         bg-primary
-        dark:bg-primary-dark
         transition-all
         duration-150
       ></div>
