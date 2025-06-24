@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <div border-t="1 gray-200 dark:dark-100 solid" class="news-list-entry" p-y-4 box-border>
+  <div class="news-list-entry" p-y-4>
     <a :href="pageEntry.contentUrl" text-inherit no-underline
       ><h3 m-0>{{ pageEntry.title }}</h3></a
     >
@@ -30,7 +30,6 @@ defineProps<{
 
 <style scoped>
 .news-list-entry:first-of-type {
-  padding-top: 0;
   border-top: none;
 }
 
