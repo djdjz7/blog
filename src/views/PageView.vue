@@ -34,6 +34,8 @@ import FooterComponent from '@/components/FooterComponent.vue'
 import { SiteConfiguration } from '@/site'
 import type { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 import PageOutline from '@/components/PageOutline.vue'
+import TagsView from './TagsView.vue'
+import TagList from '@/components/TagList.vue'
 
 let ssrContext: SSRContext | undefined
 if (import.meta.env.SSR) ssrContext = useSSRContext()
@@ -135,6 +137,9 @@ async function resolvePageModule(sourceOrPathname: string): Promise<Module | nev
   if (indexPage) {
     return PageListView as never
   }
+  if (urlSlugs.length > 0 && urlSlugs[0] === 'tags') {
+    return TagsView as never
+  }
   if (sourceOrPathname.endsWith('/')) sourceOrPathname = sourceOrPathname.slice(0, -1)
   const modulePathCandidates = sourceOrPathname.endsWith('.md')
     ? ['../content' + sourceOrPathname]
@@ -219,6 +224,19 @@ function getCurrentPage(pathname: string): { page: PageData | undefined; isIndex
     }
   }
 
+  if (urlSlugs[0] === 'tags') {
+    return {
+      page: {
+        title: '标签',
+        contentUrl: '/tags/',
+        time: '#Forget about the price tag',
+        data: {},
+        sourceUrl: '',
+      },
+      isIndexPage: true,
+    }
+  }
+
   return {
     page: allPages.find((page) => page.contentUrl === pathname) || undefined,
     isIndexPage: false,
@@ -287,7 +305,12 @@ function getSplash(sourceOrPathname: string) {
             :class="[pageSplash ? 'h-0' : 'h-48']"
           >
             <div absolute bottom-6 :class="[pageSplash ? 'text-white/85 text-shadow-sm' : '']">
-              <h1 m-0>{{ currentPage.title }}</h1>
+              <TagList
+                v-if="currentPage.tags"
+                :tags="currentPage.tags"
+                class="text-shadow-none text-xs"
+              />
+              <h1 m-y-2>{{ currentPage.title }}</h1>
               <div m-t-2>
                 <span v-if="!isCurrentIndexPage">{{ dateString(currentPage.time) }}</span>
                 <span v-else>{{ currentPage.time }}</span>

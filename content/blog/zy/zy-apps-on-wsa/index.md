@@ -1,6 +1,7 @@
 ---
 title: WSA 使用中育系软件完全指北
 time: 2023-10-01
+tags: ['中育']
 ---
 
 早上好中育，现在我有 HUAWEI MediaPad C5！我很喜欢 HUAWEI MediaPad C5，但是，Windows Subsystem for Android 我最~喜欢。所以，现在是 Burp Suite 时间~

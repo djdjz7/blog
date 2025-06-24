@@ -22,10 +22,12 @@ export function generatePages() {
       const meta = data.meta
       const slug = data.slug || path
       const category = (slugs[0] in RouteTitleRecord && slugs[0]) || undefined
+      const tags = data.tags
       delete data.time
       delete data.title
       delete data.meta
       delete data.slug
+      delete data.tags
       return {
         title,
         time,
@@ -35,6 +37,7 @@ export function generatePages() {
         excerpt: frontmatter.excerpt,
         contentUrl: `/${slug}/`,
         sourceUrl: `/${path}/index.md`,
+        tags,
       }
     })
     .filter((page) => page !== undefined)

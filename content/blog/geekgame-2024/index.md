@@ -1,6 +1,7 @@
 ---
 title: GeekGame 2024 Write-Down
 time: 2024-10-21
+tags: ['GeekGame']
 ---
 
 > 我 Misc 不精！Web 无力！Binary 松散！Algorithm 迟顿！凭什么与大佬同台较量！

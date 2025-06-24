@@ -1,6 +1,7 @@
 ---
 title: 数据结构与算法 B Cheatsheet
 time: 2025-06-04
+tags: ['笔记']
 ---
 
 ## 线性结构

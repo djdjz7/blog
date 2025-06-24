@@ -1,6 +1,7 @@
 ---
 title: 中育 API 整理
 time: 2023-01-24
+tags: ['中育']
 ---
 
 :::warning

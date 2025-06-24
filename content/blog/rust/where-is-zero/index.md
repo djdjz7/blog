@@ -1,7 +1,7 @@
 ---
 title: 0 在哪里？
 time: 2025-04-07
-tags: Rust
+tags: ['Rust', '笔记']
 ---
 
 ## `&mut 0` 在哪？
