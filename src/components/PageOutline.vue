@@ -43,8 +43,17 @@ watch(
 </script>
 
 <template>
-  <nav w-64 text-sm text-gray-500 dark:text-truegray-400>
-    <div fixed p-y-12 p-r-4 box-border w-64 h-full overflow-y-scroll overflow-x-clip>
+  <nav
+    :class="[pageOutline?.length ? 'w-64' : 'w-0 opacity-0']"
+    class="transition-[width,opacity]"
+    duration-300
+    ease-in-out
+    delay-150
+    text-sm
+    text-gray-500
+    dark:text-truegray-400
+  >
+    <div fixed top-0 p-y-12 p-r-4 box-border w-64 h-full overflow-y-scroll overflow-x-clip>
       <div
         ref="marker"
         opacity-0
