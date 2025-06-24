@@ -281,7 +281,7 @@ function getSplash(sourceOrPathname: string) {
           :title="currentPage?.title ?? pageCategory"
           :show-title="showTitle"
         />
-        <div v-if="currentPage" m-b-8 m-x-auto relative min-h-48>
+        <div v-if="currentPage" m-b-8 m-x-auto relative>
           <img w-full h-104 object-cover relative v-if="pageSplash" :src="pageSplash" />
           <div
             absolute
@@ -300,11 +300,10 @@ function getSplash(sourceOrPathname: string) {
             m-auto
             p-x-6
             lg:p-x-12
-            relative
             box-border
-            :class="[pageSplash ? 'h-0' : 'h-48']"
+            :class="[pageSplash ? 'h-0 relative' : 'm-t-16 lg:m-t-12']"
           >
-            <div absolute bottom-6 :class="[pageSplash ? 'text-white/85 text-shadow-sm' : '']">
+            <div :class="[pageSplash ? 'text-white/85 text-shadow-sm absolute bottom-6' : '']">
               <TagList
                 v-if="currentPage.tags"
                 :tags="currentPage.tags"
