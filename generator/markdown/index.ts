@@ -17,12 +17,14 @@ import MarkdownItFootnote from 'markdown-it-footnote'
 import ImageProcessor from './image-processor'
 import anchor from 'markdown-it-anchor'
 import { imgLazyload } from '@mdit/plugin-img-lazyload'
+import heimu from './heimu'
 
 export async function registerMarkdownPlugins(mdit: MarkdownIt) {
   mdit
     .use(MarkdownItFootnote)
     .use(ImageProcessor)
     .use(MathJax3)
+    .use(heimu)
     .use(anchor, {
       permalink: anchor.permalink.ariaHidden({
         placement: 'before',
