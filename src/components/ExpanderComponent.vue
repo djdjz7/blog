@@ -70,7 +70,12 @@ onUnmounted(() => {
       </button>
     </div>
 
-    <div ref="contentWrapperRef" transition-all duration-300>
+    <div
+      ref="contentWrapperRef"
+      transition-all
+      duration-300
+      :class="{ 'expander-collapsed': collapsed }"
+    >
       <div ref="contentDesiredSizeWrapperRef" box-border p-b-4>
         <slot></slot>
       </div>

@@ -22,7 +22,8 @@ pre.shiki {
 
 .shiki code {
   display: block;
-  width: max(100%, max-content);
+  width: max-content;
+  min-width: 100%;
 }
 
 .shiki .line {
@@ -54,18 +55,28 @@ pre.shiki {
   opacity: 1;
 }
 
-.shiki .line.diff.remove:after,
-.shiki .line.diff.add:after {
+.shiki .line.diff.remove,
+.shiki .line.diff.add {
+  position: relative;
+}
+
+.shiki .line.diff.remove::after,
+.shiki .line.diff.add::after {
   position: absolute;
   left: 0;
-  padding-left: 0.5em;
+  padding-left: 0.25em;
+}
+
+.expander-collapsed .shiki .line.diff.remove::after,
+.expander-collapsed .shiki .line.diff.add::after {
+  position: relative;
 }
 
 .shiki .line.diff.remove {
   --at-apply: 'bg-red-100 dark:bg-red-900 opacity-70';
 }
 
-.shiki .line.diff.remove:after {
+.shiki .line.diff.remove::after {
   content: '-';
   --at-apply: 'text-red-500 dark:text-red-500';
 }
@@ -74,7 +85,7 @@ pre.shiki {
   --at-apply: 'bg-green-100 dark:bg-green-900';
 }
 
-.shiki .line.diff.add:after {
+.shiki .line.diff.add::after {
   content: '+';
   --at-apply: 'text-green-500 dark:text-green-500';
 }
