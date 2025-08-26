@@ -77,11 +77,15 @@ const Content = computed(() =>
       ? h(ContentRaw.value)
       : h('div', {}, [
           h(ContentRaw.value),
-          h(VueUtterances, {
-            theme: 'preferred-color-scheme',
-            repo: 'djdjz7/blog',
-            class: 'm-t-12',
-          }),
+          ...(window.location.hostname === 'localhost'
+            ? []
+            : [
+                h(VueUtterances, {
+                  theme: 'preferred-color-scheme',
+                  repo: 'djdjz7/blog',
+                  class: 'm-t-12',
+                }),
+              ]),
         ]),
 )
 const pageOutlineData = ref<MarkdownItHeader[]>(module.__headers ?? [])
