@@ -77,7 +77,7 @@ const Content = computed(() =>
       ? h(ContentRaw.value)
       : h('div', {}, [
           h(ContentRaw.value),
-          ...(window.location.hostname === 'localhost'
+          ...(!import.meta.env.SSR && window.location.hostname === 'localhost'
             ? []
             : [
                 h(VueUtterances, {
