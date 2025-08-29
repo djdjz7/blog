@@ -51,8 +51,7 @@ watch(
     delay-150
     text-sm
     text-gray-500
-    dark:text-truegray-400
-  >
+    dark:text-truegray-400>
     <div fixed top-0 p-y-12 p-r-4 box-border w-64 h-full overflow-y-scroll overflow-x-clip>
       <div
         ref="marker"
@@ -63,8 +62,7 @@ watch(
         w-2px
         bg-primary
         transition-all
-        duration-150
-      ></div>
+        duration-150></div>
       <span block font-bold tracking-widest text-xs m-l-1rem>本页目录</span>
       <ul p-l-0 m-b-0>
         <li
@@ -74,8 +72,7 @@ watch(
           w-full
           v-for="header in pageOutline"
           :key="header.slug"
-          :style="{ marginLeft: `${(header.level - 1) * 1}rem` }"
-        >
+          :style="{ marginLeft: `${(header.level - 1) * 1}rem` }">
           <a
             :href="header.link"
             line-height-8
@@ -84,8 +81,7 @@ watch(
             ref="anchors"
             transition-all
             duration-150
-            :class="{ 'text-primary! font-semibold': highlightedSlug === header.slug }"
-          >
+            :class="{ 'text-primary! font-semibold': highlightedSlug === header.slug }">
             {{ header.title }}
           </a>
         </li>

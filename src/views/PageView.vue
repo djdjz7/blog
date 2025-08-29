@@ -283,8 +283,7 @@ function getSplash(sourceOrPathname: string) {
         <TopbarComponent
           :toggleSidebarFn="sidebarRef?.toggleSidebar"
           :title="currentPage?.title ?? pageCategory"
-          :show-title="showTitle"
-        />
+          :show-title="showTitle" />
         <div v-if="currentPage" m-b-8 m-x-auto relative>
           <img w-full h-104 object-cover relative v-if="pageSplash" :src="pageSplash" />
           <div
@@ -296,8 +295,7 @@ function getSplash(sourceOrPathname: string) {
             backdrop-blur-3xl
             class="bg-black/40"
             style="mask: linear-gradient(transparent, black 70%)"
-            v-if="pageSplash"
-          ></div>
+            v-if="pageSplash"></div>
           <div
             max-w-840px
             w-full
@@ -305,14 +303,12 @@ function getSplash(sourceOrPathname: string) {
             p-x-6
             lg:p-x-12
             box-border
-            :class="[pageSplash ? 'h-0 relative' : 'm-t-16 lg:m-t-12']"
-          >
+            :class="[pageSplash ? 'h-0 relative' : 'm-t-16 lg:m-t-12']">
             <div :class="[pageSplash ? 'text-white/85 text-shadow-sm absolute bottom-6' : '']">
               <TagList
                 v-if="currentPage.tags"
                 :tags="currentPage.tags"
-                class="text-shadow-none text-xs"
-              />
+                class="text-shadow-none text-xs" />
               <h1 m-y-2>{{ currentPage.title }}</h1>
               <div m-t-2>
                 <span v-if="!isCurrentIndexPage">{{ dateString(currentPage.time) }}</span>
@@ -333,8 +329,7 @@ function getSplash(sourceOrPathname: string) {
             m-x-auto
             box-border
             p-x-6
-            lg:p-x-12
-          />
+            lg:p-x-12 />
         </Transition>
         <FooterComponent p-y-12 max-w-840px m-x-auto box-border />
       </div>
@@ -343,8 +338,7 @@ function getSplash(sourceOrPathname: string) {
       hidden
       xl:block
       :page-outline="pageOutlineData"
-      :highlighted-slug="highlightedSlug"
-    />
+      :highlighted-slug="highlightedSlug" />
   </div>
 </template>
 

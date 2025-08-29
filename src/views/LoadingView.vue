@@ -45,8 +45,7 @@ onUnmounted(() => {
         w-12
         h-12
         relative
-        animate-spin
-      >
+        animate-spin>
         <div rounded-full class="bg-white dark:bg-[#121212]" w-10 h-10 left-1 top-1 absolute></div>
       </div>
       <h3 m-b-2>页面加载中</h3>

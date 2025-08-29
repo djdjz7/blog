@@ -28,8 +28,7 @@ const selectedTag = defineModel<string>({
             ? 'bg-amber-50! border-amber-100 text-primary! dark:bg-amber-950! dark:border-amber-900! dark:text-primary-dark!'
             : 'bg-gray-200/30 dark:bg-gray-200/10',
         ]"
-        @click="selectedTag = tag"
-      >
+        @click="selectedTag = tag">
         {{ tag }}
       </a>
     </div>

@@ -49,8 +49,7 @@ onUnmounted(() => {
     <div
       flex="~ items-center"
       @click="extendToggleArea ? toggleCollapsed() : null"
-      :class="{ 'cursor-pointer': extendToggleArea }"
-    >
+      :class="{ 'cursor-pointer': extendToggleArea }">
       <slot name="header"></slot>
       <button
         title="切换折叠状态"
@@ -61,12 +60,10 @@ onUnmounted(() => {
         border-unset
         bg-transparent
         cursor-pointer
-        flex="~ items-center justify-center"
-      >
+        flex="~ items-center justify-center">
         <ChevronRightIcon
           :class="['h-5 w-5 transition-all duration-300', collapsed ? 'rotate-0' : 'rotate-90']"
-          class="color-black dark:color-white"
-        />
+          class="color-black dark:color-white" />
       </button>
     </div>
 
@@ -74,8 +71,7 @@ onUnmounted(() => {
       ref="contentWrapperRef"
       transition-all
       duration-300
-      :class="{ 'expander-collapsed': collapsed }"
-    >
+      :class="{ 'expander-collapsed': collapsed }">
       <div ref="contentDesiredSizeWrapperRef" box-border p-b-4>
         <slot></slot>
       </div>

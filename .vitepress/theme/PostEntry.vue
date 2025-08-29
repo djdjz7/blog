@@ -7,7 +7,7 @@ const props = defineProps({
   title: String,
   excerpt: String,
   url: String,
-});
+})
 </script>
 <template>
   <a :href="url" w-full>
@@ -24,8 +24,7 @@ const props = defineProps({
       duration-200
       overflow-clip
       relative
-      rounded-4
-    >
+      rounded-4>
       <div
         absolute
         overflow-hidden
@@ -37,8 +36,7 @@ const props = defineProps({
         left-0
         p-4
         shadow-md
-        flex="~ justify-center col"
-      >
+        flex="~ justify-center col">
         <span m-t-auto md:text-2xl text-lg font-semibold>{{ title }}</span>
         <div
           style="
@@ -49,19 +47,15 @@ const props = defineProps({
           "
           m-b-auto
           v-html="excerpt"
-          class="text-dark/70 dark:text-light/70"
-        ></div>
+          class="text-dark/70 dark:text-light/70"></div>
       </div>
       <img
         h-full
         w-full
         object-cover
         :src="
-          splashImageSource == undefined
-            ? '/assets/img/placeholder.webp'
-            : splashImageSource
-        "
-      />
+          splashImageSource == undefined ? '/assets/img/placeholder.webp' : splashImageSource
+        " />
     </div>
   </a>
 </template>

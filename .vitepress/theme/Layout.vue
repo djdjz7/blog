@@ -1,44 +1,44 @@
 <!-- .vitepress/theme/Layout.vue -->
 
 <script setup lang="ts">
-import { useData } from "vitepress";
-import DefaultTheme from "vitepress/theme";
-import { nextTick, provide } from "vue";
-import VueUtterances from "vue-utterances";
-const { isDark } = useData();
+import { useData } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
+import { nextTick, provide } from 'vue'
+import VueUtterances from 'vue-utterances'
+const { isDark } = useData()
 
 const enableTransitions = () =>
-  "startViewTransition" in document &&
-  window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
+  'startViewTransition' in document &&
+  window.matchMedia('(prefers-reduced-motion: no-preference)').matches
 
-provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
+provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
   if (!enableTransitions()) {
-    isDark.value = !isDark.value;
-    return;
+    isDark.value = !isDark.value
+    return
   }
 
   const clipPath = [
     `circle(0px at ${x}px ${y}px)`,
     `circle(${Math.hypot(
       Math.max(x, innerWidth - x),
-      Math.max(y, innerHeight - y)
+      Math.max(y, innerHeight - y),
     )}px at ${x}px ${y}px)`,
-  ];
+  ]
 
   await document.startViewTransition(async () => {
-    isDark.value = !isDark.value;
-    await nextTick();
-  }).ready;
+    isDark.value = !isDark.value
+    await nextTick()
+  }).ready
 
   document.documentElement.animate(
     { clipPath: isDark.value ? clipPath.reverse() : clipPath },
     {
       duration: 300,
-      easing: "ease-in",
-      pseudoElement: `::view-transition-${isDark.value ? "old" : "new"}(root)`,
-    }
-  );
-});
+      easing: 'ease-in',
+      pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`,
+    },
+  )
+})
 </script>
 
 <template>
@@ -47,8 +47,7 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
       <VueUtterances
         repo="djdjz7/blog"
         issue-term="pathname"
-        theme="preferred-color-scheme"
-      ></VueUtterances>
+        theme="preferred-color-scheme"></VueUtterances>
     </template>
     <template #doc-before>
       <img v-if="$frontmatter.splash != undefined" :src="$frontmatter.splash" />

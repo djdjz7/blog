@@ -52,8 +52,7 @@ onMounted(() => {
       gap-6
       lg:gap-12
       overflow-auto
-      ref="mobileScrollViewRef"
-    >
+      ref="mobileScrollViewRef">
       <div flex="~ items-center justify-center col" m-t-24 box-border sm:m-t-0 p-r-6 sm:p-r-0>
         <!-- <AutoDarkImage h-48 :src="LcpuDark" :src-dark="LcpuLight" alt="LCPU 标识" /> -->
         <h1 m-t-8 m-b-0 text-center>彩笔的部落阁</h1>
@@ -67,7 +66,6 @@ onMounted(() => {
         </div>
       </div>
       <div lg:col-span-2 overflow-auto p-y-12 p-r-6 lg:p-r-12 ref="scrollViewRef">
-
         <div m-t-8 v-for="category in categories" :key="category.title">
           <div flex="~ items-center">
             <h2 m-0 flex-grow-1>{{ category.title }}</h2>
@@ -75,8 +73,7 @@ onMounted(() => {
               class="text-unset! hover:bg-gray/10 p-l-2 p-y-1 rounded-md"
               decoration-none
               flex="~ items-center"
-              :href="category.route"
-            >
+              :href="category.route">
               <span>所有{{ category.title }}</span>
               <ChevronRightIcon class="h-5" />
             </a>
@@ -86,8 +83,7 @@ onMounted(() => {
             <PageListEntry
               v-for="page in category.pages.slice(0, 3)"
               :key="page.title"
-              :page-entry="page"
-            />
+              :page-entry="page" />
           </div>
         </div>
         <FooterComponent m-t-12 />

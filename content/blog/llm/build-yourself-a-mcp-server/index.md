@@ -448,16 +448,14 @@ onUnmounted(() => {
     :style="{
       display: 'flex',
       flexDirection: 'row',
-    }"
-  >
+    }">
     <div
       v-for="cell in row"
       :style="{
         background: cell,
         width: '20px',
         height: '20px',
-      }"
-    ></div>
+      }"></div>
   </div>
 </template>
 ```

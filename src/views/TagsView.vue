@@ -36,8 +36,7 @@ onMounted(() => {
         <PageListEntry
           v-for="activity in displayingPages"
           :page-entry="activity"
-          :key="activity.title"
-        />
+          :key="activity.title" />
       </TransitionGroup>
     </div>
     <div v-else-if="currentTag" text-gray-500 dark:text-truegray-400 m-t-8>

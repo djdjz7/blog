@@ -37,16 +37,14 @@ const pageGroups = groupByYearMonth(pages)
           class="-top-12"
           text-transparent
           select-none
-          tracking-wide
-        >
+          tracking-wide>
           {{ pageGroup.year }}<br />
           {{ pageGroup.month.toString().padStart(2, '0') }}
         </h2>
         <PageListEntry
           v-for="activity in pageGroup.items"
           :page-entry="activity"
-          :key="activity.title"
-        />
+          :key="activity.title" />
       </div>
     </div>
   </div>

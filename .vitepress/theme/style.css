@@ -43,7 +43,7 @@
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
- :root {
+:root {
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
@@ -75,9 +75,9 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-c-brand-1:rgb(224, 146, 30);
-  --vp-c-brand-2:rgb(231, 166, 76);
-  --vp-c-brand-3:rgb(224, 156, 30);
+  --vp-c-brand-1: rgb(224, 146, 30);
+  --vp-c-brand-2: rgb(231, 166, 76);
+  --vp-c-brand-3: rgb(224, 156, 30);
   --vp-c-brand-soft: rgba(255, 119, 35, 0.14);
   --vp-button-brand-border: transparent;
   --vp-button-brand-text: var(--vp-c-white);
@@ -96,17 +96,9 @@
 
 :root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(
-    120deg,
-    #eedc3d 30%,
-    #f5a447
-  );
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #eedc3d 30%, #f5a447);
 
-  --vp-home-hero-image-background-image: linear-gradient(
-    -45deg,
-    #eedc3d 50%,
-    #f5a447 50%
-  );
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #eedc3d 50%, #f5a447 50%);
   --vp-home-hero-image-filter: blur(40px);
 }
 
@@ -140,4 +132,3 @@
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
-

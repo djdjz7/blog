@@ -53,8 +53,7 @@ defineExpose({ toggleSidebar })
       pointer-events-none
       lg:pointer-events-unset
       class="h-100dvh! lg:backdrop-brightness-100!"
-      :class="{ 'backdrop-brightness-40 pointer-events-unset': !sidebarCollapsed }"
-    >
+      :class="{ 'backdrop-brightness-40 pointer-events-unset': !sidebarCollapsed }">
       <div
         @click.stop
         h-full
@@ -69,8 +68,7 @@ defineExpose({ toggleSidebar })
         overflow-auto
         class="w-80% max-w-400px lg:w-unset lg:max-w-unset -translate-x-100% lg:translate-x-0"
         :class="{ 'translate-x-0! shadow-xl': !sidebarCollapsed }"
-        lg:shadow-none
-      >
+        lg:shadow-none>
         <a flex="~ items-center gap-2" href="/" class="text-unset! decoration-none">
           <!-- <AutoDarkImage h-8 :src="LcpuDark" :src-dark="LcpuLight" alt="LCPU 标识" /> -->
           <span text-xl font-semibold>彩笔的部落阁</span>
@@ -96,8 +94,7 @@ defineExpose({ toggleSidebar })
               class="group border-truegray-200/40 dark:border-dark-100/60"
               border-t-1
               border-t-solid
-              p-y-3
-            >
+              p-y-3>
               <span text-xs text-gray-500 dark:text-truegray-400
                 >{{ pageGroup.year }} 年 {{ pageGroup.month }} 月
               </span>
@@ -110,8 +107,7 @@ defineExpose({ toggleSidebar })
                 class="text-gray-500! dark:text-truegray-400! hover:text-gray-800! dark:hover:text-white! decoration-none"
                 :class="{
                   'text-gray-800! dark:text-white! font-medium': currentTitle === page.title,
-                }"
-              >
+                }">
                 {{ page.title }}</a
               >
             </div>

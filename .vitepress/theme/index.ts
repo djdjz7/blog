@@ -15,7 +15,7 @@ export default {
     })
   },*/ Layout,
   enhanceApp({ app, router, siteData }) {
-    app.component('PostEntry', PostEntry);
+    app.component('PostEntry', PostEntry)
     app.component('RecentPost', RecentPost)
-  }
+  },
 }

@@ -18,8 +18,7 @@ defineProps<{
     :class="[showTitle ? 'bg-white/80 dark:bg-[#121212]/80 backdrop-blur-xl' : 'bg-transparent']"
     h-14
     flex="~ items-center"
-    z-500
-  >
+    z-500>
     <div
       flex="~ items-center"
       w-full
@@ -27,16 +26,14 @@ defineProps<{
       m-x-auto
       p-x-6
       gap-6
-      box-border
-    >
+      box-border>
       <button
         title="打开侧边栏"
         cursor-pointer
         @click="toggleSidebarFn?.()"
         p-0
         border-none
-        bg-transparent
-      >
+        bg-transparent>
         <Bars3BottomLeftIcon class="w-6 h-6 text-black dark:text-white" />
       </button>
       <a href="/" title="返回主页" p-0 border-none bg-transparent>
