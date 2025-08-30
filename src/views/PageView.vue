@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from '@/router/router'
 import {
-  computed,
-  h,
   inject,
   onMounted,
   onUnmounted,
@@ -36,6 +34,7 @@ import type { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 import PageOutline from '@/components/PageOutline.vue'
 import TagsView from './TagsView.vue'
 import TagList from '@/components/TagList.vue'
+import { ClientOnly } from '@/components/ClientOnly'
 
 let ssrContext: SSRContext | undefined
 if (import.meta.env.SSR) ssrContext = useSSRContext()
@@ -70,24 +69,6 @@ const pageSplash = ref<string>(
 )
 const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
 const ContentRaw = shallowRef(module.default ?? module)
-const Content = computed(() =>
-  isLoading.value
-    ? h(LoadingView)
-    : isCurrentIndexPage.value
-      ? h(ContentRaw.value)
-      : h('div', {}, [
-          h(ContentRaw.value),
-          ...(!import.meta.env.SSR && window.location.hostname === 'localhost'
-            ? []
-            : [
-                h(VueUtterances, {
-                  theme: 'preferred-color-scheme',
-                  repo: 'djdjz7/blog',
-                  class: 'm-t-12',
-                }),
-              ]),
-        ]),
-)
 const pageOutlineData = ref<MarkdownItHeader[]>(module.__headers ?? [])
 const highlightedSlug = ref('')
 let headerElements: Element[] = []
@@ -321,17 +302,19 @@ function getSplash(sourceOrPathname: string) {
             </div>
           </div>
         </div>
-        <Transition mode="out-in">
-          <component
-            v-on:mounted="console.log(1)"
-            :is="Content"
-            max-w-840px
-            m-x-auto
-            box-border
-            p-x-6
-            lg:p-x-12 />
-        </Transition>
-        <FooterComponent p-y-12 max-w-840px m-x-auto box-border />
+        <div class="max-w-840px m-x-auto box-border p-x-6 lg:p-x-12">
+          <Transition mode="out-in">
+            <LoadingView v-if="isLoading" />
+            <component :is="ContentRaw" v-else-if="isCurrentIndexPage" />
+            <div v-else>
+              <component :is="ContentRaw" />
+              <ClientOnly>
+                <VueUtterances theme="preferred-color-scheme" repo="djdjz7/blog" class="m-t-12" />
+              </ClientOnly>
+            </div>
+          </Transition>
+          <FooterComponent p-y-12 />
+        </div>
       </div>
     </div>
     <PageOutline

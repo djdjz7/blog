@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build:default": "run-p type-check \"build-only {@}\" --",
-    "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "prettier --write . && eslint . --fix",
@@ -18,7 +17,9 @@
     "build:sitemap": "bun ./sitemap.ts",
     "build:post": "run-p build:render build:sitemap",
     "build:minify": "bun ./minify.ts",
-    "build": "run-s build:bundle build:post build:minify"
+    "build": "run-s build:bundle build:post build:minify",
+    "preview:ssg": "bunx serve dist/static -l 3001",
+    "preview": "run-s build preview:ssg"
   },
   "dependencies": {
     "@heroicons/vue": "^2.2.0",

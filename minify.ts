@@ -41,8 +41,6 @@ function processHtmlFile(filePath: string) {
 
   const minifiedHtml = minify(htmlContent, {
     caseSensitive: true,
-    collapseInlineTagWhitespace: true,
-    collapseWhitespace: true,
     minifyCSS: true,
     minifyJS: true,
     removeComments: false,
