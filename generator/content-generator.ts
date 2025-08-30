@@ -17,17 +17,9 @@ registerMarkdownPlugins(md)
 const preReplaceRe = /(<pre(?:(?!v-pre)[\s\S])*?)>/gm
 
 export default function markdownContentGenerator(): PluginOption {
-  const virtualModuleId = 'virtual:news-list.json'
-  const resolvedVirtualModuleId = '\0' + virtualModuleId
-
   return {
     name: 'markdown-content-generator',
     enforce: 'pre',
-    resolveId(id) {
-      if (id === virtualModuleId) {
-        return resolvedVirtualModuleId
-      }
-    },
     transform(code, id) {
       if (id.endsWith('.md')) {
         const frontmatter = matter(code, { excerpt: true })
@@ -44,6 +36,15 @@ export default function markdownContentGenerator(): PluginOption {
         const headers = env.headers || []
         injectHeaderData(headers, sfcBlocks)
         return `<template><div class="md-content ${encodeURIComponent(frontmatter.data.title)}">${templateContent}</div></template>${sfcBlocks.scriptSetup?.content}${sfcBlocks.script?.content || ''}${sfcBlocks.styles.map((x) => x.content) || ''}${sfcBlocks.customBlocks.map((x) => x.content).join('')}`
+      }
+    },
+    handleHotUpdate({ server, file }) {
+      if (file.includes('content/') && file.endsWith('.md')) {
+        const thisModule = server.moduleGraph.getModuleById(file)
+        if (thisModule) {
+          server.reloadModule(thisModule)
+          return []
+        }
       }
     },
   }
