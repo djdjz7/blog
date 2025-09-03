@@ -50,7 +50,7 @@ onUnmounted(() => {
       </div>
       <h3 m-b-2>页面加载中</h3>
       <div flex="~ col items-center gap-1" text-center text-gray-500 dark:text-truegray-400>
-        <Transition mode="out-in">
+        <Transition mode="out-in" name="slide-fade">
           <span :key="tip" whitespace-pre text-wrap>{{ tip }}</span>
         </Transition>
         <span>请坐和放宽</span>
@@ -60,13 +60,28 @@ onUnmounted(() => {
 </template>
 
 <style lang="css" scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.4s ease;
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 400ms cubic-bezier(0.55, 0, 0.1, 1);
 }
-
-.v-enter-from,
-.v-leave-to {
+.slide-fade-enter-from {
   opacity: 0;
+  transform: translateY(16px);
+  filter: blur(20px);
+}
+.slide-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+}
+.slide-fade-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+}
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-16px);
+  filter: blur(20px);
 }
 </style>

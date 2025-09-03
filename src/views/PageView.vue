@@ -254,6 +254,8 @@ function getSplash(sourceOrPathname: string) {
   }
   return null
 }
+
+const isDev = !!import.meta.env.DEV
 </script>
 
 <template>
@@ -266,44 +268,48 @@ function getSplash(sourceOrPathname: string) {
           :title="currentPage?.title ?? pageCategory"
           :show-title="showTitle" />
         <div v-if="currentPage" m-b-8 m-x-auto relative>
-          <img w-full h-104 object-cover relative v-if="pageSplash" :src="pageSplash" />
-          <div
-            absolute
-            top-0
-            left-0
-            right-0
-            bottom-0
-            backdrop-blur-3xl
-            class="bg-black/40"
-            style="mask: linear-gradient(transparent, black 70%)"
-            v-if="pageSplash"></div>
-          <div
-            max-w-840px
-            w-full
-            m-auto
-            p-x-6
-            lg:p-x-12
-            box-border
-            :class="[pageSplash ? 'h-0 relative' : 'm-t-16 lg:m-t-12']">
-            <div :class="[pageSplash ? 'text-white/85 text-shadow-sm absolute bottom-6' : '']">
-              <TagList
-                v-if="currentPage.tags"
-                :tags="currentPage.tags"
-                class="text-shadow-none text-xs" />
-              <h1 m-y-2>{{ currentPage.title }}</h1>
-              <div m-t-2>
-                <span v-if="!isCurrentIndexPage">{{ dateString(currentPage.time) }}</span>
-                <span v-else>{{ currentPage.time }}</span>
-                <span v-for="key in Object.keys(currentPage.data)" :key="key">
-                  <span m-x-1>·</span>
-                  <span v-if="currentPage.data[key]">{{ currentPage.data[key] }}</span>
-                </span>
+          <Transition mode="out-in" name="slide-fade">
+            <div :key="currentPage.title">
+              <img w-full h-104 object-cover relative v-if="pageSplash" :src="pageSplash" />
+              <div
+                absolute
+                top-0
+                left-0
+                right-0
+                bottom-0
+                backdrop-blur-3xl
+                class="bg-black/40"
+                style="mask: linear-gradient(transparent, black 70%)"
+                v-if="pageSplash"></div>
+              <div
+                max-w-840px
+                w-full
+                m-auto
+                p-x-6
+                lg:p-x-12
+                box-border
+                :class="[pageSplash ? 'h-0 relative' : 'm-t-16 lg:m-t-12']">
+                <div :class="[pageSplash ? 'text-white/85 text-shadow-sm absolute bottom-6' : '']">
+                  <TagList
+                    v-if="currentPage.tags"
+                    :tags="currentPage.tags"
+                    class="text-shadow-none text-xs" />
+                  <h1 m-y-2>{{ currentPage.title }}</h1>
+                  <div m-t-2>
+                    <span v-if="!isCurrentIndexPage">{{ dateString(currentPage.time) }}</span>
+                    <span v-else>{{ currentPage.time }}</span>
+                    <span v-for="key in Object.keys(currentPage.data)" :key="key">
+                      <span m-x-1>·</span>
+                      <span v-if="currentPage.data[key]">{{ currentPage.data[key] }}</span>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </Transition>
         </div>
         <div class="max-w-840px m-x-auto box-border p-x-6 lg:p-x-12">
-          <Transition mode="out-in">
+          <Transition mode="out-in" name="slide-fade">
             <LoadingView v-if="isLoading" />
             <component :is="ContentRaw" v-else-if="isCurrentIndexPage" />
             <div v-else>
@@ -330,13 +336,28 @@ function getSplash(sourceOrPathname: string) {
 </template>
 
 <style lang="css" scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.4s ease;
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 400ms cubic-bezier(0.55, 0, 0.1, 1);
 }
-
-.v-enter-from,
-.v-leave-to {
+.slide-fade-enter-from {
   opacity: 0;
+  transform: translateY(16px);
+  filter: blur(20px);
+}
+.slide-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+}
+.slide-fade-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+}
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-16px);
+  filter: blur(20px);
 }
 </style>
