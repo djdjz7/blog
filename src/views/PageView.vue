@@ -309,7 +309,11 @@ function getSplash(sourceOrPathname: string) {
             <div v-else>
               <component :is="ContentRaw" />
               <ClientOnly>
-                <VueUtterances theme="preferred-color-scheme" repo="djdjz7/blog" class="m-t-12" />
+                <VueUtterances
+                  v-if="!isDev"
+                  theme="preferred-color-scheme"
+                  repo="djdjz7/blog"
+                  class="m-t-12" />
               </ClientOnly>
             </div>
           </Transition>
