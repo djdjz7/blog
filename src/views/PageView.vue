@@ -221,7 +221,6 @@ function getCurrentPage(pathname: string): { page: PageData | undefined; isIndex
       isIndexPage: true,
     }
   }
-
   return {
     page: allPages.find((page) => page.contentUrl === pathname) || undefined,
     isIndexPage: false,

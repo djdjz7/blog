@@ -2,19 +2,19 @@ import { PluginOption } from 'vite'
 import fg from 'fast-glob'
 import matter from 'gray-matter'
 import type { PageData } from '../src/data/pagedata'
-import { dirname } from 'node:path'
 import { RouteTitleRecord } from '../src/site'
 
 export function generatePages() {
   return fg
-    .sync(`./content/**/index.md`)
+    .sync(`./content/**/*.md`)
     .map((entry) => {
       return { entry, frontmatter: matter.read(entry, { excerpt: true }) }
     })
     .map((file): PageData | undefined => {
       const { entry, frontmatter } = file
       if (frontmatter.data.hidden) return undefined
-      const path = dirname(entry).slice(10)
+      const entryToRoot = entry.replace(/^\.\/content/, '')
+      const path = entryToRoot.replace(/index\.(?:md|vue)$/, '').replace(/\.(?:md|vue)/, '/')
       const slugs = path.split('/').filter((slug) => slug)
       const data = frontmatter.data
       const time = data.time
@@ -35,8 +35,8 @@ export function generatePages() {
         meta,
         category,
         excerpt: frontmatter.excerpt,
-        contentUrl: `/${slug}/`,
-        sourceUrl: `/${path}/index.md`,
+        contentUrl: `${slug}`,
+        sourceUrl: entryToRoot,
         tags,
       }
     })
@@ -46,7 +46,6 @@ export function generatePages() {
 export default function pagesGenerator(): PluginOption {
   const virtualModuleId = 'virtual:pages.json'
   const resolvedVirtualModuleId = '\0' + virtualModuleId
-
   return {
     name: 'pages-generator',
     resolveId(id) {

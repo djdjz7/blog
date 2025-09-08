@@ -11,8 +11,8 @@ import ExpanderComponent from './components/ExpanderComponent.vue'
 import BadgeComp from './components/BadgeComp.vue'
 
 const pageModules = {
-  ...import.meta.glob('../content/**/index.md'),
-  ...import.meta.glob('../content/**/index.vue'),
+  ...import.meta.glob('../content/**/*.md'),
+  ...import.meta.glob('../content/**/*.vue'),
 }
 
 const pageSplashes = {
