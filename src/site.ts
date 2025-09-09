@@ -15,6 +15,7 @@ interface SiteConfiguration {
 
 export const RouteTitleRecord: Record<string, string> = {
   blog: '博客',
+  notes: '笔记',
   articles: '文章',
 }
 
