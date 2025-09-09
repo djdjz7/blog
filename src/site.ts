@@ -11,6 +11,9 @@ interface SiteConfiguration {
   titleSuffix: string
   theme: 'normal' | 'new-year'
   pureStatic?: boolean
+  git: {
+    repo: string
+  }
 }
 
 export const RouteTitleRecord: Record<string, string> = {
@@ -32,4 +35,7 @@ export const SiteConfiguration: SiteConfiguration = {
   titleSuffix: '彩笔的部落阁',
   theme: 'normal',
   pureStatic: true,
+  git: {
+    repo: 'djdjz7/blog',
+  },
 }

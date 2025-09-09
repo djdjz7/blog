@@ -13,6 +13,19 @@ export function dateString(rawDate: string | undefined): string {
   return `${year} 年 ${month} 月 ${day} 日`
 }
 
+export function dateStringLong(rawDate: string | undefined): string {
+  if (rawDate == undefined) return ''
+  const date = new Date(rawDate)
+  const year = date.getFullYear()
+  const month = date.getUTCMonth() + 1
+  const day = date.getUTCDate()
+  const hours = date.getUTCHours()
+  const minutes = date.getUTCMinutes()
+  return `${year} 年 ${month} 月 ${day} 日 ${hours
+    .toString()
+    .padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
+}
+
 export function groupByYearMonth<T extends { time: string }>(items: T[]) {
   return items.reduce(
     (

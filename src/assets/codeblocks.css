@@ -94,6 +94,7 @@ pre.shiki {
   --at-apply: 'bg-gray-200 dark:bg-truegray-700';
 }
 
-code {
+code,
+.monospace {
   font-family: 'Fira Code', monospace;
 }

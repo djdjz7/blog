@@ -9,6 +9,7 @@ import App from './App.vue'
 import { createRouter, RouterSymbol } from './router/router'
 import ExpanderComponent from './components/ExpanderComponent.vue'
 import BadgeComp from './components/BadgeComp.vue'
+import GitHistory from './components/GitHistory.vue'
 
 const pageModules = {
   ...import.meta.glob('../content/**/*.md'),
@@ -28,6 +29,7 @@ export function createApp() {
   app.provide('pageModules', pageModules)
   app.provide('pageSplashes', pageSplashes)
   app.component('ExpanderComponent', ExpanderComponent)
+  app.component('GitHistory', GitHistory)
   // eslint-disable-next-line vue/multi-word-component-names
   app.component('Badge', BadgeComp)
   return { app, router }

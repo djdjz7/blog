@@ -89,6 +89,27 @@ export function injectHeaderData(headers: MarkdownItHeader[], sfcBlocks: Markdow
   }
 }
 
+export function injectSetupCode(code: string, sfcBlocks: MarkdownSfcBlocks) {
+  const useTypescript = sfcBlocks.scriptSetup
+    ? sfcBlocks.scriptSetup.tagOpen.includes(`lang="ts"`)
+    : false
+  if (!sfcBlocks.scriptSetup) {
+    sfcBlocks.scriptSetup = {
+      type: 'scriptSetup',
+      content: `<script setup ${useTypescript ? 'lang="ts"' : ''}>${code}</script>`,
+      contentStripped: code,
+      tagOpen: `<script setup ${useTypescript ? 'lang="ts"' : ''}>`,
+      tagClose: '</script>',
+    }
+  } else {
+    sfcBlocks.scriptSetup.contentStripped = code + '\n' + sfcBlocks.scriptSetup.contentStripped
+    sfcBlocks.scriptSetup.content =
+      sfcBlocks.scriptSetup.tagOpen +
+      sfcBlocks.scriptSetup.contentStripped +
+      sfcBlocks.scriptSetup.tagClose
+  }
+}
+
 function flattenHeaders(headers: MarkdownItHeader[]): MarkdownItHeader[] {
   return headers.flatMap((header) => {
     if (header.children) {
