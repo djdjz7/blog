@@ -126,14 +126,15 @@ async function resolvePageModule(sourceOrPathname: string): Promise<Module | nev
     return TagsView as never
   }
   if (sourceOrPathname.endsWith('/')) sourceOrPathname = sourceOrPathname.slice(0, -1)
-  const modulePathCandidates = sourceOrPathname.endsWith('.md')
-    ? ['../content' + sourceOrPathname]
-    : [
-        '../content' + sourceOrPathname + '.md',
-        '../content' + sourceOrPathname + '/index.md',
-        '../content' + sourceOrPathname + '.vue',
-        '../content' + sourceOrPathname + '/index.vue',
-      ]
+  const modulePathCandidates =
+    sourceOrPathname.endsWith('.md') || sourceOrPathname.endsWith('.vue')
+      ? ['../content' + sourceOrPathname]
+      : [
+          '../content' + sourceOrPathname + '.md',
+          '../content' + sourceOrPathname + '/index.md',
+          '../content' + sourceOrPathname + '.vue',
+          '../content' + sourceOrPathname + '/index.vue',
+        ]
   for (const modulePath of modulePathCandidates) {
     if (modulePath in pageModules) {
       const module = await (pageModules[modulePath]() as Promise<Module> | Module)

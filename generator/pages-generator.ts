@@ -3,15 +3,30 @@ import fg from 'fast-glob'
 import matter from 'gray-matter'
 import type { PageData } from '../src/data/pagedata'
 import { RouteTitleRecord } from '../src/site'
+import { existsSync, readFileSync } from 'fs'
+import yaml from 'js-yaml'
 
-export function generatePages() {
+export function generatePages(): PageData[] {
   return fg
-    .sync(`./content/**/*.md`)
+    .sync(`./content/**/*.(md|vue)`)
     .map((entry) => {
-      return { entry, frontmatter: matter.read(entry, { excerpt: true }) }
+      if (entry.endsWith('.md')) {
+        return { entry, frontmatter: matter.read(entry, { excerpt: true }) }
+      }
+      const yamlCandidates = [`${entry}.yaml`, `${entry}.yml`]
+      for (const candidate of yamlCandidates) {
+        if (existsSync(candidate)) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const frontmatterData = yaml.load(readFileSync(candidate, 'utf8')) as any
+          const excerpt = frontmatterData.excerpt as string | undefined
+          delete frontmatterData.excerpt
+          return { entry, frontmatter: { data: frontmatterData, excerpt } }
+        }
+      }
+      return { entry, frontmatter: undefined }
     })
-    .map((file): PageData | undefined => {
-      const { entry, frontmatter } = file
+    .map(({ entry, frontmatter }): PageData | undefined => {
+      if (!frontmatter) return undefined
       if (frontmatter.data.hidden) return undefined
       const entryToRoot = entry.replace(/^\.\/content/, '')
       const path = entryToRoot.replace(/index\.(?:md|vue)$/, '').replace(/\.(?:md|vue)/, '/')
