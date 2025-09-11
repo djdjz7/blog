@@ -55,20 +55,21 @@ export default function markdownContentGenerator(): PluginOption {
     async transform(code, id) {
       if (id.endsWith('.md')) {
         const frontmatter = matter(code, { excerpt: true })
-        let content = frontmatter.content
+        const content = frontmatter.content
         const env: {
           mdRootPath: string
           sfcBlocks?: MarkdownSfcBlocks
           headers?: MarkdownItHeader[]
         } = { mdRootPath: dirname(id) }
         const gitHistory = await getGitHistory(id)
-        content +=
-          '\n\n' +
-          `<h2 style="margin-top: 4rem;">文件历史</h2><GitHistory :history='__gitHistory' />`
-        const rendered = md.render(content, env)
+
+        md.render(content, env)
         const sfcBlocks = env.sfcBlocks!
         let templateContent = sfcBlocks.template?.contentStripped || ''
-        templateContent = rendered.replace(preReplaceRe, '$1 v-pre>')
+        templateContent =
+          templateContent.replace(preReplaceRe, '$1 v-pre>') +
+          '\n\n<hr>\n' +
+          `<h2>文件历史</h2><GitHistory :history='__gitHistory' />`
         const headers = env.headers || []
         injectSetupCode('const __gitHistory = ' + gitHistory, sfcBlocks)
         injectHeaderData(headers, sfcBlocks)
