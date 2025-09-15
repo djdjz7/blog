@@ -92,7 +92,10 @@ Thus, $E_F$ is **defined** as the energy level at which the probability of occup
     - $m_e$: effective mass of electrons
     - $m_h$: effective mass of holes
     - $h$: Planck's constant
-- For silicon at room temperature ($T = 25 \,^\circ \mathrm{C}$), $N_C = 2.8 \times 10^{19} \, \mathrm{cm}^{-3}, N_V = 1.09 \times 10^{19} \,\mathrm{cm}^{-3}$
+- For silicon at room temperature ($T = 25 \,^\circ \mathrm{C}$):
+  $$
+  N_C = 2.8 \times 10^{19} \, \mathrm{cm}^{-3}, N_V = 1.09 \times 10^{19} \,\mathrm{cm}^{-3}
+  $$
 
 ## Boltzmann Approximation
 
