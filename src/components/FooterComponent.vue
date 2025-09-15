@@ -4,6 +4,21 @@ const year = new Date().getFullYear()
 
 <template>
   <footer text-center flex="~ col items-center" text-sm text-gray-400 dark:text-truegray-600>
-    <span>© 2023 - {{ year }}</span>
+    <div flex="~ gap-2">
+      <a href="https://github.com/djdjz7" text-inherit>GitHub</a>
+      <a href="/friends/" text-inherit>友链</a>
+    </div>
+    <div m-t-4>© 2023 - {{ year }}</div>
+    <div text-xs>
+      <div>
+        Unless otherwise stated, text contents are licensed under
+        <a text-inherit href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>, and
+        codes are licensed under <a text-inherit href="https://opensource.org/licenses/MIT">MIT</a>.
+      </div>
+      <div>
+        Images may be subject to separate licenses, see the image captions for details if
+        applicable.
+      </div>
+    </div>
   </footer>
 </template>
