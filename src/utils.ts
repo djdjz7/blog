@@ -17,10 +17,10 @@ export function dateStringLong(rawDate: string | undefined): string {
   if (rawDate == undefined) return ''
   const date = new Date(rawDate)
   const year = date.getFullYear()
-  const month = date.getUTCMonth() + 1
-  const day = date.getUTCDate()
-  const hours = date.getUTCHours()
-  const minutes = date.getUTCMinutes()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
   return `${year} 年 ${month} 月 ${day} 日 ${hours
     .toString()
     .padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
