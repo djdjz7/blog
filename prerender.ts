@@ -9,12 +9,13 @@ import fg from 'fast-glob'
 import { SiteConfiguration, RouteTitleRecord } from './src/site.js'
 import gm from 'gray-matter'
 import chalk from 'chalk'
+import yaml from 'js-yaml'
 
 console.log(chalk.bgYellow.greenBright('Prerender:'))
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
-const toAbsolute = (p) => path.resolve(__dirname, p)
+const toAbsolute = (p: string) => path.resolve(__dirname, p)
 
 const manifest = JSON.parse(
   fs.readFileSync(toAbsolute('dist/static/.vite/ssr-manifest.json'), 'utf-8'),
@@ -26,17 +27,32 @@ const routesToPrerender = ['/', '/404.html']
 
 routesToPrerender.push(...Object.keys(RouteTitleRecord).map((category) => `/${category}/`))
 routesToPrerender.push(
-  ...fg.sync('./content/**/index.md').map((file) => {
-    const dir = path.dirname(file).split('/')
+  ...fg.sync('./content/**/*.md').map((file) => {
+    const target = file
+      .replace(/\/index\.md$/, '/')
+      .replace(/\.md$/, '/')
+      .replace(/^\.\/content/, '')
     const frontmatter = gm(fs.readFileSync(file, 'utf-8')).data
     if (frontmatter.slug) {
-      return `/${frontmatter.slug}/`
+      return `${frontmatter.slug}${frontmatter.slug.endsWith('/') ? '' : '/'}`
     }
-    return `/${dir.slice(2).join('/')}/`
+    return target
   }),
-  ...fg.sync('./content/**/index.vue').map((file) => {
-    const dir = path.dirname(file).split('/')
-    return `/${dir.slice(2).join('/')}/`
+  ...fg.sync('./content/**/*.vue').map((file) => {
+    const target = file
+      .replace(/\/index\.vue$/, '/')
+      .replace(/\.vue$/, '/')
+      .replace(/^\.\/content/, '')
+    const frontmatterCandidates = [file + '.yaml', file + '.yml']
+    for (const candidate of frontmatterCandidates) {
+      if (fs.existsSync(candidate)) {
+        const frontmatter = yaml.load(fs.readFileSync(candidate, 'utf-8')) as { slug?: string }
+        if (frontmatter.slug) {
+          return `${frontmatter.slug}${frontmatter.slug.endsWith('/') ? '' : '/'}`
+        }
+      }
+    }
+    return target
   }),
 )
 
@@ -62,7 +78,7 @@ for (const url of routesToPrerender) {
 // done, delete .vite directory including ssr manifest
 fs.rmSync(toAbsolute('dist/static/.vite'), { recursive: true })
 
-function customWriteFileSync(filePath, content) {
+function customWriteFileSync(filePath: string, content: string) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true })
   fs.writeFileSync(filePath, content)
 }
