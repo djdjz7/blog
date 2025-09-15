@@ -1,0 +1,48 @@
+---
+title: 半导体器件原理 1. From atom to Band Diagram
+time: 2025-09-14
+tags: ['笔记', '集成电路器件原理']
+---
+
+---
+
+## Energy Bands
+
+- When atoms are put together, orbits at the same energy level are combined and form a energy band across the entire crystal.
+- Electrons can stay at a wider range of energies instead of just one particular level.
+- **Valence Band**: the energy band where electrons are shared.
+  - All spaces that can hold electrons are filled with electrons.
+- **Conduction Band**: the first empty energy band above the valence band.
+  - Almost empty.
+- **Band Gap**: the energy difference between the conduction band and the valence band.
+  - No electron states exist in this energy range.
+
+## Metal, Insulator, Semiconductor
+
+- **Metal**: valence band is only partially filled.
+  - Electrons can move freely to conduct electricity.
+- **Insulator**: full valence band and empty conduction band.
+  - Cannot conduct electricity.
+  - With energy supplied, electrons can be excited to the conduction band.
+- **Semiconductor**: similar band diagram as insulator, but with a smaller band gap.
+  - Room temperature is enough to excite a considerable amount of electrons to the conduction band.
+- Material with a full valence band and an empty conduction band can be insulator or semiconductor, depending on the size of band gap and temperature of the working environment.
+
+## Carrier Motion
+
+- **Diffusion**: particles move from high concentration to low concentration.
+- **Drift**: particles move under the influence of an electric field.
+- **They can co-exist**: electrons carry charges, accumulation of negative charges raises energy of electrons, which leads to drift and diffusion at the same time.
+- Motion of electrons and holes is needed for electrons to move in an energy band, and the motion of the smaller quantity is easier to observe.
+<!---->
+- In metals, electrons move in the partually filled band, and either electrons or holes are counted.
+- In semiconductors, conduction happens both in the conduction band and the valence band, and carriers cannot be mixed. Current is the sum of both electrons and holes.
+- The total number of carriers in the semiconductor is still much smaller than that in metals.
+
+## The Water Anology
+
+- Electrons when voltage is applied -> water molecules moving down the potential
+  - **Tend to stay at the lower part of energy band**
+- Holes when voltage is applied -> holes moving up the potential
+  - **Tend to stay near the top part of energy band**
+- Deficiency: water molecules and bubbles are electrically neutral, while electrons and holes are charged.
