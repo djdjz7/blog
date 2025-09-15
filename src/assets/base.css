@@ -115,3 +115,8 @@ blockquote {
 li {
   --at-apply: line-height-relaxed;
 }
+
+mjx-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
