@@ -1,0 +1,109 @@
+---
+title: 半导体器件原理 3. Effects of Doping
+time: 2025-09-16
+tags: ['笔记', '集成电路器件原理']
+---
+
+---
+
+## Doping of Silicon
+
+- Common group V elements used for doping: P and As
+  - Others may not be suitable due to size mismatch
+- Group V elements give an extra electron which is forced into the conduction band
+  - Donor dopant
+  - N-type silicon, N for **N**egative carriers
+- Common group III elements used for doping: B
+- Group III elements have one less electron, creating a hole in the valence band
+  - Acceptor dopant
+  - P-type silicon, P for **P**ositive carriers
+
+## Dopant States
+
+- Donor dopants have an extra positive charge in the nucleus
+  - Stronger attraction to electrons
+  - Some electrons can stay in the bandgap where they are not allowed in intrinsic silicon
+  - Introduces a **donor energy level** $E_D$
+- Acceptor dopants have one less positive charge in the nucleus
+  - Weaker attraction to electrons
+  - Introduces a loosely bound hole, electrons can stay a bit further away from the nucleus
+    at the **acceptor energy level** $E_A$
+- $\text{Density of Si atoms} \gg \text{Density of dopants}$ due to solid solubility limit in the amount of dopants that can be taken by silicon **before it loses intrinsic properties**
+  - Locations of donor sites are very sparse
+  - $E_C - E_D$ is very small, electrons can be easily excited and move around in the conduction band
+  - Once the electron comes out of the dip, it may not be distinguished among others
+    - We can assume all electrons coming from donor dopants will be delocalized and become electrons in the conduction band
+- In N-type silicon, electrons significantly outnumber holes because of donor dopants
+  - Electrons are the majority carriers
+  - Holes are the minority carriers
+- P-type silicon is similar, but with holes as majority carriers and electrons as minority carriers
+
+## Carrier Density
+
+- When doped with both donor and acceptor dopants:
+  - **Recombination**: electrons from donor dopants can recombine with holes from acceptor dopants
+  - Cancel each other out instead of adding up the number of carriers
+- When dopants are added to the system originally at thermal equilibrium (take donor dopants as an example):
+  - Holes can more easily recombine with electrons
+  - Newly added electrons $\gg$ number of holes
+    - Number of electrons does not change much
+    - Number of holes decreases significantly
+  - At new thermal equilibrium:
+    - $pn = n_i^2$ (always the case at thermal equilibrium)
+    - $n = p + N_D$ (every hole **must come from an electron**)
+    - $N_D \gg p$ (Majority carriers come from dopants)
+    - Thus, $p = n_i^2 / N_D$
+
+## Locating the Fermi Level
+
+- For N-type silicon, with additional electrons in the conduction band, the probability of finding an electron in the conduction band increases
+  - Temperature is the same, the shape of the Fermi-Dirac distribution does not change
+  - The Fermi level must have moved up to increase the probability of finding an electron in the conduction band
+  - The Fermi level of intrinsic silicon is marked as $E_i$
+  - $$
+    \begin{aligned}
+      n &= N_C e ^{- \frac{E_C - E_F}{kT}} \\
+      n &= N_D \\
+      \Rightarrow E_C - E_F &= kT \ln {\frac{N_C}{N_D}}
+    \end{aligned}
+    $$
+  - Equivalent density of states $N_C$ does not change with doping
+    $$
+      \begin{cases}
+        n = N_C e ^{- \frac{E_C - E_F}{kT}} & \text{in N-type silicon} \\
+        n_i = N_C e ^{- \frac{E_C - E_i}{kT}} & \text{in intrinsic silicon} \\
+      \end{cases}
+    $$
+  - Dividing the two equations:
+    $$
+      n = n_i e^{\frac{E_F - E_i}{kT}}
+    $$
+    or
+    $$
+      E_F - E_i = kT \ln {\frac{n}{n_i}}
+    $$
+- For P-type silicon, the Fermi level moves down
+  - $$
+    \begin{aligned}
+      p &= N_V e ^{- \frac{E_F - E_V}{kT}} \\
+      p &= N_A \\
+      \Rightarrow E_F - E_V &= - kT \ln {\frac{N_V}{N_A}}
+    \end{aligned}
+    $$
+  - $$
+    \begin{aligned}
+      & \begin{cases}
+        p = N_V e^{-\frac{E_F - E_V}{kT}} & \text{in P-type silicon} \\
+        p_i = n_i = N_V e^{-\frac{E_i - E_V}{kT}} & \text{in intrinsic silicon} \\
+      \end{cases} \\
+      \Rightarrow &\quad p = n_i e^{\frac{E_i - E_F}{kT}} \\
+      \Rightarrow &\quad E_i - E_F = kT \ln {\frac{p}{n_i}}
+    \end{aligned}
+    $$
+
+## Water Analogy for Fermi Level
+
+- Water level represents the Fermi level
+- When dopants are added, the water level rises or falls
+- For N-type silicon, the weight of the box representing the semiconductor increases, pushing the box down and the water level up
+- For P-type silicon, the weight of the box decreases, causing the box to rise and the water level to fall
