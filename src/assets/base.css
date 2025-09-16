@@ -120,3 +120,7 @@ mjx-container {
   overflow-x: auto;
   overflow-y: hidden;
 }
+
+*::selection {
+  --at-apply: 'bg-amber-500/30 dark:bg-amber-300/40';
+}
