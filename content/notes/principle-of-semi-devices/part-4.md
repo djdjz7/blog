@@ -1,0 +1,131 @@
+---
+title: 半导体器件原理 4. PN Junction Formation
+time: 2025-10-03
+tags: ['笔记', '集成电路器件原理']
+---
+
+---
+
+## Doping of the PN Junction
+
+- **Diode**: Putting P-type and N-type silicon together, forming a PN junction.
+- Recall **recombination**:
+  - When electrons coming from donors meet holes from acceptor, recombination happens.
+  - After recombination, location of dopants carries a small positive charge, and location of acceptors carries a small negative charge.
+- When we put P-type silicon on the left, and N-type silicon on the right:
+  ```plaintext
+     P   |   N
+  . . . .|. . . .
+  ```
+  we assume that recombination happens in an orderly manner, starting from the interface of the two types of silicon (the junction).
+  ```plaintext
+     P   |   N
+  . . . -|+ . . .
+  ```
+  ```plaintext
+     P   |   N
+  . . - -|+ + . .
+      ^^^^^^^
+     depletion region
+  ```
+  areas near the junction are depleted of free carriers, forming a **depletion region**, where generally assumed to have no carriers.
+  - Covalence bounds are similar to intrinsic silicon.
+  - Assumption is not accurate, as there are still carriers in intrinsic silicon
+  - The number is much smaller than the number of those added by doping, so we can ignore them.
+- As recombination happens, charges accumulates, which tend to oppose further diffusion of carriers across the junction.
+- An equilibrium will be reached eventually, with a particular depletion width.
+- Simplifications we made:
+  - **Abrupt junction approximation**: Assumes there is a clear boundary between P-type and N-type silicon, where a transition region (both donors and acceptors exist) exists in reality.
+  - **Depletion approximation**: Assumes the depletion region is fully devoid of charge carriers and there is a clear boundary between the depletion region and the neutral region.
+
+## Band Diagram of the PN Junction
+
+- When PN junction is formed, the Fermi levels of P-type and N-type silicon must align at equilibrium.
+- In P side, $E_i > E_F$
+- In N side, $E_i < E_F$
+- The built-in potential $V_{bi}$ satisfies:
+  $$qV_{bi} = qV_p + qV_n$$
+  where $qV_p = E_{i_P} - E_F$, $qV_n = E_F - E_{i_N}$
+- $$
+     \begin{cases}
+     E_{i_P} - E_F = kT \ln{\frac{N_A}{n_i}} \\
+     E_F - E_{i_N} = kT \ln{\frac{N_D}{n_i}}
+     \end{cases}
+  $$
+- Therefore,
+  $$V_{bi} = \frac{kT}{q} \ln{\frac{N_A N_D}{n_i^2}}$$
+
+## Calculating the Depletion Region Width
+
+- Depletion region width $x_d = x_p + x_n$
+- Charge neutrality:
+  $$
+    \begin{equation}
+      N_A x_p = N_D x_n
+    \end{equation}
+  $$
+- Charge density:
+  $$
+     \rho(x) =
+     \begin{cases}
+        -q N_A, & -x_p < x < 0 \\
+        +q N_D, & 0 < x < x_n \\
+        0, & \text{elsewhere}
+     \end{cases}
+  $$
+- Using Poisson's equation:
+  $$
+    \nabla^2 V = -\frac{\rho}{\varepsilon}
+  $$
+- In 1D:
+  $$
+    \frac{d^2 V}{dx^2} = -\frac{\rho}{\varepsilon}
+  $$
+- Integrate twice:
+  $$
+   \begin{equation}
+    V_{bi} = \frac{q N_A x_p^2}{2\varepsilon_{\text{Si}}} + \frac{q N_D x_n^2}{2\varepsilon_{\text{Si}}}
+   \end{equation}
+  $$
+- Solve with equation (1) and (2):
+  $$
+    x_p = \sqrt{\frac{2\varepsilon_{\text{Si}} V_{bi}}{q} \cdot \frac{N_D}{N_A (N_A + N_D)}}
+  $$
+  $$
+    x_n = \sqrt{\frac{2\varepsilon_{\text{Si}} V_{bi}}{q} \cdot \frac{N_A}{N_D (N_A + N_D)}}
+  $$
+- Finally:
+  $$
+    x_d = \sqrt{\frac{2\varepsilon_{\text{Si}} V_{bi}}{q}\left( \frac{1}{N_A} + \frac{1}{N_D} \right)}
+  $$
+  where
+  $$
+  V_{bi} = \frac{kT}{q} \ln{\frac{N_A N_D}{n_i^2}}
+  $$
+
+:::info If you are an idiot just like me...
+
+When $a > 0$ and $b > 0$,
+
+$$
+\begin{aligned}
+& \sqrt{\frac{a}{b(a + b)}} + \sqrt{\frac{b}{a(a + b)}} \\
+= & \frac{\sqrt{a ^ 2} + \sqrt{b ^ 2}}{\sqrt{ab(a + b)}} \\
+=& \sqrt{\frac{a + b}{ab}}
+\end{aligned}
+$$
+
+:::
+
+## One-Sided PN Junction
+
+- Doping on two sides are asymmetrical
+  - Usually, a PN junction is formed by counter doping to convert part of a material to the opposite type
+  - Counter doping concentration is much higher to minimize the background dopants
+- In the depletion region expression, higher doping concentration term can be removed, and the depletion region width is mainly controlled by the lightly doped side
+  - Graphically, the depletion region extends much more into the lightly doped side (PN junction is one-sided)
+
+## Measuring the Built-in Potential
+
+- The built-in potential cannot be measured directly with a voltmeter
+- The potential difference will be canceled out by the contact potential when the voltmeter is connected
