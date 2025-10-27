@@ -38,18 +38,20 @@ export function generatePages(): PageData[] {
       const slug = data.slug || path
       const category = (slugs[0] in RouteTitleRecord && slugs[0]) || undefined
       const tags = data.tags
+      const noExerpt = data.noExcerpt || false
       delete data.time
       delete data.title
       delete data.meta
       delete data.slug
       delete data.tags
+      delete data.noExcerpt
       return {
         title,
         time,
         data,
         meta,
         category,
-        excerpt: frontmatter.excerpt,
+        excerpt: noExerpt ? undefined : frontmatter.excerpt,
         contentUrl: `${slug}`,
         sourceUrl: entryToRoot,
         tags,
