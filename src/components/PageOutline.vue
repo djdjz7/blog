@@ -69,10 +69,10 @@ watch(
           overflow-hidden
           text-ellipsis
           text-nowrap
-          w-full
           v-for="header in pageOutline"
           :key="header.slug"
-          :style="{ marginLeft: `${(header.level - 1) * 1}rem` }">
+          :style="{ marginLeft: `${(header.level - 1) * 1}rem` }"
+          :class="{ 'text-primary! font-semibold': highlightedSlug === header.slug }">
           <a
             :href="header.link"
             line-height-8
@@ -80,8 +80,7 @@ watch(
             decoration-none
             ref="anchors"
             transition-all
-            duration-150
-            :class="{ 'text-primary! font-semibold': highlightedSlug === header.slug }">
+            duration-150>
             {{ header.title }}
           </a>
         </li>
