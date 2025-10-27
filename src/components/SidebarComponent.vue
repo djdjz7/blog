@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, type Component, watch, onMounted } from 'vue'
 import allPages from 'virtual:pages.json'
 import { groupByYearMonth } from '@/utils'
 import ExpanderComponent from './ExpanderComponent.vue'
@@ -32,9 +32,35 @@ const toggleSidebar = (collapse?: boolean) => {
   }
 }
 
-defineProps<{
+const props = defineProps<{
   currentTitle: string | null | undefined
 }>()
+
+const entryElements = ref<Record<string, Element | Component | null>>({})
+
+watch(
+  () => props.currentTitle,
+  (newTitle) => {
+    if (
+      newTitle &&
+      entryElements.value[newTitle] &&
+      'scrollIntoView' in entryElements.value[newTitle]!
+    ) {
+      entryElements.value[newTitle].scrollIntoView({ behavior: 'smooth' })
+    }
+  },
+)
+
+onMounted(() => {
+  if (!props.currentTitle) return
+  if (!entryElements.value) return
+  if (!entryElements.value[props.currentTitle]) return
+  // @ts-expect-error f**k ts
+  if ('scrollIntoView' in entryElements.value[props.currentTitle]) {
+    // @ts-expect-error f**k ts
+    entryElements.value[props.currentTitle].scrollIntoView({ behavior: 'smooth' })
+  }
+})
 
 defineExpose({ toggleSidebar })
 </script>
@@ -70,7 +96,6 @@ defineExpose({ toggleSidebar })
         :class="{ 'translate-x-0! shadow-xl': !sidebarCollapsed }"
         lg:shadow-none>
         <a flex="~ items-center gap-2" href="/" class="text-unset! decoration-none">
-          <!-- <AutoDarkImage h-8 :src="LcpuDark" :src-dark="LcpuLight" alt="LCPU 标识" /> -->
           <span text-xl font-semibold>彩笔的部落阁</span>
         </a>
 
@@ -104,6 +129,7 @@ defineExpose({ toggleSidebar })
                 :href="page.contentUrl"
                 text-wrap
                 :key="page.title"
+                :ref="(el) => (entryElements[page.title] = el)"
                 class="text-gray-500! dark:text-truegray-400! hover:text-gray-800! dark:hover:text-white! decoration-none"
                 :class="{
                   'text-gray-800! dark:text-white! font-medium': currentTitle === page.title,
