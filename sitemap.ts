@@ -64,7 +64,7 @@ for (const category of Object.keys(RouteTitleRecord)) {
 
 console.log(chalk.bgYellow.greenBright('Sitemap:'))
 console.log(links.map((x) => x.url).join('\n'))
-const stream = new SitemapStream({ hostname: 'https://blog.djdjz7.top/' })
+const stream = new SitemapStream({ hostname: 'https://illusion.blog/' })
 const buffer = await streamToPromise(Readable.from(links).pipe(stream))
 const sitemap = buffer.toString()
 
