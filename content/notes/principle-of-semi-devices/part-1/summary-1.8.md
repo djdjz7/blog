@@ -4,7 +4,7 @@ time: 2025-10-30
 tags: ['笔记', '集成电路器件原理']
 ---
 
-Formulas and concepts till 1.8 of "Principle of Semiconductor Devices" course. Mainly formulas though.
+Formulas and concepts till 1.8 of the Principle of Semiconductor Devices course. Mainly formulas though.
 
 ---
 
@@ -243,7 +243,6 @@ C_j &= \frac{C_{j0}}{\sqrt{1 - \frac{V_A}{V_\text{bi}}}} \quad && \text{(Depleti
 C_\text{diff} &= \frac{Q_\text{diff}}{V_\text{th}} \quad && \text{(Diffusion Capacitance)} \\
 \end{aligned}
 $$
-
 
 ### Small Signal Model
 
