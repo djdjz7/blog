@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type Component, watch, onMounted } from 'vue'
+import { ref, type Component, watch, onMounted, type ComponentPublicInstance } from 'vue'
 import allPages from 'virtual:pages.json'
 import { groupByYearMonth } from '@/utils'
 import ExpanderComponent from './ExpanderComponent.vue'
@@ -36,17 +36,12 @@ const props = defineProps<{
   currentTitle: string | null | undefined
 }>()
 
-const entryElements = ref<Record<string, Element | Component | null>>({})
-
+const entryElements = ref<Record<string, Element | null>>({})
 watch(
   () => props.currentTitle,
   (newTitle) => {
-    if (
-      newTitle &&
-      entryElements.value[newTitle] &&
-      'scrollIntoView' in entryElements.value[newTitle]!
-    ) {
-      entryElements.value[newTitle].scrollIntoView({ behavior: 'smooth' })
+    if (newTitle && entryElements.value[newTitle]) {
+      scrollIntoViewIfNeeded(entryElements.value[newTitle])
     }
   },
 )
@@ -55,14 +50,26 @@ onMounted(() => {
   if (!props.currentTitle) return
   if (!entryElements.value) return
   if (!entryElements.value[props.currentTitle]) return
-  // @ts-expect-error f**k ts
-  if ('scrollIntoView' in entryElements.value[props.currentTitle]) {
-    // @ts-expect-error f**k ts
-    entryElements.value[props.currentTitle].scrollIntoView({ behavior: 'smooth' })
-  }
+  scrollIntoViewIfNeeded(entryElements.value[props.currentTitle]!)
 })
 
 defineExpose({ toggleSidebar })
+
+const elementRefToElement = (ele: Element | ComponentPublicInstance | null) => {
+  if (ele === null) return null
+  if ('$el' in ele) {
+    return ele.$el
+  }
+  return ele
+}
+
+const scrollIntoViewIfNeeded = (ele: Element) => {
+  const rect = ele.getBoundingClientRect()
+  if (!('scrollIntoView' in ele) || !rect) return
+  if (rect.top < 0 || rect.bottom > window.innerHeight) {
+    ele.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+}
 </script>
 
 <template>
@@ -129,7 +136,7 @@ defineExpose({ toggleSidebar })
                 :href="page.contentUrl"
                 text-wrap
                 :key="page.title"
-                :ref="(el) => (entryElements[page.title] = el)"
+                :ref="(el) => (entryElements[page.title] = elementRefToElement(el))"
                 class="text-gray-500! dark:text-truegray-400! hover:text-gray-800! dark:hover:text-white! decoration-none"
                 :class="{
                   'text-gray-800! dark:text-white! font-medium': currentTitle === page.title,
