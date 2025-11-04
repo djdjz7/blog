@@ -211,7 +211,7 @@ $$
 $$
 \mathbf{A} =
 \begin{bmatrix}
--1 & -\frac{1}{f} \\
+1 & -\frac{1}{f} \\
 0 & 1
 \end{bmatrix}
 $$
