@@ -385,7 +385,7 @@ $$
 - 傍轴 $z^2 \gg \rho^2$, $z^2 \gg \rho_0^2$
 - 远场 $z \gg \frac{\rho^2}{\lambda}$, $z \gg \frac{\rho_0^2}{\lambda}$
 
-一般傍轴距离大于远场距离
+光学频段 $\rho \gg \lambda$，故远场距离远大于傍轴距离
 
 ## 界面电磁理论
 
