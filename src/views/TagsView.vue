@@ -5,6 +5,7 @@ import allPages from 'virtual:pages.json'
 import { computed, onMounted, ref } from 'vue'
 import PageListEntry from '@/components/PageListEntry.vue'
 import LoadingView from './LoadingView.vue'
+import { pageEntryCompare } from '@/utils'
 
 const loading = ref(true)
 
@@ -15,11 +16,7 @@ const currentTag = ref(decodeURIComponent(url.hash.slice(1)) || '')
 const allTags = Array.from(new Set(allPages.flatMap((page) => page.tags || [])))
 const displayingPages = computed(() => {
   if (loading.value) return []
-  return allPages
-    .filter((page) => page.tags?.includes(currentTag.value))
-    .sort((a, b) => {
-      return Date.parse(b.time) - Date.parse(a.time)
-    })
+  return allPages.filter((page) => page.tags?.includes(currentTag.value)).sort(pageEntryCompare)
 })
 
 onMounted(() => {

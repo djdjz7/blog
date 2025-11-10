@@ -11,6 +11,7 @@ import { onMounted, useTemplateRef } from 'vue'
 import FooterComponent from '@/components/FooterComponent.vue'
 import { SiteConfiguration, RouteTitleRecord } from '@/site'
 import type { PageData } from '@/data/pagedata'
+import { pageEntryCompare } from '@/utils'
 
 const categories: { title: string; route: string; pages: PageData[] }[] = []
 
@@ -18,9 +19,7 @@ Object.keys(RouteTitleRecord).forEach((category) => {
   categories.push({
     title: SiteConfiguration.getRouteCategoryTitle(category),
     route: `/${category}/`,
-    pages: allPages
-      .filter((page) => page.category === category)
-      .sort((a, b) => Date.parse(b.time) - Date.parse(a.time)),
+    pages: allPages.filter((page) => page.category === category).sort(pageEntryCompare),
   })
 })
 

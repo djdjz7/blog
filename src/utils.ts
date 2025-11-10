@@ -1,3 +1,4 @@
+import type { PageData } from './data/pagedata'
 import { RouteTitleRecord } from './site'
 
 export function isIndexPage(slugs: string[]): boolean {
@@ -93,4 +94,10 @@ export async function waitForAppearance(
       resolve(null)
     }, timeoutMs)
   })
+}
+
+export function pageEntryCompare(a: PageData, b: PageData): number {
+  const timeDiff = Date.parse(b.time) - Date.parse(a.time)
+  if (timeDiff !== 0) return timeDiff
+  return b.title.localeCompare(a.title, ['en', 'zh'], { numeric: true })
 }
