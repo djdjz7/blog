@@ -12,12 +12,10 @@ const props = defineProps<{
     branch: string
   }[]
 }>()
-
-const fooTest = [{ message: 'chore: created "notes" and \'blog\' section' }]
 </script>
 
 <template>
-  <div class="git-history" :foo="fooTest">
+  <div class="git-history" data-pagefind-ignore>
     <div
       class="git-history-item"
       :class="[i === 0 ? 'rows-[auto_auto]' : 'rows-[.8rem_auto_auto]']"
