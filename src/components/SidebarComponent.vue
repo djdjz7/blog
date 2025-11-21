@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { ref, type Component, watch, onMounted, type ComponentPublicInstance } from 'vue'
+import { ref, type Component, watch, onMounted, type ComponentPublicInstance, inject } from 'vue'
 import allPages from 'virtual:pages.json'
 import { groupByYearMonth, pageEntryCompare } from '@/utils'
 import ExpanderComponent from './ExpanderComponent.vue'
 import { SiteConfiguration, RouteTitleRecord } from '@/site'
 import type { PageData } from '@/data/pagedata'
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { ClientOnly } from './ClientOnly'
+
+const showSearch = inject<() => void>('showSearch')
 
 const categories: {
   title: string
@@ -68,6 +72,12 @@ const scrollIntoViewIfNeeded = (ele: Element) => {
     ele.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 }
+
+const applePlatform = ref(false)
+
+onMounted(() => {
+  applePlatform.value = /Macintosh|iPhone|iPad|iPod/.test(navigator.userAgent)
+})
 </script>
 
 <template>
@@ -100,9 +110,38 @@ const scrollIntoViewIfNeeded = (ele: Element) => {
         class="w-80% max-w-400px lg:w-unset lg:max-w-unset -translate-x-100% lg:translate-x-0"
         :class="{ 'translate-x-0! shadow-xl': !sidebarCollapsed }"
         lg:shadow-none>
-        <a flex="~ items-center gap-2" href="/" class="text-unset! decoration-none">
-          <span text-xl font-semibold>彩笔的部落阁</span>
-        </a>
+        <div flex="~ items-center">
+          <a
+            flex="~ items-center gap-2"
+            href="/"
+            class="text-unset! decoration-none"
+            text-xl
+            font-semibold
+            >彩笔的部落阁</a
+          >
+          <div flex-1></div>
+          <ClientOnly>
+            <div
+              @click="showSearch?.()"
+              p-2
+              rounded-md
+              class="bg-gray-200/40 dark:bg-truegray-700/40"
+              cursor-pointer
+              flex
+              items-center
+              color-gray-500
+              dark:color-truegray-400
+              text-sm
+              font-200>
+              <MagnifyingGlassIcon class="w-4 color-gray-500 dark:color-truegray-400" />
+              <span m-l-1>搜索</span>
+              <div rounded-sm m-l-4>
+                <kbd font-inherit>{{ applePlatform ? '⌘' : 'Ctrl' }}</kbd>
+                <kbd m-l-1 font-inherit>K</kbd>
+              </div>
+            </div>
+          </ClientOnly>
+        </div>
 
         <ExpanderComponent m-t-4 v-for="category in categories" :key="category.title">
           <template #header>
