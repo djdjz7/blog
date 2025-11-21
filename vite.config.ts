@@ -32,5 +32,11 @@ export default defineConfig({
   build: {
     minify: 'esbuild',
     cssMinify: true,
+    rollupOptions: {
+      external: ['/pagefind/pagefind.js'],
+    },
+  },
+  optimizeDeps: {
+    exclude: ['/pagefind/pagefind.js'],
   },
 })

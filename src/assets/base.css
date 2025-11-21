@@ -5,7 +5,8 @@ body {
   text-size-adjust: none;
 }
 
-:root {
+:root,
+input {
   font-family:
     'Inter',
     -apple-system,
@@ -24,7 +25,8 @@ body {
 }
 
 @supports (font-variation-settings: normal) {
-  :root {
+  :root,
+  input {
     font-family: InterVariable, sans-serif;
   }
 }
@@ -123,4 +125,12 @@ mjx-container {
 
 *::selection {
   --at-apply: 'bg-amber-500/30 dark:bg-amber-300/40';
+}
+
+mark {
+  background-color: unset;
+  --at-apply: 'decoration-amber-500/60 dark:decoration-amber-300/50 underline';
+  text-decoration-thickness: 60%;
+  text-underline-offset: -40%;
+  color: inherit;
 }

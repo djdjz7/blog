@@ -73,7 +73,7 @@ export default function markdownContentGenerator(): PluginOption {
         const headers = env.headers || []
         injectSetupCode('const __gitHistory = ' + gitHistory, sfcBlocks)
         injectHeaderData(headers, sfcBlocks)
-        return `<template><div class="md-content ${encodeURIComponent(frontmatter.data.title)}">${templateContent}</div></template>${sfcBlocks.scriptSetup?.content}${sfcBlocks.script?.content || ''}${sfcBlocks.styles.map((x) => x.content) || ''}${sfcBlocks.customBlocks.map((x) => x.content).join('')}`
+        return `<template><main data-pagefind-body class="md-content ${encodeURIComponent(frontmatter.data.title)}">${templateContent}</main></template>${sfcBlocks.scriptSetup?.content}${sfcBlocks.script?.content || ''}${sfcBlocks.styles.map((x) => x.content) || ''}${sfcBlocks.customBlocks.map((x) => x.content).join('')}`
       }
     },
     handleHotUpdate({ server, file }) {

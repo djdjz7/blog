@@ -2,8 +2,15 @@
 import MainComponent from './components/MainComponent.vue'
 import { SiteConfiguration } from './site'
 import NewYearBg from './components/NewYearBg.vue'
+import FullscreenSearch from './components/FullscreenSearch.vue'
+import { ClientOnly } from './components/ClientOnly'
+import { provide, useTemplateRef } from 'vue'
 // import { useDark } from '@vueuse/core'
 // useDark()
+const searchComp = useTemplateRef('search-comp-ref')
+provide('showSearch', () => {
+  searchComp.value?.show()
+})
 </script>
 
 <template>
@@ -12,6 +19,9 @@ import NewYearBg from './components/NewYearBg.vue'
   <Suspense>
     <MainComponent z-1 relative />
   </Suspense>
+  <ClientOnly>
+    <FullscreenSearch ref="search-comp-ref" />
+  </ClientOnly>
 </template>
 
 <style lang="css">

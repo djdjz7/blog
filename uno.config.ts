@@ -14,6 +14,7 @@ export default defineConfig({
       ? {
           'text-primary': 'text-amber-500 dark:text-amber-300',
           'bg-primary': 'bg-amber-500 dark:bg-amber-300',
+          'border-primary': 'border-amber-500 dark:border-amber-300',
         }
       : {
           'text-primary': 'text-red-500 dark:text-red-300',
