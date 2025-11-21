@@ -58,7 +58,7 @@ routesToPrerender.push(
 
 // pre-render each route...
 for (const url of routesToPrerender) {
-  const [appHtml, preloadLinks, titlePrefix, meta] = await render(url, manifest)
+  const [appHtml, preloadLinks, titlePrefix, meta, lang] = await render(url, manifest)
   let html = template
   if (url === '/') {
     html = template.replace(`<!--title-prefix--> | <!--title-suffix-->`, `彩笔的部落阁`)
@@ -69,6 +69,7 @@ for (const url of routesToPrerender) {
     .replace(`<!--title-prefix-->`, titlePrefix)
     .replace(`<!--meta-->`, meta)
     .replace(`<!--title-suffix-->`, SiteConfiguration.titleSuffix)
+    .replace(`data-prerender-inject-lang`, `lang="${lang || SiteConfiguration.defaultLang}"`)
 
   const filePath = `dist/static${url.endsWith('/') ? url + 'index.html' : url}`
   customWriteFileSync(toAbsolute(filePath), html)

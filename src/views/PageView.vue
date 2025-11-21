@@ -50,8 +50,14 @@ const isCurrentIndexPage = ref(isIndexPage)
 const title = useTitle('', { titleTemplate: `%s | ${SiteConfiguration.titleSuffix}` })
 
 title.value = currentPage.value?.title ? currentPage.value.title : pageCategory.value
+
+if (!import.meta.env.SSR) {
+  document.documentElement.lang = currentPage.value?.lang ?? SiteConfiguration.defaultLang
+}
+
 if (ssrContext) {
   ssrContext.titlePrefix = title.value
+  ssrContext.lang = currentPage.value?.lang ?? SiteConfiguration.defaultLang
   const meta: { [key: string]: string } = currentPage.value?.meta ?? {}
   meta.description = (meta.description ?? currentPage.value?.excerpt)?.trim()
   ssrContext.meta = meta
@@ -87,6 +93,7 @@ watch(
     currentPage.value = page
     isCurrentIndexPage.value = isIndexPage
     title.value = currentPage.value?.title ? currentPage.value.title : pageCategory.value
+    document.documentElement.lang = currentPage.value?.lang ?? SiteConfiguration.defaultLang
     isLoading.value = true
     pageOutlineData.value = []
     pageSplash.value =
@@ -114,6 +121,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener('scroll', handleScroll)
+  document.documentElement.lang = SiteConfiguration.defaultLang
 })
 
 async function resolvePageModule(sourceOrPathname: string): Promise<Module | never> {

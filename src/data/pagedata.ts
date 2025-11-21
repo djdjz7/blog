@@ -8,4 +8,5 @@ export interface PageData {
   meta?: { [key: string]: string }
   data: { [key: string]: unknown }
   tags?: string[]
+  lang?: string
 }

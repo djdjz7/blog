@@ -22,7 +22,7 @@ export async function render(url: string, manifest: { [key: string]: string[] })
   // request.
   const preloadLinks = renderPreloadLinks(ctx.modules, manifest)
   const meta = renderMeta(ctx)
-  return [html, preloadLinks, ctx.titlePrefix ?? '', meta]
+  return [html, preloadLinks, ctx.titlePrefix ?? '', meta, ctx.lang]
 }
 
 function renderPreloadLinks(modules: Set<string>, manifest: { [key: string]: string[] }) {

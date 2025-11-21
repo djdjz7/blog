@@ -14,6 +14,7 @@ interface SiteConfiguration {
   git: {
     repo: string
   }
+  defaultLang: string
 }
 
 export const RouteTitleRecord: Record<string, string> = {
@@ -38,4 +39,5 @@ export const SiteConfiguration: SiteConfiguration = {
   git: {
     repo: 'djdjz7/blog',
   },
+  defaultLang: 'zh-CN',
 }

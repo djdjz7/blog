@@ -2,6 +2,7 @@
 title: 半导体器件原理 Summary as of 1.8
 time: 2025-10-30
 tags: ['笔记', '集成电路器件原理']
+lang: en
 ---
 
 Formulas and concepts till 1.8 of the Principle of Semiconductor Devices course. Mainly formulas though.

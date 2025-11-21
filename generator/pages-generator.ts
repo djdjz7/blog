@@ -2,7 +2,7 @@ import { PluginOption } from 'vite'
 import fg from 'fast-glob'
 import matter from 'gray-matter'
 import type { PageData } from '../src/data/pagedata'
-import { RouteTitleRecord } from '../src/site'
+import { RouteTitleRecord, SiteConfiguration } from '../src/site'
 import { existsSync, readFileSync } from 'fs'
 import yaml from 'js-yaml'
 
@@ -39,12 +39,14 @@ export function generatePages(): PageData[] {
       const category = (slugs[0] in RouteTitleRecord && slugs[0]) || undefined
       const tags = data.tags
       const noExerpt = data.noExcerpt || false
+      const lang = data.lang || SiteConfiguration.defaultLang
       delete data.time
       delete data.title
       delete data.meta
       delete data.slug
       delete data.tags
       delete data.noExcerpt
+      delete data.lang
       return {
         title,
         time,
@@ -55,6 +57,7 @@ export function generatePages(): PageData[] {
         contentUrl: `${slug}`,
         sourceUrl: entryToRoot,
         tags,
+        lang,
       }
     })
     .filter((page) => page !== undefined)
