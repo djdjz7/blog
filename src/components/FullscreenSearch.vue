@@ -43,11 +43,9 @@ const show = async () => {
     if (isLoadingBundle.value) return
     isLoadingBundle.value = true
     try {
+      if (import.meta.env.DEV) throw 'Pagefind is not available in dev mode.'
       const pagefindBundle = '/pagefind' + '/pagefind.js'
-      pagefind = import.meta.env.DEV
-        ? // @ts-expect-error: js import
-          await import('@/pagefind/pagefind.js')
-        : await import(/* @vite-ignore */ pagefindBundle)
+      pagefind = await import(/* @vite-ignore */ pagefindBundle)
       isLoadingBundle.value = false
       pagefindBundleLoadError.value = null
     } catch (e) {
