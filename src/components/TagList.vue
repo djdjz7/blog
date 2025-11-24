@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   tags: string[]
+  stateful: boolean
 }>()
 
 const selectedTag = defineModel<string>({
@@ -13,7 +14,7 @@ const selectedTag = defineModel<string>({
     <div v-for="tag in tags" :key="tag">
       <a
         rounded-full
-        flex="~ col gap-2"
+        block
         text-unset
         p-x-2
         p-y-1
@@ -24,11 +25,11 @@ const selectedTag = defineModel<string>({
         transition
         :href="`/tags/#${tag}`"
         :class="[
-          tag == selectedTag
+          stateful && tag == selectedTag
             ? 'bg-amber-50! border-amber-100 text-primary! dark:bg-amber-950! dark:border-amber-900! dark:text-primary-dark!'
             : 'bg-gray-200/30 dark:bg-gray-200/10',
         ]"
-        @click="selectedTag = tag">
+        @click="selectedTag = stateful ? tag : ''">
         {{ tag }}
       </a>
     </div>

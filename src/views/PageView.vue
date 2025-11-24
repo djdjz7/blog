@@ -299,6 +299,7 @@ const isDev = !!import.meta.env.DEV
                 :class="[pageSplash ? 'h-0 relative' : 'm-t-16 lg:m-t-12']">
                 <div :class="[pageSplash ? 'text-white/85 text-shadow-sm absolute bottom-6' : '']">
                   <TagList
+                    :stateful="false"
                     v-if="currentPage.tags"
                     :tags="currentPage.tags"
                     class="text-shadow-none text-xs" />

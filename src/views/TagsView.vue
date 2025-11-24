@@ -2,15 +2,15 @@
 import { useRoute } from '@/router/router'
 import TagList from '@/components/TagList.vue'
 import allPages from 'virtual:pages.json'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import PageListEntry from '@/components/PageListEntry.vue'
 import LoadingView from './LoadingView.vue'
 import { pageEntryCompare } from '@/utils'
 
 const loading = ref(true)
 
-const router = useRoute(() => undefined)
-const url = new URL(router.path, 'https://a.com')
+const route = useRoute(() => undefined)
+const url = new URL(route.path, 'https://a.com')
 const currentTag = ref(decodeURIComponent(url.hash.slice(1)) || '')
 
 const allTags = Array.from(new Set(allPages.flatMap((page) => page.tags || [])))
@@ -22,12 +22,20 @@ const displayingPages = computed(() => {
 onMounted(() => {
   loading.value = false
 })
+
+watch(
+  () => route.path,
+  (newPath) => {
+    const newUrl = new URL(newPath, 'https://a.com')
+    currentTag.value = decodeURIComponent(newUrl.hash.slice(1)) || ''
+  },
+)
 </script>
 
 <template>
   <div v-if="loading"><LoadingView /></div>
   <div v-else class="-m-t-2">
-    <TagList :tags="allTags" v-model="currentTag" class="text-sm" />
+    <TagList :stateful="true" :tags="allTags" v-model="currentTag" class="text-sm" />
     <div v-if="displayingPages.length" flex="~ col" m-t-8>
       <TransitionGroup name="page-list">
         <PageListEntry

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PageData } from '@/data/pagedata'
 import { dateString } from '@/utils'
+import TagList from './TagList.vue'
 
 defineProps<{
   pageEntry: PageData
