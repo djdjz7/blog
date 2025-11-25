@@ -6,41 +6,57 @@ import { dirname } from 'path'
 import fs from 'fs'
 import { RouteTitleRecord } from './src/site.ts'
 import chalk from 'chalk'
+import yaml from 'js-yaml'
 
 const links = []
 
-const pages = fg
-  .sync(`./content/**/index.md`)
-  .map((entry) => {
-    return { entry, frontmatter: matter.read(entry) }
-  })
-  .map((file) => {
-    const { entry, frontmatter } = file
-    if (frontmatter.data.hidden) return undefined
-    const dir = dirname(entry).split('/')
-    return {
-      url: frontmatter.data.slug
-        ? `/${dir.slice(2, -1).join('/')}/${frontmatter.data.slug}/`
-        : `/${dir.slice(2).join('/')}/`,
-      lastmod: frontmatter.data.time,
-      changefreq: 'monthly',
-      priority: 0.5,
+const pages = [
+  ...fg
+    .sync(`./content/**/*.md`)
+    .map((entry) => {
+      return { entry, frontmatter: matter.read(entry) }
+    })
+    .map((file) => {
+      const { entry, frontmatter } = file
+      if (frontmatter.data.hidden) return undefined
+      const url = entry
+        .replace(/\/index\.md$/, '/')
+        .replace(/\.md$/, '/')
+        .replace(/^\.\/content\//, '/')
+      return {
+        url: frontmatter.data.slug || url,
+        lastmod: frontmatter.data.time,
+        changefreq: 'monthly',
+        priority: 0.5,
+      }
+    }),
+  ...fg.sync(`./content/**/*.vue`).map((file) => {
+    const url = file
+      .replace(/\/index\.vue$/, '/')
+      .replace(/\.vue$/, '/')
+      .replace(/^\.\/content\//, '/')
+    const frontmatterCandidates = [file + '.yaml', file + '.yml']
+    for (const candidate of frontmatterCandidates) {
+      if (fs.existsSync(candidate)) {
+        const frontmatter = yaml.load(fs.readFileSync(candidate, 'utf-8')) as any
+        console.log(frontmatter)
+        if (frontmatter.hidden) return undefined
+        if (!frontmatter.time) continue
+        return {
+          url: frontmatter.slug || url,
+          lastmod: frontmatter.time,
+          changefreq: 'monthly',
+          priority: 0.5,
+        }
+      }
     }
-  })
+    return undefined
+  }),
+]
   .filter((page) => page !== undefined)
   .sort((a, b) => new Date(b.lastmod).getTime() - new Date(a.lastmod).getTime())
 
-const pagesVue = fg.sync(`./content/**/index.vue`).map((file) => {
-  const dir = dirname(file).split('/')
-  return {
-    url: `/${dir.slice(2).join('/')}/`,
-    lastmod: new Date(),
-    changefreq: 'monthly',
-    priority: 0.5,
-  }
-})
-
-links.push(...pages, ...pagesVue)
+links.push(...pages)
 
 const categories: { [key: string]: Date } = {}
 for (const category of Object.keys(RouteTitleRecord)) {
