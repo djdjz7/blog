@@ -1,15 +1,11 @@
 import { PluginOption } from 'vite'
 import matter from 'gray-matter'
-import * as mdit from 'markdown-it'
 import { injectHeaderData, injectSetupCode, registerMarkdownPlugins } from './markdown'
 import { dirname } from 'path'
 import { MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc'
 import { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 import { exec } from 'child_process'
-import { liteAdaptor } from 'mathjax-full/js/adaptors/liteAdaptor.js'
 import { md } from './markdown'
-
-const adaptor = liteAdaptor({ fontSize: 16 })
 
 const preReplaceRe = /(<pre(?:(?!v-pre)[\s\S])*?)>/gm
 
@@ -81,7 +77,10 @@ export default function markdownContentGenerator(): PluginOption {
               }),
             )
           ).forEach(([key, value]) => {
-            templateContent = templateContent.replace(key, adaptor.outerHTML(value))
+            templateContent = templateContent.replace(
+              key,
+              env.mathjax.startup.adaptor.outerHTML(value),
+            )
           })
         }
 
