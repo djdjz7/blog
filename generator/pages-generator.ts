@@ -5,6 +5,7 @@ import type { PageData } from '../src/data/pagedata'
 import { RouteTitleRecord, SiteConfiguration } from '../src/site'
 import { existsSync, readFileSync } from 'fs'
 import yaml from 'js-yaml'
+import { md } from './markdown'
 
 export function generatePages(): PageData[] {
   return fg
@@ -53,7 +54,11 @@ export function generatePages(): PageData[] {
         data,
         meta,
         category,
-        excerpt: noExerpt ? undefined : frontmatter.excerpt,
+        excerpt: noExerpt
+          ? undefined
+          : frontmatter.excerpt
+            ? md.render(frontmatter.excerpt)
+            : undefined,
         contentUrl: `${slug}`,
         sourceUrl: entryToRoot,
         tags,

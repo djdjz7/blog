@@ -1,4 +1,4 @@
-import MarkdownIt from 'markdown-it'
+import MarkdownIt, * as mdit from 'markdown-it'
 import Token from 'markdown-it/lib/token.mjs'
 import { SiteConfiguration } from '../../src/site'
 import Shiki from '@shikijs/markdown-it'
@@ -165,3 +165,13 @@ function createContainer(md: MarkdownIt, klass: string, title: string) {
     },
   })
 }
+
+const md = mdit.default({
+  html: true,
+  linkify: true,
+  typographer: true,
+})
+
+registerMarkdownPlugins(md)
+
+export { md }

@@ -20,9 +20,7 @@ defineProps<{
         <span v-if="pageEntry.data[key]">{{ pageEntry.data[key] }}</span>
       </span>
     </div>
-    <p v-if="pageEntry.excerpt?.trim()" whitespace-pre text-wrap m-t-2 m-b-0>
-      {{ pageEntry.excerpt.trim() }}
-    </p>
+    <p m-t-2 m-b-0 class="excerpt-wrapper" v-if="pageEntry.excerpt" v-html="pageEntry.excerpt"></p>
     <a :href="pageEntry.contentUrl" underline-offset-4 m-b-2 m-t-2 inline-block w-auto
       >阅读全文...</a
     >
@@ -36,5 +34,17 @@ defineProps<{
 
 .news-list-entry:last-of-type {
   padding-bottom: 0;
+}
+
+.excerpt-wrapper > *:first-child {
+  --at-apply: m-t-0;
+}
+
+.excerpt-wrapper > *:last-child {
+  --at-apply: m-b-0;
+}
+
+.excerpt-wrapper > :deep(p) {
+  --at-apply: m-y-2;
 }
 </style>

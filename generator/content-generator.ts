@@ -7,16 +7,9 @@ import { MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc'
 import { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 import { exec } from 'child_process'
 import { liteAdaptor } from 'mathjax-full/js/adaptors/liteAdaptor.js'
-
-const md = mdit.default({
-  html: true,
-  linkify: true,
-  typographer: true,
-})
+import { md } from './markdown'
 
 const adaptor = liteAdaptor({ fontSize: 16 })
-
-registerMarkdownPlugins(md)
 
 const preReplaceRe = /(<pre(?:(?!v-pre)[\s\S])*?)>/gm
 
