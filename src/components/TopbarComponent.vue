@@ -15,10 +15,14 @@ defineProps<{
     top-0
     left-0
     right-0
-    :class="[showTitle ? 'bg-white/80 dark:bg-[#121212]/80 backdrop-blur-xl' : 'bg-transparent']"
     h-14
     flex="~ items-center"
-    z-500>
+    z-500
+    :class="[
+      showTitle
+        ? 'from-white dark:from-[#121212] via-white/90 dark:via-[#121212]/90 via-40% dark:via-30% bg-gradient-to-b to-transparent  '
+        : 'bg-transparent',
+    ]">
     <div
       flex="~ items-center"
       w-full
@@ -26,7 +30,8 @@ defineProps<{
       m-x-auto
       p-x-6
       gap-6
-      box-border>
+      box-border
+      z-501>
       <button
         title="打开侧边栏"
         cursor-pointer
@@ -36,7 +41,7 @@ defineProps<{
         bg-transparent>
         <Bars3BottomLeftIcon class="w-6 h-6 text-black dark:text-white" />
       </button>
-      <a href="/" title="返回主页" p-0 border-none bg-transparent>
+      <a href="/" title="返回主页">
         <HomeIcon class="w-6 h-6 text-black dark:text-white" />
       </a>
       <span

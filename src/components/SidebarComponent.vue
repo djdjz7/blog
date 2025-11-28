@@ -107,6 +107,7 @@ onMounted(() => {
         lg:bg-transparent
         duration-300
         overflow-auto
+        overscroll-contain
         class="w-80% max-w-400px lg:w-unset lg:max-w-unset -translate-x-100% lg:translate-x-0"
         :class="{ 'translate-x-0! shadow-xl': !sidebarCollapsed }"
         lg:shadow-none>
