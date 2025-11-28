@@ -8,7 +8,9 @@ import {
   transformerNotationHighlight,
   transformerRemoveNotationEscape,
 } from '@shikijs/transformers'
-import MathJax3 from 'markdown-it-mathjax3'
+import { MarkdownItTexOptions, tex } from '@mdit/plugin-tex'
+// @ts-expect-error: MathJax typing issues
+import MathJax from 'mathjax'
 import MarkdownItContainer from 'markdown-it-container'
 import { componentPlugin } from '@mdit-vue/plugin-component'
 import { MarkdownSfcBlocks, sfcPlugin } from '@mdit-vue/plugin-sfc'
@@ -18,12 +20,33 @@ import ImageProcessor from './image-processor'
 import anchor from 'markdown-it-anchor'
 import { imgLazyload } from '@mdit/plugin-img-lazyload'
 import heimu from './heimu'
+import { randomUUID } from 'crypto'
+
+await MathJax.init({
+  loader: { load: ['input/tex', 'input/asciimath', 'output/svg'] },
+  svg: { fontCache: 'local' },
+})
 
 export async function registerMarkdownPlugins(mdit: MarkdownIt) {
   mdit
     .use(MarkdownItFootnote)
     .use(ImageProcessor)
-    .use(MathJax3)
+    .use(tex, {
+      render(
+        content,
+        displayMode,
+        env: { mathPromises?: Record<string, Promise<any>>; mathjax?: any },
+      ) {
+        if (!env.mathPromises) {
+          env.mathPromises = {}
+        }
+        const uuid = `<!-- math-${randomUUID()} -->`
+
+        env.mathPromises[uuid] = MathJax.tex2svgPromise(content, { display: displayMode })
+        env.mathjax = MathJax
+        return uuid
+      },
+    } as MarkdownItTexOptions)
     .use(heimu)
     .use(anchor, {
       permalink: anchor.permalink.ariaHidden({

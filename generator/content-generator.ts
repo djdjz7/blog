@@ -6,12 +6,15 @@ import { dirname } from 'path'
 import { MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc'
 import { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 import { exec } from 'child_process'
+import { liteAdaptor } from 'mathjax-full/js/adaptors/liteAdaptor.js'
 
 const md = mdit.default({
   html: true,
   linkify: true,
   typographer: true,
 })
+
+const adaptor = liteAdaptor({ fontSize: 16 })
 
 registerMarkdownPlugins(md)
 
@@ -60,10 +63,13 @@ export default function markdownContentGenerator(): PluginOption {
           mdRootPath: string
           sfcBlocks?: MarkdownSfcBlocks
           headers?: MarkdownItHeader[]
+          mathPromises?: Record<string, Promise<any>>
+          mathjax?: any
         } = { mdRootPath: dirname(id) }
         const gitHistory = await getGitHistory(id)
 
         md.render(content, env)
+
         const sfcBlocks = env.sfcBlocks!
         let templateContent = sfcBlocks.template?.contentStripped || ''
         templateContent =
@@ -73,6 +79,31 @@ export default function markdownContentGenerator(): PluginOption {
         const headers = env.headers || []
         injectSetupCode('const __gitHistory = ' + gitHistory, sfcBlocks)
         injectHeaderData(headers, sfcBlocks)
+
+        if (env.mathPromises) {
+          ;(
+            await Promise.all(
+              Object.keys(env.mathPromises).map(async (key) => {
+                return [key, await env.mathPromises![key]] as const
+              }),
+            )
+          ).forEach(([key, value]) => {
+            templateContent = templateContent.replace(key, adaptor.outerHTML(value))
+          })
+        }
+
+        const stylesheet = env.mathjax?.svgStylesheet()
+        if (stylesheet) {
+          const mathcss = env.mathjax?.startup.adaptor.cssText(stylesheet)
+          sfcBlocks.styles.push({
+            content: `<style>${mathcss}</style>`,
+            contentStripped: mathcss,
+            tagOpen: '<style>',
+            tagClose: '</style>',
+            type: 'style',
+          })
+        }
+
         return `<template><main data-pagefind-body class="md-content ${encodeURIComponent(frontmatter.data.title)}">${templateContent}</main></template>${sfcBlocks.scriptSetup?.content}${sfcBlocks.script?.content || ''}${sfcBlocks.styles.map((x) => x.content) || ''}${sfcBlocks.customBlocks.map((x) => x.content).join('')}`
       }
     },
