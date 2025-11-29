@@ -287,10 +287,9 @@ const isDev = import.meta.env.DEV
             <component :is="page.Content" @vue:mounted="handleDynamicComponentMounted" />
           </Transition>
           <ClientOnly>
-            <div m-t-12>
+            <div m-t-12 v-if="!page.isIndex && !isDev" id="comments">
               <Giscus
                 :key="route.path"
-                v-if="!page.isIndex && !isDev"
                 repo="djdjz7/blog"
                 repo-id="R_kgDOJ-yiVw"
                 category="General"
@@ -301,7 +300,7 @@ const isDev = import.meta.env.DEV
                 emit-metadata="0"
                 loading="lazy"
                 input-position="bottom"
-                theme="preferred_color_scheme"
+                theme="https://illusion.blog/assets/giscus.css"
                 lang="zh-CN" />
             </div>
           </ClientOnly>
