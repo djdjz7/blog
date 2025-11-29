@@ -12,8 +12,7 @@ import {
   watchEffect,
   watch,
 } from 'vue'
-// @ts-expect-error javascript import
-import VueUtterances from 'vue-utterances'
+import Giscus from '@giscus/vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import { useTitle } from '@vueuse/core'
 import type { MarkdownItHeader } from '@mdit-vue/plugin-headers'
@@ -288,12 +287,23 @@ const isDev = import.meta.env.DEV
             <component :is="page.Content" @vue:mounted="handleDynamicComponentMounted" />
           </Transition>
           <ClientOnly>
-            <VueUtterances
-              :key="route"
-              v-if="!page.isIndex && !isDev"
-              theme="preferred-color-scheme"
-              repo="djdjz7/blog"
-              class="m-t-12" />
+            <div m-t-12>
+              <Giscus
+                :key="route.path"
+                v-if="!page.isIndex && !isDev"
+                repo="djdjz7/blog"
+                repo-id="R_kgDOJ-yiVw"
+                category="General"
+                category-id="DIC_kwDOJ-yiV84CzLiO"
+                mapping="pathname"
+                strict="0"
+                reactions-enabled="1"
+                emit-metadata="0"
+                loading="lazy"
+                input-position="bottom"
+                theme="preferred_color_scheme"
+                lang="zh-CN" />
+            </div>
           </ClientOnly>
           <FooterComponent p-y-12 />
         </div>

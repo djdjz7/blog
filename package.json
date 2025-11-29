@@ -23,11 +23,11 @@
     "preview": "run-s build preview:ssg"
   },
   "dependencies": {
+    "@giscus/vue": "^3.1.1",
     "@heroicons/vue": "^2.2.0",
     "@vueuse/core": "^14.0.0",
     "markdown-it-footnote": "^4.0.0",
-    "vue": "^3.5.25",
-    "vue-utterances": "^0.3.4"
+    "vue": "^3.5.25"
   },
   "devDependencies": {
     "@mdit-vue/plugin-component": "^3.0.2",
