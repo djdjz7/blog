@@ -23,8 +23,11 @@ import heimu from './heimu'
 import { randomUUID } from 'crypto'
 
 await MathJax.init({
-  loader: { load: ['input/tex', 'input/asciimath', 'output/svg'] },
+  loader: { load: ['input/tex', 'input/asciimath', 'output/svg', 'a11y/assistive-mml'] },
   svg: { fontCache: 'local' },
+  options: {
+    enableAssistiveMml: true,
+  },
 })
 
 export async function registerMarkdownPlugins(mdit: MarkdownIt) {
@@ -42,7 +45,9 @@ export async function registerMarkdownPlugins(mdit: MarkdownIt) {
         }
         const uuid = `<!-- math-${randomUUID()} -->`
 
-        env.mathPromises[uuid] = MathJax.tex2svgPromise(content, { display: displayMode })
+        env.mathPromises[uuid] = MathJax.tex2svgPromise(content, {
+          display: displayMode,
+        })
         env.mathjax = MathJax
         return uuid
       },
