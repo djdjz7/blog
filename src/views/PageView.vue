@@ -228,6 +228,8 @@ const handleDynamicComponentMounted = () => {
   if (anchor) window.scrollTo({ top: anchor.offsetTop - 40, behavior: 'smooth' })
   else window.scrollTo({ top: route.scrollTop, behavior: 'instant' })
 }
+
+const isDev = import.meta.env.DEV
 </script>
 
 <template>
@@ -285,6 +287,14 @@ const handleDynamicComponentMounted = () => {
           <Transition mode="out-in" name="slide-fade">
             <component :is="page.Content" @vue:mounted="handleDynamicComponentMounted" />
           </Transition>
+          <ClientOnly>
+            <VueUtterances
+              :key="route"
+              v-if="!page.isIndex && !isDev"
+              theme="preferred-color-scheme"
+              repo="djdjz7/blog"
+              class="m-t-12" />
+          </ClientOnly>
           <FooterComponent p-y-12 />
         </div>
       </div>
