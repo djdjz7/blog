@@ -4,6 +4,7 @@ import { inject, reactive, type InjectionKey } from 'vue'
 
 export interface Route {
   path: string
+  hash: string
   scrollTop: number
 }
 
@@ -19,15 +20,20 @@ let getScrollTop: () => number | undefined
 
 const getDefaultRoute = (): Route => ({
   path: '/',
+  hash: '',
   scrollTop: 0,
 })
 
 export function createRouter(): Router {
   const route = reactive(getDefaultRoute())
   const go = (href?: string) => {
-    if (!href) href = import.meta.env.SSR ? '/' : window.location.href
-    route.path = href
-    route.scrollTop = scrollHistory[href] || 0
+    const location = new URL(
+      href || (import.meta.env.SSR ? '/' : window.location.href),
+      'http://example.com',
+    )
+    route.path = location.pathname
+    route.hash = location.hash
+    route.scrollTop = scrollHistory[location.href] || 0
   }
   if (!import.meta.env.SSR) initListeners(go)
   return { route, go }

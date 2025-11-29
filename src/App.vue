@@ -16,9 +16,7 @@ provide('showSearch', () => {
 <template>
   <div class="bg"></div>
   <NewYearBg v-if="SiteConfiguration.theme === 'new-year'" />
-  <Suspense>
-    <MainComponent z-1 relative />
-  </Suspense>
+  <MainComponent z-1 relative />
   <ClientOnly>
     <FullscreenSearch ref="search-comp-ref" />
   </ClientOnly>

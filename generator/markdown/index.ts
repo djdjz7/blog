@@ -30,25 +30,29 @@ await MathJax.init({
   },
 })
 
-export async function registerMarkdownPlugins(mdit: MarkdownIt) {
+type MarkdownRenderEnv = {
+  mdRootPath?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  math?: { renderPromises: Record<string, Promise<any>>; mathjaxInstance: any }
+  sfcBlocks?: MarkdownSfcBlocks
+  headers?: MarkdownItHeader[]
+}
+
+async function registerMarkdownPlugins(mdit: MarkdownIt) {
   mdit
     .use(MarkdownItFootnote)
     .use(ImageProcessor)
     .use(tex, {
-      render(
-        content,
-        displayMode,
-        env: { mathPromises?: Record<string, Promise<any>>; mathjax?: any },
-      ) {
-        if (!env.mathPromises) {
-          env.mathPromises = {}
+      render(content, displayMode, env: MarkdownRenderEnv) {
+        if (!env.math) env.math = { renderPromises: {}, mathjaxInstance: MathJax }
+        if (!env.math.renderPromises) {
+          env.math.renderPromises = {}
         }
         const uuid = `<!-- math-${randomUUID()} -->`
 
-        env.mathPromises[uuid] = MathJax.tex2svgPromise(content, {
+        env.math.renderPromises[uuid] = MathJax.tex2svgPromise(content, {
           display: displayMode,
         })
-        env.mathjax = MathJax
         return uuid
       },
     } as MarkdownItTexOptions)
@@ -179,4 +183,56 @@ const md = mdit.default({
 
 registerMarkdownPlugins(md)
 
-export { md }
+export async function renderMarkdown(
+  src: string,
+  env: MarkdownRenderEnv,
+): Promise<{
+  result: string
+  headers: MarkdownItHeader[]
+  sfcBlocks: MarkdownSfcBlocks
+  patchedTemplateContentStripped?: string
+}> {
+  let result = md.render(src, env)
+  if (!env.math) {
+    return {
+      result,
+      // headers and sfcBlocks will not be null after render
+      headers: env.headers!,
+      sfcBlocks: env.sfcBlocks!,
+      patchedTemplateContentStripped: env.sfcBlocks?.template?.contentStripped,
+    }
+  }
+  const { mathjaxInstance, renderPromises } = env.math
+  const mathRenderResults = (
+    await Promise.all(
+      Object.keys(renderPromises).map((k) => {
+        return renderPromises[k].then((v) => [k, v] as const)
+      }),
+    )
+  ).map(([k, v]) => [k, mathjaxInstance.startup.adaptor.outerHTML(v) as string] as const)
+
+  mathRenderResults.forEach(([k, v]) => {
+    result = result.replace(k, v)
+  })
+  let templateContentStripped = env.sfcBlocks?.template?.contentStripped
+  if (templateContentStripped) {
+    mathRenderResults.forEach(([k, v]) => {
+      templateContentStripped = templateContentStripped!.replace(k, v)
+    })
+  }
+  const mathCss = mathjaxInstance.startup.adaptor.cssText(mathjaxInstance.svgStylesheet())
+  // sfcBlocks will not be null after render
+  env.sfcBlocks!.styles.push({
+    content: `<style>${mathCss}</style>`,
+    contentStripped: mathCss,
+    tagOpen: '<style>',
+    tagClose: '</style>',
+    type: 'style',
+  })
+  return {
+    result,
+    headers: env.headers!,
+    sfcBlocks: env.sfcBlocks!,
+    patchedTemplateContentStripped: templateContentStripped,
+  }
+}

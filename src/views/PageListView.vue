@@ -10,7 +10,7 @@ const path = route.path
 const pathname = new URL(path, 'http://localhost').pathname
 const urlSlugs = pathname.split('/').filter((slug) => slug)
 let base: string | null = null
-if (isIndexPage(urlSlugs)) base = urlSlugs[0]
+if (isIndexPage(urlSlugs)) base = urlSlugs[0]!
 const pages = allPages.filter((page) => page.category === base).sort(pageEntryCompare)
 
 const pageGroups = groupByYearMonth(pages)

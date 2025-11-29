@@ -1,8 +1,9 @@
 import type { PageData } from './data/pagedata'
+import { ref } from 'vue'
 import { RouteTitleRecord } from './site'
 
 export function isIndexPage(slugs: string[]): boolean {
-  return slugs.length === 1 && slugs[0] in RouteTitleRecord
+  return slugs.length === 1 && slugs[0]! in RouteTitleRecord
 }
 
 export function dateString(rawDate: string | undefined): string {
@@ -42,8 +43,8 @@ export function groupByYearMonth<T extends { time: string }>(items: T[]) {
       const month = date.getMonth() + 1
       if (
         acc.length === 0 ||
-        acc[acc.length - 1].year !== year ||
-        acc[acc.length - 1].month !== month
+        acc[acc.length - 1]!.year !== year ||
+        acc[acc.length - 1]!.month !== month
       ) {
         acc.push({
           year,
@@ -52,7 +53,7 @@ export function groupByYearMonth<T extends { time: string }>(items: T[]) {
         })
         return acc
       }
-      acc[acc.length - 1].items.push(item)
+      acc[acc.length - 1]!.items.push(item)
       return acc
     },
     [],
@@ -100,4 +101,12 @@ export function pageEntryCompare(a: PageData, b: PageData): number {
   const timeDiff = Date.parse(b.time) - Date.parse(a.time)
   if (timeDiff !== 0) return timeDiff
   return b.title.localeCompare(a.title, ['en', 'zh'], { numeric: true })
+}
+
+export function usePromiseResult<T>(promise: Promise<T>, initialValue: T) {
+  const value = ref<T>(initialValue)
+  promise.then((v) => {
+    value.value = v
+  })
+  return value
 }

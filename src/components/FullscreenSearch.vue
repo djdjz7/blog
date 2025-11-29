@@ -4,6 +4,7 @@ import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { refDebounced } from '@vueuse/core'
 import { nextTick, onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let pagefind: any = null
 let langObserver: MutationObserver | null = null
 const RESULT_LIMIT = 5

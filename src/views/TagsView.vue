@@ -10,7 +10,7 @@ import { pageEntryCompare } from '@/utils'
 const loading = ref(true)
 
 const route = useRoute(() => undefined)
-const url = new URL(route.path, 'https://a.com')
+const url = new URL(route.hash, 'https://a.com')
 const currentTag = ref(decodeURIComponent(url.hash.slice(1)) || '')
 
 const allTags = Array.from(new Set(allPages.flatMap((page) => page.tags || [])))

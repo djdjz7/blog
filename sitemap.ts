@@ -2,7 +2,6 @@ import { SitemapStream, streamToPromise } from 'sitemap'
 import { Readable } from 'stream'
 import fg from 'fast-glob'
 import matter from 'gray-matter'
-import { dirname } from 'path'
 import fs from 'fs'
 import { RouteTitleRecord } from './src/site.ts'
 import chalk from 'chalk'
@@ -38,8 +37,8 @@ const pages = [
     const frontmatterCandidates = [file + '.yaml', file + '.yml']
     for (const candidate of frontmatterCandidates) {
       if (fs.existsSync(candidate)) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const frontmatter = yaml.load(fs.readFileSync(candidate, 'utf-8')) as any
-        console.log(frontmatter)
         if (frontmatter.hidden) return undefined
         if (!frontmatter.time) continue
         return {
@@ -74,7 +73,7 @@ for (const category of Object.keys(RouteTitleRecord)) {
     url: `/${category}/`,
     changefreq: 'daily',
     priority: 0.8,
-    lastmod: categories[category].toISOString(),
+    lastmod: categories[category]!.toISOString(),
   })
 }
 

@@ -1,11 +1,8 @@
 import { PluginOption } from 'vite'
 import matter from 'gray-matter'
-import { injectHeaderData, injectSetupCode, registerMarkdownPlugins } from './markdown'
+import { injectHeaderData, injectSetupCode, renderMarkdown } from './markdown'
 import { dirname } from 'path'
-import { MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc'
-import { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 import { exec } from 'child_process'
-import { md } from './markdown'
 
 const preReplaceRe = /(<pre(?:(?!v-pre)[\s\S])*?)>/gm
 
@@ -48,53 +45,22 @@ export default function markdownContentGenerator(): PluginOption {
       if (id.endsWith('.md')) {
         const frontmatter = matter(code, { excerpt: true })
         const content = frontmatter.content
-        const env: {
-          mdRootPath: string
-          sfcBlocks?: MarkdownSfcBlocks
-          headers?: MarkdownItHeader[]
-          mathPromises?: Record<string, Promise<any>>
-          mathjax?: any
-        } = { mdRootPath: dirname(id) }
         const gitHistory = await getGitHistory(id)
 
-        md.render(content, env)
+        const { sfcBlocks, headers, patchedTemplateContentStripped } = await renderMarkdown(
+          content,
+          {
+            mdRootPath: dirname(id),
+          },
+        )
 
-        const sfcBlocks = env.sfcBlocks!
-        let templateContent = sfcBlocks.template?.contentStripped || ''
+        let templateContent = patchedTemplateContentStripped || ''
         templateContent =
           templateContent.replace(preReplaceRe, '$1 v-pre>') +
           '\n\n<hr>\n' +
           `<h2>文件历史</h2><GitHistory :history='__gitHistory' />`
-        const headers = env.headers || []
         injectSetupCode('const __gitHistory = ' + gitHistory, sfcBlocks)
         injectHeaderData(headers, sfcBlocks)
-
-        if (env.mathPromises) {
-          ;(
-            await Promise.all(
-              Object.keys(env.mathPromises).map(async (key) => {
-                return [key, await env.mathPromises![key]] as const
-              }),
-            )
-          ).forEach(([key, value]) => {
-            templateContent = templateContent.replace(
-              key,
-              env.mathjax.startup.adaptor.outerHTML(value),
-            )
-          })
-        }
-
-        const stylesheet = env.mathjax?.svgStylesheet()
-        if (stylesheet) {
-          const mathcss = env.mathjax?.startup.adaptor.cssText(stylesheet)
-          sfcBlocks.styles.push({
-            content: `<style>${mathcss}</style>`,
-            contentStripped: mathcss,
-            tagOpen: '<style>',
-            tagClose: '</style>',
-            type: 'style',
-          })
-        }
 
         return `<template><main data-pagefind-body class="md-content ${encodeURIComponent(frontmatter.data.title)}">${templateContent}</main></template>${sfcBlocks.scriptSetup?.content}${sfcBlocks.script?.content || ''}${sfcBlocks.styles.map((x) => x.content) || ''}${sfcBlocks.customBlocks.map((x) => x.content).join('')}`
       }

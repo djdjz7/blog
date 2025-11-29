@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type Component, watch, onMounted, type ComponentPublicInstance, inject } from 'vue'
+import { ref, watch, onMounted, type ComponentPublicInstance, inject } from 'vue'
 import allPages from 'virtual:pages.json'
 import { groupByYearMonth, pageEntryCompare } from '@/utils'
 import ExpanderComponent from './ExpanderComponent.vue'
@@ -18,7 +18,7 @@ const categories: {
 
 Object.keys(RouteTitleRecord).forEach((category) => {
   categories.push({
-    title: SiteConfiguration.getRouteCategoryTitle(category),
+    title: SiteConfiguration.getRouteCategoryTitle(category)!,
     route: `/${category}/`,
     pageGroups: groupByYearMonth(
       allPages.filter((page) => page.category === category).sort(pageEntryCompare),

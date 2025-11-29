@@ -2,6 +2,6 @@
 
 declare module 'virtual:pages.json' {
   import type { PageData } from '@/data/pagedata'
-  declare const allPages: PageData[]
-  export default allPages
+  const pages: PageData[]
+  export default pages
 }

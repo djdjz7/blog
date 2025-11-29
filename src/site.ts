@@ -7,7 +7,7 @@ interface SiteConfiguration {
       expanderLabel?: string
     }
   }
-  getRouteCategoryTitle: (routeSegment: string) => string
+  getRouteCategoryTitle: (routeSegment: string) => string | undefined
   titleSuffix: string
   theme: 'normal' | 'new-year'
   pureStatic?: boolean

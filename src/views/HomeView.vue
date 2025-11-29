@@ -17,7 +17,7 @@ const categories: { title: string; route: string; pages: PageData[] }[] = []
 
 Object.keys(RouteTitleRecord).forEach((category) => {
   categories.push({
-    title: SiteConfiguration.getRouteCategoryTitle(category),
+    title: SiteConfiguration.getRouteCategoryTitle(category)!,
     route: `/${category}/`,
     pages: allPages.filter((page) => page.category === category).sort(pageEntryCompare),
   })
@@ -53,7 +53,6 @@ onMounted(() => {
       overflow-auto
       ref="mobileScrollViewRef">
       <div flex="~ items-center justify-center col" m-t-24 box-border sm:m-t-0 p-r-6 sm:p-r-0>
-        <!-- <AutoDarkImage h-48 :src="LcpuDark" :src-dark="LcpuLight" alt="LCPU 标识" /> -->
         <h1 m-t-8 m-b-0 text-center>彩笔的部落阁</h1>
         <div flex="~ items-center gap-6" m-t-8>
           <a href="https://github.com/djdjz7" h-7>

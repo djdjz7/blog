@@ -1,27 +1,27 @@
 <script setup lang="ts">
 import { useRoute } from '@/router/router'
 import {
+  computed,
+  defineAsyncComponent,
   inject,
   onMounted,
   onUnmounted,
   ref,
-  shallowRef,
   useSSRContext,
   useTemplateRef,
+  watchEffect,
   watch,
 } from 'vue'
 // @ts-expect-error javascript import
 import VueUtterances from 'vue-utterances'
-import type { PageData } from '@/data/pagedata'
-import allPages from 'virtual:pages.json'
 import NotFoundView from '@/views/NotFoundView.vue'
-import type { Module } from '@/module'
 import { useTitle } from '@vueuse/core'
+import type { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 import {
   dateString,
   isIndexPage as testIndexPage,
   throttleAndDebounce,
-  waitForAppearance,
+  usePromiseResult,
 } from '@/utils'
 import PageListView from './PageListView.vue'
 import SidebarComponent from '@/components/SidebarComponent.vue'
@@ -30,92 +30,143 @@ import LoadingView from './LoadingView.vue'
 import type { SSRContext } from 'vue/server-renderer'
 import FooterComponent from '@/components/FooterComponent.vue'
 import { SiteConfiguration } from '@/site'
-import type { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 import PageOutline from '@/components/PageOutline.vue'
 import TagsView from './TagsView.vue'
 import TagList from '@/components/TagList.vue'
 import { ClientOnly } from '@/components/ClientOnly'
+import { PageModulesInjectionKey, PageSplashesInjectionKey } from '@/injection'
+import allPages from 'virtual:pages.json'
+import type { PageData } from '@/data/pagedata'
+import ErrorLoadingView from './ErrorLoadingView.vue'
 
 let ssrContext: SSRContext | undefined
 if (import.meta.env.SSR) ssrContext = useSSRContext()
 
-const pageModules = inject('pageModules') as Record<string, () => Promise<unknown>>
-const pageSplashes = inject('pageSplashes') as Record<string, () => Promise<unknown>>
+const pageModules = inject(PageModulesInjectionKey)!
+const pageSplashes = inject(PageSplashesInjectionKey)!
 const route = useRoute(() => document.scrollingElement?.scrollTop)
-const pathname = decodeURI(getPathname(route.path))
-const pageCategory = ref(getPageCategory(pathname))
-const { page, isIndexPage } = getCurrentPage(pathname)
-const currentPage = shallowRef(page)
-const isCurrentIndexPage = ref(isIndexPage)
-const title = useTitle('', { titleTemplate: `%s | ${SiteConfiguration.titleSuffix}` })
 
-title.value = currentPage.value?.title ? currentPage.value.title : pageCategory.value
-
-if (!import.meta.env.SSR) {
-  document.documentElement.lang = currentPage.value?.lang ?? SiteConfiguration.defaultLang
+type PageState = {
+  data?: Partial<PageData>
+  isIndex?: boolean
+  Content: unknown
+  outline?: import('vue').Ref<MarkdownItHeader[]> | undefined
+  splash?: (() => Promise<{ default: string }>) | null | undefined
 }
+
+const page = computed<PageState>(() => {
+  const prefix = '../content'
+  const path = decodeURIComponent(route.path)
+  const pathWithoutTrailingSplash = path.replace(/\/$/, '')
+  const slugs = path.split('/').filter((slug) => slug)
+  const page = (allPages as PageData[]).find((p) => p.contentUrl === path)
+  const category = SiteConfiguration.getRouteCategoryTitle(slugs[0]!)
+  const splash =
+    pageSplashes[
+      Object.keys(pageSplashes).find((key) =>
+        key.startsWith(`${prefix}${pathWithoutTrailingSplash}/splash.`),
+      ) ?? ''
+    ]
+  if (slugs[0] === 'tags') {
+    return {
+      data: {
+        title: '标签',
+      } as Partial<PageData>,
+      isIndex: true,
+      Content: TagsView,
+      splash,
+    }
+  }
+  if (testIndexPage(slugs)) {
+    return {
+      data: {
+        title: category,
+        category,
+      } as Partial<PageData>,
+      isIndex: true,
+      Content: PageListView,
+      splash,
+    }
+  }
+  const module = (() => {
+    if (page?.sourceUrl) return pageModules[prefix + page.sourceUrl]!()
+    const pageModuleCandidates = [
+      `${prefix}${pathWithoutTrailingSplash}.md`,
+      `${prefix}${pathWithoutTrailingSplash}/index.md`,
+      `${prefix}${pathWithoutTrailingSplash}.vue`,
+      `${prefix}${pathWithoutTrailingSplash}/index.vue`,
+    ]
+    for (const candidate of pageModuleCandidates) {
+      if (candidate in pageModules) {
+        return pageModules[candidate]!()
+      }
+    }
+    return undefined
+  })()
+  if (module) {
+    const outline = usePromiseResult<MarkdownItHeader[]>(
+      module.then((x) => x.__headers ?? []),
+      [],
+    )
+    return {
+      data: (page as Partial<PageData>) ?? undefined,
+      Content: defineAsyncComponent({
+        loader: () => module,
+        loadingComponent: LoadingView,
+        errorComponent: ErrorLoadingView,
+        delay: 0,
+      }),
+      outline,
+      splash,
+    }
+  }
+  return {
+    data: (page as Partial<PageData>) ?? undefined,
+    Content: NotFoundView,
+    outline: ref<MarkdownItHeader[]>([]),
+    isIndex: false,
+    splash,
+  }
+})
+
+const pageSplash = ref('')
+watchEffect(async () => {
+  const loader = page.value.splash
+  if (!loader) {
+    pageSplash.value = ''
+    return
+  }
+  try {
+    pageSplash.value = ''
+    const mod = await loader()
+    pageSplash.value = mod.default
+  } catch (e) {
+    pageSplash.value = ''
+  }
+})
+
+const title = useTitle(() => page.value.data?.title, {
+  titleTemplate: `%s | ${SiteConfiguration.titleSuffix}`,
+})
 
 if (ssrContext) {
-  ssrContext.titlePrefix = title.value
-  ssrContext.lang = currentPage.value?.lang ?? SiteConfiguration.defaultLang
-  const meta: { [key: string]: string } = currentPage.value?.meta ?? {}
-  meta.description = (meta.description ?? currentPage.value?.excerpt)?.trim()
-  ssrContext.meta = meta
-  ssrContext.time = currentPage.value?.time ?? ''
-  ssrContext.author = currentPage.value?.data?.author ?? ''
-  ssrContext.sourceUrl = currentPage.value?.sourceUrl ?? ''
+  const ctx: any = ssrContext
+  ctx.titlePrefix = title.value
+  const meta: { [key: string]: string } = page.value.data?.meta ?? {}
+  meta.description = (meta.description ?? page.value.data?.excerpt ?? '').trim()
+  ctx.meta = meta
+  ctx.time = page.value.data?.time ?? ''
+  ctx.author = (page.value.data?.data as any)?.author ?? ''
+  ctx.sourceUrl = page.value.data?.sourceUrl ?? ''
 }
 const showTitle = ref(false)
-const isLoading = ref(false)
 const documentWrapper = useTemplateRef('document-wrapper')
 const sidebarRef = useTemplateRef('sidebar-ref')
-const pageSplash = ref<string>(
-  ((await getSplash(currentPage.value?.sourceUrl || pathname)?.call(null)) as Module)?.default ??
-    '',
-)
-const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
-const ContentRaw = shallowRef(module.default ?? module)
-const pageOutlineData = ref<MarkdownItHeader[]>(module.__headers ?? [])
 const highlightedSlug = ref('')
 let headerElements: Element[] = []
 
-watch(
-  () => route.path,
-  async (newVal, oldVal) => {
-    const pathname = decodeURI(getPathname(newVal))
-    const oldPathname = getPathname(oldVal)
-    if (pathname === oldPathname) {
-      const anchor = document.getElementById(getHash(newVal).substring(1))
-      if (anchor) window.scrollTo({ top: anchor.offsetTop - 40, behavior: 'smooth' })
-      return
-    }
-    const { page, isIndexPage } = getCurrentPage(pathname)
-    currentPage.value = page
-    isCurrentIndexPage.value = isIndexPage
-    title.value = currentPage.value?.title ? currentPage.value.title : pageCategory.value
-    document.documentElement.lang = currentPage.value?.lang ?? SiteConfiguration.defaultLang
-    isLoading.value = true
-    pageOutlineData.value = []
-    pageSplash.value =
-      ((await getSplash(currentPage.value?.sourceUrl || pathname)?.call(null)) as Module)
-        ?.default ?? ''
-    const module = await resolvePageModule(currentPage.value?.sourceUrl || pathname)
-    pageOutlineData.value = module.__headers ?? []
-    ContentRaw.value = module.default ?? module
-    isLoading.value = false
-    if (!isIndexPage) {
-      await waitForAppearance(`.${CSS.escape(page?.title ?? '')}`)
-    }
-    const anchor = document.getElementById(getHash(newVal).substring(1))
-    if (anchor) window.scrollTo({ top: anchor.offsetTop - 40, behavior: 'smooth' })
-    else window.scrollTo({ top: route.scrollTop, behavior: 'instant' })
-  },
-)
-
 onMounted(() => {
-  const anchor = document.getElementById(getHash(route.path).substring(1))
-  if (anchor) window.scrollTo({ top: anchor.offsetTop - 40, behavior: 'smooth' })
-  else window.scrollTo({ top: route.scrollTop, behavior: 'instant' })
+  window.scrollTo({ top: route.scrollTop, behavior: 'instant' })
   document.addEventListener('scroll', handleScroll)
 })
 
@@ -123,34 +174,6 @@ onUnmounted(() => {
   document.removeEventListener('scroll', handleScroll)
   document.documentElement.lang = SiteConfiguration.defaultLang
 })
-
-async function resolvePageModule(sourceOrPathname: string): Promise<Module | never> {
-  const urlSlugs = sourceOrPathname.split('/').filter((slug) => slug)
-  const indexPage = testIndexPage(urlSlugs)
-  if (indexPage) {
-    return PageListView as never
-  }
-  if (urlSlugs.length > 0 && urlSlugs[0] === 'tags') {
-    return TagsView as never
-  }
-  if (sourceOrPathname.endsWith('/')) sourceOrPathname = sourceOrPathname.slice(0, -1)
-  const modulePathCandidates =
-    sourceOrPathname.endsWith('.md') || sourceOrPathname.endsWith('.vue')
-      ? ['../content' + sourceOrPathname]
-      : [
-          '../content' + sourceOrPathname + '.md',
-          '../content' + sourceOrPathname + '/index.md',
-          '../content' + sourceOrPathname + '.vue',
-          '../content' + sourceOrPathname + '/index.vue',
-        ]
-  for (const modulePath of modulePathCandidates) {
-    if (modulePath in pageModules) {
-      const module = await (pageModules[modulePath]() as Promise<Module> | Module)
-      return module
-    }
-  }
-  return NotFoundView as never
-}
 
 const handleScroll = throttleAndDebounce(() => {
   const scrollTop = document.scrollingElement?.scrollTop
@@ -160,12 +183,12 @@ const handleScroll = throttleAndDebounce(() => {
   } else {
     showTitle.value = false
   }
-  if (!pageOutlineData.value.length) return
+  if (!page.value.outline?.value?.length) return
   if (!documentWrapper.value) return
   if (!validateHeaderElements()) {
     headerElements = [
       ...(documentWrapper.value.querySelectorAll('h1, h2, h3, h4, h5, h6') ?? []),
-    ].filter((x) => pageOutlineData.value.some((y) => y.slug == x.id))
+    ].filter((x) => page.value.outline?.value?.some((y) => y.slug == x.id))
   }
   const elements = headerElements
     .map((x) => {
@@ -179,105 +202,46 @@ const handleScroll = throttleAndDebounce(() => {
   highlightedSlug.value = elements[0]?.slug ?? ''
   // if scrolled to bottom, highlight the last item
   if (Math.abs(scrollTop + window.innerHeight - documentWrapper.value.clientHeight) < 1) {
-    highlightedSlug.value = pageOutlineData.value.slice(-1)[0].slug
+    highlightedSlug.value = page.value.outline.value.slice(-1)[0]!.slug
   }
 }, 100)
 
-function getPathname(path: string) {
-  return new URL(path, 'http://a.com').pathname
-}
-
-function getHash(path: string) {
-  return new URL(path, 'http://a.com').hash
-}
-
-function getCurrentPage(pathname: string): { page: PageData | undefined; isIndexPage: boolean } {
-  const urlSlugs = pathname.split('/').filter((slug) => slug)
-  const indexPage = testIndexPage(urlSlugs)
-  if (indexPage) {
-    const pages =
-      allPages
-        .filter((page) => page.category === urlSlugs[0])
-        .sort((a, b) => Date.parse(b.time) - Date.parse(a.time)) ?? []
-    const first = pages[0]
-    const last = pages[pages.length - 1]
-    return {
-      page: {
-        contentUrl: '',
-        title: SiteConfiguration.getRouteCategoryTitle(urlSlugs[0]),
-        time:
-          pages.length == 0
-            ? ''
-            : pages.length > 1
-              ? `${dateString(last.time)} - ${dateString(first.time)}`
-              : dateString(first.time),
-        data: {},
-        sourceUrl: '',
-      },
-      isIndexPage: true,
-    }
-  }
-
-  if (urlSlugs[0] === 'tags') {
-    return {
-      page: {
-        title: '标签',
-        contentUrl: '/tags/',
-        time: '#Forget about the price tag',
-        data: {},
-        sourceUrl: '',
-      },
-      isIndexPage: true,
-    }
-  }
-  return {
-    page: allPages.find((page) => page.contentUrl === pathname) || undefined,
-    isIndexPage: false,
-  }
-}
-
-function getPageCategory(pathname: string): string {
-  const pageSegs = pathname.split('/')
-  return SiteConfiguration.getRouteCategoryTitle(pageSegs[1]) ?? pageSegs[1]
-}
-
 function validateHeaderElements() {
-  if (headerElements.length !== pageOutlineData.value.length) return false
+  if (headerElements.length !== page.value.outline?.value?.length) return false
   for (let i = 0; i < headerElements.length; i++) {
-    if (headerElements[i].id !== pageOutlineData.value[i].slug) return false
+    if (headerElements[i]!.id !== page.value.outline?.value?.[i]!.slug) return false
   }
   return true
 }
 
-function getSplash(sourceOrPathname: string) {
-  const splashImage = sourceOrPathname.endsWith('index.md')
-    ? '../content' + sourceOrPathname.slice(0, -8) + 'splash.'
-    : sourceOrPathname.endsWith('.md')
-      ? '../content' + sourceOrPathname.slice(0, -3) + '/splash.'
-      : '../content' + sourceOrPathname + '/splash.'
-  for (const key in pageSplashes) {
-    if (key.startsWith(splashImage)) {
-      return pageSplashes[key]
-    }
-  }
-  return null
-}
+watch(
+  () => route.hash,
+  (hash) => {
+    const anchor = document.getElementById(hash.substring(1))
+    if (anchor) window.scrollTo({ top: anchor.offsetTop - 40, behavior: 'smooth' })
+  },
+)
 
-const isDev = !!import.meta.env.DEV
+const handleDynamicComponentMounted = () => {
+  const hash = route.hash
+  const anchor = document.getElementById(hash.substring(1))
+  if (anchor) window.scrollTo({ top: anchor.offsetTop - 40, behavior: 'smooth' })
+  else window.scrollTo({ top: route.scrollTop, behavior: 'instant' })
+}
 </script>
 
 <template>
   <div lg:grid class="lg:grid-cols-[auto_1fr_auto]" overflow-auto>
-    <SidebarComponent ref="sidebar-ref" :current-title="currentPage?.title" />
+    <SidebarComponent ref="sidebar-ref" :current-title="page.data?.title" />
     <div overflow-auto box-border ref="document-wrapper">
       <div>
         <TopbarComponent
           :toggleSidebarFn="sidebarRef?.toggleSidebar"
-          :title="currentPage?.title ?? pageCategory"
+          :title="page.data?.title ?? page.data?.category ?? ''"
           :show-title="showTitle" />
-        <div v-if="currentPage" m-b-8 m-x-auto relative>
+        <div v-if="page" m-b-8 m-x-auto relative>
           <Transition mode="out-in" name="slide-fade">
-            <div :key="currentPage.title">
+            <div :key="page.data?.title">
               <img w-full h-104 object-cover relative v-if="pageSplash" :src="pageSplash" />
               <div
                 absolute
@@ -300,16 +264,16 @@ const isDev = !!import.meta.env.DEV
                 <div :class="[pageSplash ? 'text-white/85 text-shadow-sm absolute bottom-6' : '']">
                   <TagList
                     :stateful="false"
-                    v-if="currentPage.tags"
-                    :tags="currentPage.tags"
+                    v-if="page.data?.tags"
+                    :tags="page.data.tags"
                     class="text-shadow-none text-xs" />
-                  <h1 m-y-2>{{ currentPage.title }}</h1>
+                  <h1 m-y-2>{{ page.data?.title }}</h1>
                   <div m-t-2>
-                    <span v-if="!isCurrentIndexPage">{{ dateString(currentPage.time) }}</span>
-                    <span v-else>{{ currentPage.time }}</span>
-                    <span v-for="key in Object.keys(currentPage.data)" :key="key">
+                    <span v-if="!page.isIndex">{{ dateString(page.data?.time) }}</span>
+                    <span v-else>{{ page.data?.time }}</span>
+                    <span v-for="key in Object.keys(page.data?.data ?? {})" :key="key">
                       <span m-x-1>·</span>
-                      <span v-if="currentPage.data[key]">{{ currentPage.data[key] }}</span>
+                      <span v-if="page.data?.data?.[key]">{{ page.data.data[key] }}</span>
                     </span>
                   </div>
                 </div>
@@ -319,18 +283,7 @@ const isDev = !!import.meta.env.DEV
         </div>
         <div class="max-w-840px m-x-auto box-border p-x-6 lg:p-x-12">
           <Transition mode="out-in" name="slide-fade">
-            <LoadingView v-if="isLoading" />
-            <component :is="ContentRaw" v-else-if="isCurrentIndexPage" />
-            <div v-else>
-              <component :is="ContentRaw" />
-              <ClientOnly>
-                <VueUtterances
-                  v-if="!isDev"
-                  theme="preferred-color-scheme"
-                  repo="djdjz7/blog"
-                  class="m-t-12" />
-              </ClientOnly>
-            </div>
+            <component :is="page.Content" @vue:mounted="handleDynamicComponentMounted" />
           </Transition>
           <FooterComponent p-y-12 />
         </div>
@@ -339,7 +292,7 @@ const isDev = !!import.meta.env.DEV
     <PageOutline
       hidden
       xl:block
-      :page-outline="pageOutlineData"
+      :page-outline="page.outline?.value"
       :highlighted-slug="highlightedSlug" />
   </div>
 </template>
