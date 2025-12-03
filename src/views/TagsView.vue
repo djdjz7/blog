@@ -44,10 +44,8 @@ watch(
           :key="activity.title" />
       </TransitionGroup>
     </div>
-    <div v-else-if="currentTag" text-gray-500 dark:text-truegray-400 m-t-8>
-      没有找到相关标签的页面。
-    </div>
-    <div v-else text-gray-500 dark:text-truegray-400 m-t-8>请选择一个标签以查看相关页面。</div>
+    <div v-else-if="currentTag" text-subtle m-t-8>没有找到相关标签的页面。</div>
+    <div v-else text-subtle m-t-8>请选择一个标签以查看相关页面。</div>
   </div>
 </template>
 

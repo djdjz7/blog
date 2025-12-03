@@ -245,7 +245,7 @@ defineExpose({ show, hide, toggle })
             </div>
           </a>
         </div>
-        <div text-sm text-center text-gray-500 dark:text-truegray-400>
+        <div text-sm text-center text-subtle>
           <div v-if="isLoadingBundle" m-t-2>正在加载搜索...</div>
           <div v-if="pagefindBundleLoadError" text-red m-t-2>{{ pagefindBundleLoadError }}</div>
           <div v-if="!result.length && searchQueryDebounced && !isSearching" m-t-2>
@@ -254,7 +254,7 @@ defineExpose({ show, hide, toggle })
           <div v-if="isSearching" m-t-2>正在更新结果...</div>
         </div>
         <div flex-1 sm:hidden></div>
-        <div flex="~ items-center" m-t-2 text-xs text-gray-500 dark:text-truegray-400>
+        <div flex="~ items-center" m-t-2 text-xs text-subtle>
           <kbd block h-1em><ArrowUpIcon class="h-1em" /></kbd>/<kbd h-1em
             ><ArrowDownIcon class="h-1em"
           /></kbd>

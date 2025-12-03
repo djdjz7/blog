@@ -165,9 +165,7 @@ onMounted(() => {
               border-t-1
               border-t-solid
               p-y-3>
-              <span text-xs text-gray-500 dark:text-truegray-400
-                >{{ pageGroup.year }} 年 {{ pageGroup.month }} 月</span
-              >
+              <span text-xs text-subtle>{{ pageGroup.year }} 年 {{ pageGroup.month }} 月</span>
               <a
                 v-for="page in pageGroup.items"
                 @click="toggleSidebar(true)"
@@ -175,7 +173,7 @@ onMounted(() => {
                 text-wrap
                 :key="page.title"
                 :ref="(el) => (entryElements[page.title] = elementRefToElement(el))"
-                class="text-gray-500! dark:text-truegray-400! hover:text-gray-800! dark:hover:text-white! decoration-none"
+                class="text-subtle! hover:text-gray-800! dark:hover:text-white! decoration-none"
                 :class="{
                   'text-gray-800! dark:text-white! font-medium': currentTitle === page.title,
                 }">

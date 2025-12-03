@@ -62,7 +62,7 @@ const props = defineProps<{
       <div h-full m-x-auto>
         <div class="side-line-lower" />
       </div>
-      <div text-sm text-gray-500 dark:text-truegray-400 flex gap-x-2>
+      <div text-sm text-subtle flex gap-x-2>
         <span>{{ dateStringLong(item.time) }}</span>
         <span>{{ item.author }}</span>
       </div>
