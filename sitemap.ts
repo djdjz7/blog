@@ -39,7 +39,7 @@ const pages = [
       if (fs.existsSync(candidate)) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const frontmatter = yaml.load(fs.readFileSync(candidate, 'utf-8')) as any
-        if (frontmatter.hidden) return undefined
+        if (frontmatter.hidden || frontmatter.isComponent) return undefined
         if (!frontmatter.time) continue
         return {
           url: frontmatter.slug || url,

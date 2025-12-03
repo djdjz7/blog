@@ -38,22 +38,29 @@ routesToPrerender.push(
     }
     return target
   }),
-  ...fg.sync('./content/**/*.vue').map((file) => {
-    const target = file
-      .replace(/\/index\.vue$/, '/')
-      .replace(/\.vue$/, '/')
-      .replace(/^\.\/content/, '')
-    const frontmatterCandidates = [file + '.yaml', file + '.yml']
-    for (const candidate of frontmatterCandidates) {
-      if (fs.existsSync(candidate)) {
-        const frontmatter = yaml.load(fs.readFileSync(candidate, 'utf-8')) as { slug?: string }
-        if (frontmatter.slug) {
-          return `${frontmatter.slug}${frontmatter.slug.endsWith('/') ? '' : '/'}`
+  ...fg
+    .sync('./content/**/*.vue')
+    .map((file) => {
+      const target = file
+        .replace(/\/index\.vue$/, '/')
+        .replace(/\.vue$/, '/')
+        .replace(/^\.\/content/, '')
+      const frontmatterCandidates = [file + '.yaml', file + '.yml']
+      for (const candidate of frontmatterCandidates) {
+        if (fs.existsSync(candidate)) {
+          const frontmatter = yaml.load(fs.readFileSync(candidate, 'utf-8')) as {
+            slug?: string
+            isComponent?: boolean
+          }
+          if (frontmatter.isComponent) return undefined
+          if (frontmatter.slug) {
+            return `${frontmatter.slug}${frontmatter.slug.endsWith('/') ? '' : '/'}`
+          }
         }
       }
-    }
-    return target
-  }),
+      return target
+    })
+    .filter((x) => x !== undefined),
 )
 
 // pre-render each route...

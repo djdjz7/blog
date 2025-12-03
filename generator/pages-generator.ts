@@ -30,7 +30,7 @@ export async function generatePages(): Promise<PageData[]> {
         })
         .map(async ({ entry, frontmatter }): Promise<PageData | undefined> => {
           if (!frontmatter) return undefined
-          if (frontmatter.data.hidden) return undefined
+          if (frontmatter.data.hidden || frontmatter.data.isComponent) return undefined
           const entryToRoot = entry.replace(/^\.\/content/, '')
           const path = entryToRoot.replace(/index\.(?:md|vue)$/, '').replace(/\.(?:md|vue)/, '/')
           const slugs = path.split('/').filter((slug) => slug)
