@@ -144,12 +144,13 @@ watchEffect(async () => {
   }
 })
 
-const title = useTitle(() => page.value.data?.title, {
+const title = useTitle(() => page.value.data?.textTitle, {
   titleTemplate: `%s | ${SiteConfiguration.titleSuffix}`,
 })
 
 if (ssrContext) {
   const ctx: any = ssrContext
+  // this only retrieves the raw title without template formatting
   ctx.titlePrefix = title.value
   const meta: { [key: string]: string } = page.value.data?.meta ?? {}
   meta.description = (meta.description ?? page.value.data?.excerpt ?? '').trim()
@@ -268,7 +269,7 @@ const isDev = import.meta.env.DEV
                     v-if="page.data?.tags"
                     :tags="page.data.tags"
                     class="text-shadow-none text-xs" />
-                  <h1 m-y-2>{{ page.data?.title }}</h1>
+                  <h1 m-y-2 v-html="page.data?.title"></h1>
                   <div m-t-2>
                     <span v-if="!page.isIndex">{{ dateString(page.data?.time) }}</span>
                     <span v-else>{{ page.data?.time }}</span>

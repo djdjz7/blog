@@ -176,9 +176,8 @@ onMounted(() => {
                 class="text-subtle! hover:text-gray-800! dark:hover:text-white! decoration-none"
                 :class="{
                   'text-gray-800! dark:text-white! font-medium': currentTitle === page.title,
-                }">
-                {{ page.title }}</a
-              >
+                }"
+                v-html="page.title"></a>
             </div>
           </div>
         </ExpanderComponent>

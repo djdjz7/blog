@@ -1,6 +1,7 @@
 export interface PageData {
   time: string
   title: string
+  textTitle: string
   excerpt?: string
   category?: string
   contentUrl: string

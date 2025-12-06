@@ -5,7 +5,7 @@ import type { PageData } from '../src/data/pagedata'
 import { RouteTitleRecord, SiteConfiguration } from '../src/site'
 import { existsSync, readFileSync } from 'fs'
 import yaml from 'js-yaml'
-import { renderMarkdown } from './markdown'
+import { renderMarkdown, renderMarkdownInline } from './markdown'
 
 export async function generatePages(): Promise<PageData[]> {
   return (
@@ -36,7 +36,7 @@ export async function generatePages(): Promise<PageData[]> {
           const slugs = path.split('/').filter((slug) => slug)
           const data = frontmatter.data
           const time = data.time
-          const title = data.title
+          const { result: title, textContent: textTitle } = await renderMarkdownInline(data.title)
           const meta = data.meta
           const slug = data.slug || path
           const category = (slugs[0] in RouteTitleRecord && slugs[0]) || undefined
@@ -52,6 +52,7 @@ export async function generatePages(): Promise<PageData[]> {
           delete data.lang
           return {
             title,
+            textTitle,
             time,
             data,
             meta,

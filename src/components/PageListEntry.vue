@@ -10,8 +10,8 @@ defineProps<{
 <template>
   <div class="news-list-entry" p-y-4>
     <a :href="pageEntry.contentUrl" text-inherit no-underline
-      ><h3 m-0>{{ pageEntry.title }}</h3></a
-    >
+      ><h3 m-0 v-html="pageEntry.title"></h3
+    ></a>
     <div flex="~ items-center gap-1" m-t-1 text-subtle>
       <span>{{ dateString(pageEntry.time) }}</span>
       <span flex="~ gap-1" v-for="key in Object.keys(pageEntry.data)" :key="key">

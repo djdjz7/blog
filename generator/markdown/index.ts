@@ -21,6 +21,7 @@ import anchor from 'markdown-it-anchor'
 import { imgLazyload } from '@mdit/plugin-img-lazyload'
 import heimu from './heimu'
 import { randomUUID } from 'crypto'
+import { JSDOM } from 'jsdom'
 
 await MathJax.init({
   loader: { load: ['input/tex', 'input/asciimath', 'output/svg', 'a11y/assistive-mml'] },
@@ -235,4 +236,30 @@ export async function renderMarkdown(
     sfcBlocks: env.sfcBlocks!,
     patchedTemplateContentStripped: templateContentStripped,
   }
+}
+
+export async function renderMarkdownInline(src: string): Promise<{
+  result: string
+  textContent: string
+}> {
+  const env = {} as MarkdownRenderEnv
+  const rendered = md.renderInline(src, env)
+  if (!env.math) {
+    return { result: rendered, textContent: new JSDOM(rendered).window.document.body.textContent }
+  }
+  const { mathjaxInstance, renderPromises } = env.math
+  const mathRenderResults = (
+    await Promise.all(
+      Object.keys(renderPromises).map((k) => {
+        return renderPromises[k].then((v) => [k, v] as const)
+      }),
+    )
+  ).map(([k, v]) => [k, mathjaxInstance.startup.adaptor.outerHTML(v) as string] as const)
+
+  let result = rendered
+  mathRenderResults.forEach(([k, v]) => {
+    result = result.replace(k, v)
+  })
+
+  return { result, textContent: new JSDOM(result).window.document.body.textContent }
 }
