@@ -11,6 +11,7 @@ import { createRouter, RouterSymbol } from './router/router'
 import ExpanderComponent from './components/ExpanderComponent.vue'
 import BadgeComp from './components/BadgeComp.vue'
 import GitHistory from './components/GitHistory.vue'
+import { ClientOnly } from './components/ClientOnly'
 import { PageModulesInjectionKey, PageSplashesInjectionKey } from './injection'
 import type { Module } from './module'
 
@@ -33,6 +34,7 @@ export function createApp() {
   app.provide(PageSplashesInjectionKey, pageSplashes)
   app.component('ExpanderComponent', ExpanderComponent)
   app.component('GitHistory', GitHistory)
+  app.component('ClientOnly', ClientOnly)
   // eslint-disable-next-line vue/multi-word-component-names
   app.component('Badge', BadgeComp)
   return { app, router }
