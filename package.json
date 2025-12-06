@@ -20,7 +20,8 @@
     "build:pagefind": "pagefind --site ./dist/static",
     "build": "run-s build:bundle build:post build:minify build:pagefind",
     "preview:ssg": "bunx serve dist/static -l 3001",
-    "preview": "run-s build preview:ssg"
+    "preview": "run-s build preview:ssg",
+    "prepare": "husky"
   },
   "dependencies": {
     "@giscus/vue": "^3.1.1",
@@ -63,6 +64,7 @@
     "feed": "^5.1.0",
     "gray-matter": "^4.0.3",
     "html-minifier": "^4.0.0",
+    "husky": "^9.1.7",
     "image-size": "^1.2.1",
     "jsdom": "^27.2.0",
     "markdown-it": "^14.1.0",
