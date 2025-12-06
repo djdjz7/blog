@@ -59,6 +59,11 @@ const page = computed<PageState>(() => {
   const pathWithoutTrailingSplash = path.replace(/\/$/, '')
   const slugs = path.split('/').filter((slug) => slug)
   const page = (allPages as PageData[]).find((p) => p.contentUrl === path)
+  if (!import.meta.env.SSR) {
+    document.documentElement.lang = page?.lang ?? SiteConfiguration.defaultLang
+  } else {
+    ssrContext!.lang = page?.lang ?? SiteConfiguration.defaultLang
+  }
   const category = SiteConfiguration.getRouteCategoryTitle(slugs[0]!)
   const splash =
     pageSplashes[
