@@ -6,6 +6,7 @@
       "dependencies": {
         "@giscus/vue": "^3.1.1",
         "@heroicons/vue": "^2.2.0",
+        "@mathjax/mathjax-mhchem-font-extension": "^4.0.0",
         "@vueuse/core": "^14.0.0",
         "canvas-confetti": "^1.9.4",
         "markdown-it-footnote": "^4.0.0",
@@ -254,6 +255,8 @@
     "@lit-labs/ssr-dom-shim": ["@lit-labs/ssr-dom-shim@1.4.0", "https://registry.npmmirror.com/@lit-labs/ssr-dom-shim/-/ssr-dom-shim-1.4.0.tgz", {}, "sha512-ficsEARKnmmW5njugNYKipTm4SFnbik7CXtoencDZzmzo/dQ+2Q0bgkzJuoJP20Aj0F+izzJjOqsnkd6F/o1bw=="],
 
     "@lit/reactive-element": ["@lit/reactive-element@2.1.1", "https://registry.npmmirror.com/@lit/reactive-element/-/reactive-element-2.1.1.tgz", { "dependencies": { "@lit-labs/ssr-dom-shim": "^1.4.0" } }, "sha512-N+dm5PAYdQ8e6UlywyyrgI2t++wFGXfHx+dSJ1oBrg6FAxUj40jId++EaRm80MKX5JnlH1sBsyZ5h0bcZKemCg=="],
+
+    "@mathjax/mathjax-mhchem-font-extension": ["@mathjax/mathjax-mhchem-font-extension@4.0.0", "https://registry.npmmirror.com/@mathjax/mathjax-mhchem-font-extension/-/mathjax-mhchem-font-extension-4.0.0.tgz", {}, "sha512-PDeqn3IKu7UjswhEfxCUeivxiEpKRJzzvd0tn3YN1CH8Mv/POtZ17Crc4JMViG5vinM0oJmC0wECqa33KyZ/Tw=="],
 
     "@mathjax/mathjax-newcm-font": ["@mathjax/mathjax-newcm-font@4.0.0", "https://registry.npmmirror.com/@mathjax/mathjax-newcm-font/-/mathjax-newcm-font-4.0.0.tgz", {}, "sha512-kpsJgIF4FpWiwIkFgOPmWwy5GXfL25spmJJNg27HQxPddmEL8Blx0jn2BuU/nlwjM/9SnYpEfDrWiAMgLPlB8Q=="],
 
