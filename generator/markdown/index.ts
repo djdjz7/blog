@@ -215,11 +215,22 @@ export async function renderMarkdown(
   mathRenderResults.forEach(([k, v]) => {
     result = result.replace(k, v)
   })
+  // vue compiler removes spaces in <mjx-break>...</mjx-break>, see https://github.com/vuejs/core/issues/7789
+  // bypass the behavior here...
+  result = result.replaceAll(/<mjx\-break.*?> <\/mjx-break>/g, (match) => {
+    return match.replace(/> </, '>&nbsp;<')
+  })
   let templateContentStripped = env.sfcBlocks?.template?.contentStripped
   if (templateContentStripped) {
     mathRenderResults.forEach(([k, v]) => {
       templateContentStripped = templateContentStripped!.replace(k, v)
     })
+    templateContentStripped = templateContentStripped.replaceAll(
+      /<mjx\-break.*?> <\/mjx-break>/g,
+      (match) => {
+        return match.replace(/> </, '>&nbsp;<')
+      },
+    )
   }
   const mathCss = mathjaxInstance.startup.adaptor.cssText(mathjaxInstance.svgStylesheet())
   // sfcBlocks will not be null after render
