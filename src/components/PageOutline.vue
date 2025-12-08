@@ -47,6 +47,7 @@ watch(
     :class="[pageOutline?.length ? 'w-64' : 'w-0 opacity-0']"
     class="transition-[width,opacity]"
     duration-300
+    delay-300
     ease-in-out
     delay-150
     text-sm
@@ -64,14 +65,23 @@ watch(
         transition-all
         duration-150></div>
       <span block font-bold tracking-widest text-xs m-l-1rem>本页目录</span>
-      <ul p-l-0 m-b-0>
+      <ul p-l-0 m-b-0 :key="JSON.stringify(pageOutline)">
         <li
           overflow-hidden
           text-ellipsis
           text-nowrap
-          v-for="header in pageOutline"
+          animate-forwards
+          translate-y-2
+          opacity-0
+          blur-md
+          class="animate-[fade-in-up]"
+          animate-duration-300
+          v-for="(header, index) in pageOutline"
           :key="header.slug"
-          :style="{ marginLeft: `${(header.level - 1) * 1}rem` }"
+          :style="{
+            marginLeft: `${(header.level - 1) * 1}rem`,
+            animationDelay: index * 50 + 'ms',
+          }"
           :class="{ 'text-primary! font-semibold': highlightedSlug === header.slug }">
           <a
             :href="header.link"
@@ -88,3 +98,13 @@ watch(
     </div>
   </nav>
 </template>
+
+<style lang="css">
+@keyframes fade-in-up {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+</style>

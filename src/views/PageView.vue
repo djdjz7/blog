@@ -37,6 +37,7 @@ import { PageModulesInjectionKey, PageSplashesInjectionKey } from '@/injection'
 import allPages from 'virtual:pages.json'
 import type { PageData } from '@/data/pagedata'
 import ErrorLoadingView from './ErrorLoadingView.vue'
+import SplashSection from '@/components/SplashSection.vue'
 
 let ssrContext: SSRContext | undefined
 if (import.meta.env.SSR) ssrContext = useSSRContext()
@@ -85,6 +86,21 @@ const page = computed<PageState>(() => {
     return {
       data: {
         title: category,
+        time: (() => {
+          const allPagesInCategory = allPages
+            .filter((p) => p.category === slugs[0])
+            .sort((a, b) => {
+              return new Date(a.time).getTime() - new Date(b.time).getTime()
+            })
+          if (allPagesInCategory.length === 0) return ''
+          else if (allPagesInCategory.length === 1) return dateString(allPagesInCategory[0]!.time)
+          else
+            return (
+              dateString(allPagesInCategory[0]!.time) +
+              ' – ' +
+              dateString(allPagesInCategory[allPagesInCategory.length - 1]!.time)
+            )
+        })(),
         category,
       } as Partial<PageData>,
       isIndex: true,
@@ -113,7 +129,10 @@ const page = computed<PageState>(() => {
       [],
     )
     return {
-      data: (page as Partial<PageData>) ?? undefined,
+      data: {
+        ...page,
+        time: dateString(page?.time),
+      },
       Content: defineAsyncComponent({
         loader: () => module,
         loadingComponent: LoadingView,
@@ -246,47 +265,8 @@ const isDev = import.meta.env.DEV
           :toggleSidebarFn="sidebarRef?.toggleSidebar"
           :title="page.data?.title ?? page.data?.category ?? ''"
           :show-title="showTitle" />
-        <div v-if="page" m-b-8 m-x-auto relative>
-          <Transition mode="out-in" name="slide-fade">
-            <div :key="page.data?.title">
-              <img w-full h-104 object-cover relative v-if="pageSplash" :src="pageSplash" />
-              <div
-                absolute
-                top-0
-                left-0
-                right-0
-                bottom-0
-                backdrop-blur-3xl
-                class="bg-black/40"
-                style="mask: linear-gradient(transparent, black 70%)"
-                v-if="pageSplash"></div>
-              <div
-                max-w-840px
-                w-full
-                m-auto
-                p-x-6
-                lg:p-x-12
-                box-border
-                :class="[pageSplash ? 'h-0 relative' : 'm-t-16 lg:m-t-12']">
-                <div :class="[pageSplash ? 'text-white/85 text-shadow-sm absolute bottom-6' : '']">
-                  <TagList
-                    :stateful="false"
-                    v-if="page.data?.tags"
-                    :tags="page.data.tags"
-                    class="text-shadow-none text-xs" />
-                  <h1 m-y-2 v-html="page.data?.title"></h1>
-                  <div m-t-2>
-                    <span v-if="!page.isIndex">{{ dateString(page.data?.time) }}</span>
-                    <span v-else>{{ page.data?.time }}</span>
-                    <span v-for="key in Object.keys(page.data?.data ?? {})" :key="key">
-                      <span m-x-1>·</span>
-                      <span v-if="page.data?.data?.[key]">{{ page.data.data[key] }}</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Transition>
+        <div m-b-8 m-x-auto relative>
+          <SplashSection :page-data="page.data" :splash="page.splash" />
         </div>
         <div class="max-w-840px m-x-auto box-border p-x-6 lg:p-x-12">
           <Transition mode="out-in" name="slide-fade">

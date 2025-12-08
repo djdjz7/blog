@@ -9,17 +9,20 @@ export default defineConfig({
     presetAttributify(),
   ],
   transformers: [transformerDirectives()],
-  shortcuts:
-    SiteConfiguration.theme === 'normal'
+  shortcuts: {
+    'bg-primary': 'bg-amber-500 dark:bg-amber-300',
+    'text-subtle': 'text-gray-500 dark:text-truegray-400',
+    'ease-fast-in': 'ease-[cubic-bezier(0.160,_0.435,_0.000,_1.005)]!',
+    ...(SiteConfiguration.theme === 'normal'
       ? {
           'text-primary': 'text-amber-500 dark:text-amber-300',
-          'bg-primary': 'bg-amber-500 dark:bg-amber-300',
           'border-primary': 'border-amber-500 dark:border-amber-300',
-          'text-subtle': 'text-gray-500 dark:text-truegray-400',
         }
       : {
           'text-primary': 'text-red-500 dark:text-red-300',
-        },
+          'border-primary': 'border-red-500 dark:border-red-300',
+        }),
+  },
   safelist: [
     'bg-blue-200',
     'bg-red-200',
