@@ -18,6 +18,12 @@ const friends: Friend[] = [
     description: '关注 xjgg 喵，关注 xjgg 谢谢喵',
   },
   {
+    name: 'Wind Graham',
+    link: 'http://windgraham.art/',
+    avatar: 'http://www.windgraham.art/assets/images/avatar.jpg',
+    description: '杏花疏影里，吹笛到天明',
+  },
+  {
     name: '夕落林中',
     link: 'https://www.cnblogs.com/litluo',
     avatar: 'https://pic.cnblogs.com/avatar/1879763/20200708183911.png',
