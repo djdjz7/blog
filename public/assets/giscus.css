@@ -1,3 +1,197 @@
-.border {
-  border-width: 0 !important;
+:root {
+  --border: rgb(229 229 229 / 40%);
+  --fill: rgb(229 229 229 / 20%);
+  --secondary: rgb(107 114 128);
+  --primary: rgb(245 158 11);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --border: rgb(60 60 60 / 60%);
+    --fill: rgb(60 60 60 / 20%);
+    --secondary: rgb(163 163 163);
+    --primary: rgb(252 211 77);
+  }
+
+  .gsc-comment-box-buttons a,
+  .btn-primary {
+    color: black !important;
+  }
+
+  .gsc-reactions-popover {
+    background-color: #121212 !important;
+  }
+}
+
+.gsc-left-header em {
+  color: var(--secondary);
+}
+
+.gsc-comments {
+  gap: 0;
+}
+
+.gsc-timeline {
+  gap: 0;
+}
+
+.gsc-comment {
+  padding: 1em 0;
+}
+
+.gsc-comment-footer {
+  margin: 0;
+}
+
+.gsc-comment > div {
+  border: none;
+}
+
+.gsc-comment:not(:last-child) {
+  /* true-gray-200 */
+  border-bottom: var(--border) solid 1px;
+}
+
+.gsc-comment a {
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--secondary);
+}
+
+.gsc-comment time {
+  color: var(--secondary);
+}
+
+.gsc-comment-box {
+  border: none;
+  margin-top: 1rem;
+}
+
+.gsc-comment-box-tabs {
+  border: none;
+}
+
+.gsc-comment-box-buttons a {
+  border: none;
+  padding: 0.6em 1em;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 0.5em !important;
+}
+
+.gsc-comment-box-main {
+  margin-top: 0px;
+}
+
+.gsc-comment-box-buttons a:hover {
+  background-color: hsl(from var(--primary) h s calc(l * 0.9));
+}
+
+.gsc-comment-box-textarea,
+.gsc-comment-box-textarea:focus {
+  border: var(--border) 1px solid;
+  border-top: none;
+  border-radius: 0;
+}
+.gsc-comment-box-textarea-extras {
+  background-color: var(--fill);
+  border: var(--border) 1px solid;
+  border-top: none;
+  border-radius: 0 0 0.7em 0.7em;
+}
+
+.gsc-comment-box-tabs button {
+  border: none;
+}
+
+.gsc-comment-box-tabs button.color-bg-canvas {
+  border-bottom: var(--primary) 2px solid !important;
+}
+
+.gsc-comment-box-tabs {
+  margin: 0 0.5rem;
+  border-radius: 0.7rem 0.7rem 0 0 !important;
+  border: var(--border) 1px solid;
+  border-bottom: unset;
+}
+
+.gsc-comment-box-tabs > div:first-child {
+  margin-inline-start: 0 !important;
+  margin-top: 0 !important;
+}
+
+.gsc-comment-box-md-toolbar {
+  margin-top: 0 !important;
+}
+
+.gsc-comment-box-preview {
+  border: var(--border) 1px solid;
+  border-top: none;
+  border-radius: 0 0 0.7rem 0.7rem;
+}
+
+.BtnGroup-item {
+  border: none;
+  border-radius: 0;
+  border-bottom: transparent 2px solid !important;
+}
+
+.BtnGroup-item--selected {
+  border-bottom: var(--primary) 2px solid !important;
+}
+
+.gsc-comment-replies-count {
+  color: var(--secondary);
+}
+
+.gsc-reactions-button {
+  border: var(--border) 1px solid;
+}
+
+。gsc-upvote-button {
+  border: var(--border) 1px solid !important;
+}
+
+.gsc-reply-box {
+  border: none !important;
+}
+
+.gsc-reply-box button {
+  border: var(--border) 1px solid;
+  border-radius: 0.7rem !important;
+  padding: 0.6em 1em !important;
+}
+
+.gsc-comment-box-buttons button {
+  padding: 0.6em 2em !important;
+  border: var(--border) 1px solid;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border: transparent 1px solid;
+}
+
+.btn-primary[disabled] {
+  background-color: var(--primary);
+  color: white;
+  border: transparent 1px solid;
+  opacity: 0.4;
+}
+
+.gsc-reactions-popover {
+  border-radius: 0.7rem;
+  background: white;
+  border: var(--border) 1px solid;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.gsc-reactions-popover::before {
+  display: none;
+}
+
+.color-border-primary {
+  border-color: var(--border);
 }
