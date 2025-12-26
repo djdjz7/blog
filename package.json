@@ -13,7 +13,7 @@
     "build:client": "vite build --outDir dist/static --ssrManifest",
     "build:server": "vite build --outDir dist/server --ssr src/entry-server.ts",
     "build:bundle": "run-p build:client build:server",
-    "build:render": "bunx tsx prerender.ts",
+    "build:render": "bun prerender.ts",
     "build:sitemap": "bun ./sitemap.ts",
     "build:post": "run-p build:render build:sitemap",
     "build:minify": "bun ./minify.ts",
@@ -26,7 +26,7 @@
   "dependencies": {
     "@giscus/vue": "^3.1.1",
     "@heroicons/vue": "^2.2.0",
-    "@mathjax/mathjax-mhchem-font-extension": "^4.0.0",
+    "@mathjax/mathjax-mhchem-font-extension": "^4.1.0",
     "@vueuse/core": "^14.0.0",
     "canvas-confetti": "^1.9.4",
     "markdown-it-footnote": "^4.0.0",
@@ -48,6 +48,7 @@
     "@types/jsdom": "^27.0.0",
     "@types/markdown-it": "^14.1.2",
     "@types/markdown-it-container": "^2.0.10",
+    "@types/markdown-it-footnote": "^3.0.4",
     "@types/mathjax": "^0.0.40",
     "@types/node": "^24.10.1",
     "@types/serve-static": "^2.2.0",
@@ -71,7 +72,7 @@
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-container": "^4.0.0",
-    "mathjax": "^4.0.0",
+    "mathjax": "^4.1.0",
     "npm-run-all2": "^7.0.2",
     "pagefind": "^1.4.0",
     "prettier": "^3.6.2",
@@ -79,7 +80,7 @@
     "sitemap": "^9.0.0",
     "typescript": "~5.9.3",
     "unocss": "66.5.9",
-    "vite": "^7.2.4",
+    "vite": "8.0.0-beta.0",
     "vite-plugin-vue-devtools": "^8.0.5",
     "vue-tsc": "^3.1.5"
   }
