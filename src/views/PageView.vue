@@ -37,6 +37,7 @@ import allPages from 'virtual:pages.json'
 import type { PageData } from '@/data/pagedata'
 import ErrorLoadingView from './ErrorLoadingView.vue'
 import SplashSection from '@/components/SplashSection.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 let ssrContext: SSRContext | undefined
 if (import.meta.env.SSR) ssrContext = useSSRContext()
@@ -53,7 +54,10 @@ type PageState = {
   splash?: (() => Promise<{ default: string }>) | null | undefined
 }
 
+const progressBar = useTemplateRef('progressbar')
+
 const page = computed<PageState>(() => {
+  progressBar.value?.start()
   const prefix = '../content'
   const path = decodeURIComponent(route.path)
   const pathWithoutTrailingSplash = path.replace(/\/$/, '')
@@ -123,7 +127,12 @@ const page = computed<PageState>(() => {
     return undefined
   })()
   if (module) {
+    // eslint-disable-next-line vue/no-async-in-computed-properties
+    module.then(() => {
+      progressBar.value?.end()
+    })
     const outline = usePromiseResult<MarkdownItHeader[]>(
+      // eslint-disable-next-line vue/no-async-in-computed-properties
       module.then((x) => x.__headers ?? []),
       [],
     )
@@ -257,6 +266,7 @@ const isDev = import.meta.env.DEV
 
 <template>
   <div lg:grid class="lg:grid-cols-[auto_1fr_auto]" overflow-auto>
+    <ProgressBar ref="progressbar" />
     <SidebarComponent ref="sidebar-ref" :current-title="page.data?.title" />
     <div overflow-auto box-border ref="document-wrapper">
       <div>
@@ -300,30 +310,3 @@ const isDev = import.meta.env.DEV
       :highlighted-slug="highlightedSlug" />
   </div>
 </template>
-
-<style lang="css" scoped>
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 400ms cubic-bezier(0.55, 0, 0.1, 1);
-}
-.slide-fade-enter-from {
-  opacity: 0;
-  transform: translateY(16px);
-  filter: blur(20px);
-}
-.slide-fade-enter-to {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0px);
-}
-.slide-fade-leave-from {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0px);
-}
-.slide-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-16px);
-  filter: blur(20px);
-}
-</style>
