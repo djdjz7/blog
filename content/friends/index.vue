@@ -24,14 +24,15 @@ const friends: Friend[] = [
     description: '杏花疏影里，吹笛到天明',
   },
   {
-    name: '夕落林中',
-    link: 'https://www.cnblogs.com/litluo',
-    avatar: 'https://pic.cnblogs.com/avatar/1879763/20200708183911.png',
+    name: 'LWLAymh 的备忘录',
+    link: 'https://lwlaymh.github.io/',
+    avatar: 'https://lwlaymh.github.io/images/%E5%A4%B4%E5%83%8F1.jpg',
+    description: '不过是白日梦里一瞬息',
   },
   {
     name: '超几何冰精',
     link: 'https://cirno-baka.github.io/',
-    avatar: 'https://avatars.githubusercontent.com/u/53512550?s=96&v=4',
+    avatar: 'https://avatars.githubusercontent.com/u/53512550',
     description: '这个好像死掉惹',
   },
 ]
@@ -42,7 +43,7 @@ const friends: Friend[] = [
     <div
       v-for="friend in friends"
       :key="friend.link"
-      p-y-2
+      p-y-4
       border-b="1 solid truegray-200/40 dark:dark-100/60 last-of-type:none">
       <a
         :href="friend.link"
