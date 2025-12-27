@@ -24,5 +24,7 @@ const component = computed(() => {
 </script>
 
 <template>
-  <component :is="component" />
+  <Transition name="slide-fade" mode="out-in">
+    <component :is="component" />
+  </Transition>
 </template>

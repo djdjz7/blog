@@ -3,6 +3,7 @@
 import { basename } from 'path'
 import { renderToString, type SSRContext } from 'vue/server-renderer'
 import { createApp } from './main'
+import { SiteConfiguration } from './site'
 
 export async function render(url: string, manifest: { [key: string]: string[] }) {
   const { app, router } = createApp()
@@ -71,7 +72,7 @@ function renderPreloadLink(file: string) {
 
 function renderMeta(ctx: SSRContext): string {
   const meta = ctx.meta ?? {}
-  const title = ctx.titlePrefix || '彩笔的部落阁'
+  const title = ctx.titlePrefix || SiteConfiguration.titleSuffix
 
   const results: string[] = []
 

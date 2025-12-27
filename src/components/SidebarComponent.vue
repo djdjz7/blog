@@ -99,9 +99,7 @@ onMounted(() => {
         @click.stop
         h-full
         box-border
-        p-x-6
-        p-y-12
-        md:p-x-12
+        p-t-12
         bg-gray-100
         dark:bg-dark-800
         lg:bg-transparent
@@ -109,9 +107,10 @@ onMounted(() => {
         overflow-auto
         overscroll-contain
         class="w-80% max-w-400px lg:w-unset lg:max-w-unset -translate-x-100% lg:translate-x-0"
+        grid="~ rows-[auto_1fr]"
         :class="{ 'translate-x-0! shadow-xl': !sidebarCollapsed }"
         lg:shadow-none>
-        <div flex="~ items-center">
+        <div flex="~ items-center" p-x-6 md:p-x-12>
           <a
             flex="~ items-center gap-2"
             href="/"
@@ -143,44 +142,45 @@ onMounted(() => {
             </div>
           </ClientOnly>
         </div>
-
-        <ExpanderComponent m-t-4 v-for="category in categories" :key="category.title">
-          <template #header>
-            <h3 m-0>
-              <a
-                :href="category.route"
-                class="text-unset!"
-                decoration-none
-                @click="toggleSidebar(true)"
-                >{{ category.title }}</a
-              >
-            </h3>
-          </template>
-          <div flex="~ col" box-border>
-            <div
-              v-for="pageGroup in category.pageGroups"
-              :key="pageGroup.year + '-' + pageGroup.month"
-              flex="~ col gap-2"
-              class="group border-truegray-200/40 dark:border-dark-100/60"
-              border-t-1
-              border-t-solid
-              p-y-3>
-              <span text-xs text-subtle>{{ pageGroup.year }} 年 {{ pageGroup.month }} 月</span>
-              <a
-                v-for="page in pageGroup.items"
-                @click="toggleSidebar(true)"
-                :href="page.contentUrl"
-                text-wrap
-                :key="page.title"
-                :ref="(el) => (entryElements[page.title] = elementRefToElement(el))"
-                class="text-subtle! hover:text-gray-800! dark:hover:text-white! decoration-none"
-                :class="{
-                  'text-gray-800! dark:text-white! font-medium': currentTitle === page.title,
-                }"
-                v-html="page.title"></a>
+        <div overflow-y-scroll p-x-6 md:p-x-12 p-y-4 class="scroll-masked">
+          <ExpanderComponent m-t-4 v-for="category in categories" :key="category.title">
+            <template #header>
+              <h3 m-0>
+                <a
+                  :href="category.route"
+                  class="text-unset!"
+                  decoration-none
+                  @click="toggleSidebar(true)"
+                  >{{ category.title }}</a
+                >
+              </h3>
+            </template>
+            <div flex="~ col" box-border>
+              <div
+                v-for="pageGroup in category.pageGroups"
+                :key="pageGroup.year + '-' + pageGroup.month"
+                flex="~ col gap-2"
+                class="group border-truegray-200/40 dark:border-dark-100/60"
+                border-t-1
+                border-t-solid
+                p-y-3>
+                <span text-xs text-subtle>{{ pageGroup.year }} 年 {{ pageGroup.month }} 月</span>
+                <a
+                  v-for="page in pageGroup.items"
+                  @click="toggleSidebar(true)"
+                  :href="page.contentUrl"
+                  text-wrap
+                  :key="page.title"
+                  :ref="(el) => (entryElements[page.title] = elementRefToElement(el))"
+                  class="text-subtle! hover:text-gray-800! dark:hover:text-white! decoration-none"
+                  :class="{
+                    'text-gray-800! dark:text-white! font-medium': currentTitle === page.title,
+                  }"
+                  v-html="page.title"></a>
+              </div>
             </div>
-          </div>
-        </ExpanderComponent>
+          </ExpanderComponent>
+        </div>
       </div>
     </div>
   </div>
@@ -193,5 +193,15 @@ onMounted(() => {
 
 a {
   transition: color 0.2s;
+}
+
+.scroll-masked {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000000ff 3rem,
+    #000000ff calc(100% - 3rem),
+    transparent
+  );
 }
 </style>

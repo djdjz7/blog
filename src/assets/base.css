@@ -32,13 +32,14 @@ input {
   }
 }
 
-.dark {
-  --bg-color: #121212;
-  --text-color: #fff;
+a {
+  --at-apply: text-primary underline-offset-.25em;
+  text-decoration-color: rgb(from currentColor r g b / 0.2);
+  transition: text-decoration-color 0.2s;
 }
 
-a {
-  --at-apply: text-primary underline-offset-4;
+a:hover {
+  text-decoration-color: currentColor;
 }
 
 p {
@@ -79,9 +80,14 @@ img {
   --at-apply: bg-gray-200 'dark:bg-dark-100' rounded-full;
 }
 
+:root {
+  color: var(--text-color);
+  --text-color: #000;
+  background-color: #ffffff;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
-    color: var(--text-color);
     --text-color: #fff;
     background-color: #121212;
   }

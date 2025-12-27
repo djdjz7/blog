@@ -4,6 +4,7 @@ import '@/assets/codeblocks.css'
 import '@/assets/containers.css'
 import '@/assets/heimu.css'
 import '@/assets/math-common.css'
+import '@/assets/transitions.css'
 
 import { createSSRApp, createApp as createSPAApp } from 'vue'
 import App from './App.vue'

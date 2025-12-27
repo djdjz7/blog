@@ -53,7 +53,17 @@ watch(
     text-sm
     text-gray-500
     dark:text-truegray-400>
-    <div fixed top-0 p-y-12 p-r-4 box-border w-64 h-full overflow-y-scroll overflow-x-clip>
+    <div
+      fixed
+      top-0
+      p-y-12
+      p-r-4
+      box-border
+      w-64
+      h-full
+      overflow-y-scroll
+      overflow-x-clip
+      class="scroll-masked">
       <div
         ref="marker"
         opacity-0
@@ -106,5 +116,15 @@ watch(
     opacity: 1;
     filter: blur(0);
   }
+}
+
+.scroll-masked {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000000ff 3rem,
+    #000000ff calc(100% - 3rem),
+    transparent
+  );
 }
 </style>
