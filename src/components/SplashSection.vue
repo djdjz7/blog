@@ -71,13 +71,13 @@ onUnmounted(() => {
       w-full
       max-w-840px
       m-auto
-      p-x-6
-      lg:p-x-12
       box-border
       transition-colors-500
       :class="{ 'text-white/85 text-shadow-sm': splashImage }">
       <div
         max-w-840px
+        p-x-6
+        lg:p-x-12
         absolute
         :class="[splashImage ? 'bottom-6' : 'top-0']"
         ref="text-section-wrapper">

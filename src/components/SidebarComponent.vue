@@ -117,6 +117,7 @@ onMounted(() => {
             class="text-unset! decoration-none"
             text-xl
             font-semibold
+            style="view-transition-name: site-title"
             >彩笔的部落阁</a
           >
           <div flex-1></div>
@@ -172,9 +173,9 @@ onMounted(() => {
                   text-wrap
                   :key="page.title"
                   :ref="(el) => (entryElements[page.title] = elementRefToElement(el))"
-                  class="text-subtle! hover:text-gray-800! dark:hover:text-white! decoration-none"
+                  class="text-subtle! hover:text-gray-800! dark:hover:text-[#e5e5e5]! decoration-none"
                   :class="{
-                    'text-gray-800! dark:text-white! font-medium': currentTitle === page.title,
+                    'text-gray-800! dark:text-[#e5e5e5]! font-medium': currentTitle === page.title,
                   }"
                   v-html="page.title"></a>
               </div>

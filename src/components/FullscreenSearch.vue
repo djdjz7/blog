@@ -185,7 +185,7 @@ defineExpose({ show, hide, toggle })
               box-border
               v-model="searchQueryRaw"
               placeholder="搜索..."
-              dark:text-white
+              class="dark:text-[#e5e5e5]"
               placeholder-gray-400
               placeholder-font-400
               dark:placeholder-truegray-500

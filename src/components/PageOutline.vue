@@ -80,10 +80,7 @@ watch(
           overflow-hidden
           text-ellipsis
           text-nowrap
-          animate-forwards
-          translate-y-2
-          opacity-0
-          blur-md
+          animate-both
           class="animate-[fade-in-up]"
           animate-duration-300
           v-for="(header, index) in pageOutline"
@@ -111,6 +108,11 @@ watch(
 
 <style lang="css">
 @keyframes fade-in-up {
+  from {
+    transform: translateY(0.5rem);
+    opacity: 0;
+    filter: blur(12px);
+  }
   to {
     transform: translateY(0);
     opacity: 1;

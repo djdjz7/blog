@@ -35,7 +35,7 @@ input {
 a {
   --at-apply: text-primary underline-offset-.25em;
   text-decoration-color: rgb(from currentColor r g b / 0.2);
-  transition: text-decoration-color 0.2s;
+  transition: text-decoration-color 300ms;
 }
 
 a:hover {
@@ -70,14 +70,7 @@ img {
 }
 
 *::-webkit-scrollbar {
-  display: block;
-  width: 0.3em;
-  height: 0.3em;
-  background-color: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  --at-apply: bg-gray-200 'dark:bg-dark-100' rounded-full;
+  display: none;
 }
 
 :root {
@@ -88,7 +81,8 @@ img {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text-color: #fff;
+    transition: all;
+    --text-color: #e5e5e5;
     background-color: #121212;
   }
 }

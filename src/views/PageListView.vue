@@ -23,34 +23,33 @@ const pageGroups = computed(() => {
 </script>
 
 <template>
-  <Transition name="slide-fade" mode="out-in">
-    <div p-t-6 :key="base || 'EMPTY_BASE'">
-      <div flex="~ col gap-10">
-        <div relative v-for="pageGroup in pageGroups" :key="pageGroup.year + '-' + pageGroup.month">
-          <h2
-            m-0
-            text-stroke-1
-            text-5xl
-            font-bold
-            text-stroke-gray-300
-            dark:text-stroke-truegray-600
-            dark:text-stroke-1.5
-            m-b-2
-            text-right
-            absolute
-            right-0
-            class="-top-12"
-            text-transparent
-            select-none
-            tracking-wide>
-            {{ pageGroup.year }}<br />
-            {{ pageGroup.month.toString().padStart(2, '0') }}
-          </h2>
-          <PageListEntry
-            v-for="activity in pageGroup.items"
-            :page-entry="activity"
-            :key="activity.title" />
-        </div>
-      </div></div
-  ></Transition>
+  <div p-t-6 :key="base || 'EMPTY_BASE'">
+    <main flex="~ col gap-10">
+      <div relative v-for="pageGroup in pageGroups" :key="pageGroup.year + '-' + pageGroup.month">
+        <h2
+          m-0
+          text-stroke-1
+          text-5xl
+          font-bold
+          text-stroke-gray-300
+          dark:text-stroke-truegray-600
+          dark:text-stroke-1.5
+          m-b-2
+          text-right
+          absolute
+          right-0
+          class="-top-12"
+          text-transparent
+          select-none
+          tracking-wide>
+          {{ pageGroup.year }}<br />
+          {{ pageGroup.month.toString().padStart(2, '0') }}
+        </h2>
+        <PageListEntry
+          v-for="activity in pageGroup.items"
+          :page-entry="activity"
+          :key="activity.title" />
+      </div>
+    </main>
+  </div>
 </template>

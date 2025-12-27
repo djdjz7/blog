@@ -76,6 +76,7 @@ const page = computed<PageState>(() => {
       ) ?? ''
     ]
   if (slugs[0] === 'tags') {
+    progressBar.value?.end()
     return {
       data: {
         title: '标签',
@@ -86,6 +87,7 @@ const page = computed<PageState>(() => {
     }
   }
   if (testIndexPage(slugs)) {
+    progressBar.value?.end()
     return {
       data: {
         title: category,
@@ -277,8 +279,8 @@ const isDev = import.meta.env.DEV
         <div m-b-8 m-x-auto relative>
           <SplashSection :page-data="page.data" :splash="page.splash" />
         </div>
-        <div class="max-w-840px m-x-auto box-border p-x-6 lg:p-x-12">
-          <Transition mode="out-in" name="slide-fade">
+        <div class="max-w-840px m-x-auto box-border p-x-6 lg:p-x-12 content-wrapper">
+          <Transition mode="out-in" name="fade-in">
             <component :is="page.Content" @vue:mounted="handleDynamicComponentMounted" />
           </Transition>
           <ClientOnly>
@@ -310,3 +312,87 @@ const isDev = import.meta.env.DEV
       :highlighted-slug="highlightedSlug" />
   </div>
 </template>
+
+<style scoped>
+.content-wrapper:deep(main > *) {
+  --slide-in-interval: 50ms;
+  --slide-in-stage: 0;
+  animation: slide-in 400ms;
+  animation-fill-mode: both;
+  animation-delay: calc(calc(var(--slide-in-stage) - 1) * var(--slide-in-interval));
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.content-wrapper:deep(main > *:nth-child(1)) {
+  --slide-in-stage: 1;
+}
+.content-wrapper:deep(main > *:nth-child(2)) {
+  --slide-in-stage: 2;
+}
+.content-wrapper:deep(main > *:nth-child(3)) {
+  --slide-in-stage: 3;
+}
+.content-wrapper:deep(main > *:nth-child(4)) {
+  --slide-in-stage: 4;
+}
+.content-wrapper:deep(main > *:nth-child(5)) {
+  --slide-in-stage: 5;
+}
+.content-wrapper:deep(main > *:nth-child(6)) {
+  --slide-in-stage: 6;
+}
+.content-wrapper:deep(main > *:nth-child(7)) {
+  --slide-in-stage: 7;
+}
+.content-wrapper:deep(main > *:nth-child(8)) {
+  --slide-in-stage: 8;
+}
+.content-wrapper:deep(main > *:nth-child(9)) {
+  --slide-in-stage: 9;
+}
+.content-wrapper:deep(main > *:nth-child(10)) {
+  --slide-in-stage: 10;
+}
+.content-wrapper:deep(main > *:nth-child(11)) {
+  --slide-in-stage: 11;
+}
+.content-wrapper:deep(main > *:nth-child(12)) {
+  --slide-in-stage: 12;
+}
+.content-wrapper:deep(main > *:nth-child(13)) {
+  --slide-in-stage: 13;
+}
+.content-wrapper:deep(main > *:nth-child(14)) {
+  --slide-in-stage: 14;
+}
+.content-wrapper:deep(main > *:nth-child(15)) {
+  --slide-in-stage: 15;
+}
+.content-wrapper:deep(main > *:nth-child(16)) {
+  --slide-in-stage: 16;
+}
+.content-wrapper:deep(main > *:nth-child(17)) {
+  --slide-in-stage: 17;
+}
+.content-wrapper:deep(main > *:nth-child(18)) {
+  --slide-in-stage: 18;
+}
+.content-wrapper:deep(main > *:nth-child(19)) {
+  --slide-in-stage: 19;
+}
+.content-wrapper:deep(main > *:nth-child(20)) {
+  --slide-in-stage: 20;
+}
+</style>

@@ -39,10 +39,10 @@ defineProps<{
         p-0
         border-none
         bg-transparent>
-        <Bars3BottomLeftIcon class="w-6 h-6 text-black dark:text-white" />
+        <Bars3BottomLeftIcon class="w-6 h-6 text-black dark:text-[#e5e5e5]" />
       </button>
       <a href="/" title="返回主页">
-        <HomeIcon class="w-6 h-6 text-black dark:text-white" />
+        <HomeIcon class="w-6 h-6 text-black dark:text-[#e5e5e5]" />
       </a>
       <span
         block
